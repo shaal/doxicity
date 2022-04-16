@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2021",
     "module": "esnext",
-    "lib": ["es2021"],
+    "lib": ["es2021", "dom", "dom.iterable"],
     "baseUrl": ".",
     "rootDir": "./src",
     "outDir": "./build",

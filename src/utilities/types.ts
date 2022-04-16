@@ -14,6 +14,9 @@ export interface DoxicityConfig {
 }
 
 export interface DoxicityPlugin {
-  /** Hooks into the HTML after markdown and templates have been rendered, but before the file is written. */
-  postProcess?: (html: string) => string;
+  /** Hooks into the DOM transform phase, allowing you to mutate the document before it get's turned into HTML. */
+  transform?: (doc: Document) => Document;
+
+  /** Hooks into the rendered HTML after all rendering and transformations are complete. */
+  afterTransform?: (html: string) => string;
 }

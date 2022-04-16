@@ -2,9 +2,10 @@ import beautify from 'js-beautify';
 import type { HTMLBeautifyOptions } from 'js-beautify';
 import type { DoxicityPlugin } from 'src/utilities/types';
 
+/** The Doxicity beautify plugin. */
 export default function (options: Partial<HTMLBeautifyOptions>): DoxicityPlugin {
   return {
-    postProcess: (html: string) => {
+    afterTransform: (html: string) => {
       return beautify.html(html, {
         indent_size: 2,
         indent_char: ' ',

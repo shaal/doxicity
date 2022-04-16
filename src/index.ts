@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import merge from 'deepmerge';
 import { globby } from 'globby';
+import { JSDOM } from 'jsdom';
 import { markdown, parse as parseMarkdown } from './utilities/markdown.js';
 import { render } from './utilities/template.js';
 import type { DoxicityConfig } from './utilities/types';
@@ -42,15 +43,24 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     // Render the Handlebars template
     let html = await render(templateName, templateData, config);
 
+    // Run transform plugins
+    const doc = new JSDOM(html).window.document;
+    for (const plugin of config.plugins) {
+      if (plugin.transform) {
+        plugin.transform(doc);
+      }
+    }
+    html = doc.documentElement.outerHTML;
+
     // Determine where the file will be written to
     const { dir, name } = path.parse(file);
     const outDir = path.join(config.outputDir, path.relative(config.inputDir, dir));
     const outFile = path.join(outDir, `${name}.html`);
 
-    // Run postProcess plugins
+    // Run afterTransform plugins
     for (const plugin of config.plugins) {
-      if (plugin.postProcess) {
-        html = plugin.postProcess(html);
+      if (plugin.afterTransform) {
+        html = plugin.afterTransform(html);
       }
     }
 
