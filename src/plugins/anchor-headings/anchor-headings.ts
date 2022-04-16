@@ -1,16 +1,18 @@
 import slugify from 'slugify';
 import type { DoxicityPlugin } from 'src/utilities/types';
 
+type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
 interface AnchorHeadingsOptions {
-  tags: string[];
+  levels: HeadingLevel[];
   className: string;
 }
 
 /** Converts headings to anchors for easier deep linking. */
 export default function (options: Partial<AnchorHeadingsOptions>): DoxicityPlugin {
   options = {
-    /** The tags to add anchors to. */
-    tags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+    /** The heading levels to add anchors to. */
+    levels: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     /** The class name to add to the anchor. */
     className: 'anchor-heading',
     ...options
@@ -34,7 +36,7 @@ export default function (options: Partial<AnchorHeadingsOptions>): DoxicityPlugi
         }
 
         // Wrap the interior of the heading with the link
-        if (options.tags?.includes(heading.tagName.toLowerCase())) {
+        if (options.levels?.includes(heading.tagName.toLowerCase() as HeadingLevel)) {
           const headingHtml = heading.innerHTML;
           anchor.innerHTML = headingHtml;
           heading.innerHTML = anchor.outerHTML;
