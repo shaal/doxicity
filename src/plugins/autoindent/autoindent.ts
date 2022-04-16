@@ -1,22 +1,17 @@
-// import indent from 'indent.js';
+import beautify from 'js-beautify';
+import type { HTMLBeautifyOptions } from 'js-beautify';
 import type { DoxicityPlugin } from 'src/utilities/types';
 
-interface AutoindentOptions {
-  /** The string to use for each indentation. Use "\t" for tab, "  " for two spaces, etc. */
-  tabString: string;
-  indentHtmlTag: boolean;
-}
-
-export default function (options: Partial<AutoindentOptions>): DoxicityPlugin {
+export default function (options: Partial<HTMLBeautifyOptions>): DoxicityPlugin {
   return {
     postProcess: (html: string) => {
-      console.log(options);
-      return 'AUTOINDENTED ' + html;
-      // return indent(indent.html, {
-      //   tabString: '  ',
-      //   indentHtmlTag: false,
-      //   ...options
-      // });
+      return beautify.html(html, {
+        indent_size: 2,
+        indent_char: ' ',
+        end_with_newline: true,
+        extra_liners: [],
+        ...options
+      });
     }
   };
 }
