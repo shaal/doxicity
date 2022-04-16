@@ -4,16 +4,16 @@ import type { DoxicityPlugin } from 'src/utilities/types';
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 interface AnchorHeadingsOptions {
+  /** The heading levels to add anchors to. */
   levels: HeadingLevel[];
+  /** The class name to add to the anchor. */
   className: string;
 }
 
 /** Converts headings to anchors for easier deep linking. */
 export default function (options: Partial<AnchorHeadingsOptions>): DoxicityPlugin {
   options = {
-    /** The heading levels to add anchors to. */
     levels: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-    /** The class name to add to the anchor. */
     className: 'anchor-heading',
     ...options
   };
