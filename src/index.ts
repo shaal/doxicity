@@ -3,7 +3,7 @@ import path from 'path';
 import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
-import { markdown, parse as parseMarkdown } from './utilities/markdown.js';
+import { parse as parseMarkdown, render as renderMarkdown } from './utilities/markdown.js';
 import { render } from './utilities/template.js';
 import type { DoxicityConfig } from './utilities/types';
 
@@ -35,7 +35,7 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
   // Loop through each file
   for (const file of sourceFiles) {
     const page = await parseMarkdown(file);
-    const content = markdown.render(page.content);
+    const content = renderMarkdown(page.content);
     const templateName = typeof page.frontMatter.template === 'string' ? page.frontMatter.template : 'default';
     const templateData = merge(config.data, page.frontMatter);
     templateData.content = content;
