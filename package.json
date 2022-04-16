@@ -2,12 +2,13 @@
   "name": "doxicity",
   "version": "1.0.0-beta.1",
   "description": "A static site generator for documentation.",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "npm run build -- -w",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "spellcheck": "cspell \"**/*.{js,ts,json,html,css,md}\" --no-progress"
   },
   "repository": {
     "type": "git",
@@ -24,10 +25,12 @@
   },
   "homepage": "https://github.com/claviska/doxicity#readme",
   "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "chalk": "^5.0.1",
     "cspell": "^5.19.7",
+    "esbuild": "^0.14.36",
     "eslint": "^8.9.0",
     "eslint-plugin-chai-expect": "^3.0.0",
     "eslint-plugin-chai-friendly": "^0.7.2",
@@ -44,5 +47,14 @@
   "lint-staged": {
     "*.js": "eslint --cache --fix",
     "*.{js,css,md}": "prettier --write"
+  },
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "front-matter": "^4.0.2",
+    "globby": "^13.1.1",
+    "handlebars": "^4.7.7",
+    "indent.js": "^0.3.5",
+    "markdown-it": "^12.3.2",
+    "markdown-it-container": "^3.0.0"
   }
 }

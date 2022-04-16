@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2021",
-    "module": "es2015",
+    "module": "esnext",
     "lib": ["es2021"],
     "baseUrl": ".",
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outDir": "./build",
     "declaration": true,
     "strict": true,
     "strictPropertyInitialization": false,
