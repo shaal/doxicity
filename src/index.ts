@@ -4,7 +4,7 @@ import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
 import { parse as parseMarkdown, render as renderMarkdown } from './utilities/markdown.js';
-import { render } from './utilities/template.js';
+import { registerHelper, render } from './utilities/template.js';
 import type { DoxicityConfig } from './utilities/types';
 
 export const defaultConfig: DoxicityConfig = {
@@ -12,6 +12,7 @@ export const defaultConfig: DoxicityConfig = {
   outputDir: '',
   templateDir: '',
   data: {},
+  helpers: [],
   plugins: []
 };
 
@@ -28,6 +29,9 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
   if (!config.outputDir) {
     throw new Error('No outputDir was specified in your config. Where do you want Doxicity to write the files?');
   }
+
+  // Register custom helpers
+  config.helpers.forEach(helper => registerHelper(helper.name, helper.callback));
 
   // Grab a list of markdown files from inputDir
   const sourceFiles = await globby(path.join(config.inputDir, '**/*.md'));

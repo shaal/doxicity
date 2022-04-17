@@ -51,3 +51,8 @@ async function resolve(templateName: string, templateDirs: string[]) {
 
   throw new Error(`Unable to resolve template "${templateName}"`);
 }
+
+/** Registers a custom Handlebars helper. */
+export function registerHelper(name: string, callback: (args: unknown) => string) {
+  Handlebars.registerHelper(name, callback);
+}

@@ -9,8 +9,19 @@ export interface DoxicityConfig {
   data: {
     [key: string]: unknown;
   };
+  /**
+   * Custom Handlebars helpers to register for use in templates.
+   *
+   * For more information, visit: https://handlebarsjs.com/guide/#custom-helpers
+   */
+  helpers: DoxicityHelper[];
   /** Optional plugins that hook into the Doxicity API and gives you superpowers. */
   plugins: DoxicityPlugin[];
+}
+
+export interface DoxicityHelper {
+  name: string;
+  callback: (args: unknown) => string;
 }
 
 export interface DoxicityPlugin {
