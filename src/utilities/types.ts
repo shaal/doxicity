@@ -25,9 +25,9 @@ export interface DoxicityHelper {
 }
 
 export interface DoxicityPlugin {
-  /** Hooks into the DOM transform phase, allowing you to mutate the document before it get's turned into HTML. */
+  /** Hooks into the DOM transform phase, allowing you to mutate the document before it gets turned into HTML. */
   transform?: (doc: Document) => Document;
 
-  /** Hooks into the rendered HTML after all rendering and transformations are complete. */
+  /** Hooks into the raw HTML after all rendering and transformations are complete. */
   afterTransform?: (html: string) => string;
 }
