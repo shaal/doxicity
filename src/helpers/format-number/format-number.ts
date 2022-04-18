@@ -27,7 +27,7 @@ interface FormatNumberArgs {
  *
  * @example
  *
- * {{ formatNumber 1000000 }}
+ * {{formatNumber 1000000}}
  */
 export default {
   name: 'formatNumber',

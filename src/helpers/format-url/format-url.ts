@@ -19,7 +19,7 @@ interface FormatUrlArgs {
  *
  * @example
  *
- * {{ formatUrl 'https://example.com/file.ext?this=that' pathname=true }}
+ * {{formatUrl 'https://example.com/file.ext?this=that' pathname=true}}
  */
 export default {
   name: 'formatUrl',

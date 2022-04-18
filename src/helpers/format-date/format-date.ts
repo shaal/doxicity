@@ -31,7 +31,7 @@ interface FormatDateArgs {
  *
  * @example
  *
- * {{ formatDate '2022-04-17' year='numeric' month='long' day='numeric' }}
+ * {{formatDate '2022-04-17' year='numeric' month='long' day='numeric'}}
  */
 export default {
   name: 'formatDate',
