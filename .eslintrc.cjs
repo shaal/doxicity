@@ -71,7 +71,6 @@ module.exports = {
         '@typescript-eslint/prefer-ts-expect-error': 'warn',
         '@typescript-eslint/prefer-return-this-type': 'error',
         '@typescript-eslint/prefer-string-starts-ends-with': 'warn',
-        '@typescript-eslint/require-array-sort-compare': 'error',
         '@typescript-eslint/unified-signatures': 'warn',
         '@typescript-eslint/array-type': 'warn',
         '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
