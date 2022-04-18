@@ -15,6 +15,12 @@ export interface DoxicityConfig {
    * For more information, visit: https://handlebarsjs.com/guide/#custom-helpers
    */
   helpers: DoxicityHelper[];
+  /**
+   * Custom Handlebars partials to register for use in templates.
+   *
+   * For more information, visit: https://handlebarsjs.com/guide/#partials
+   */
+  partials: DoxicityPartial[];
   /** Optional plugins that hook into the Doxicity API and gives you superpowers. */
   plugins: DoxicityPlugin[];
 }
@@ -22,6 +28,11 @@ export interface DoxicityConfig {
 export interface DoxicityHelper {
   name: string;
   callback: (args: unknown) => string;
+}
+
+export interface DoxicityPartial {
+  name: string;
+  template: string;
 }
 
 export interface DoxicityPlugin {

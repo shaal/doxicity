@@ -56,3 +56,8 @@ async function resolve(templateName: string, templateDirs: string[]) {
 export function registerHelper(name: string, callback: (args: unknown) => string) {
   Handlebars.registerHelper(name, callback);
 }
+
+/** Registers a custom Handlebars partial. */
+export function registerPartial(name: string, template: string) {
+  Handlebars.registerPartial(name, template);
+}
