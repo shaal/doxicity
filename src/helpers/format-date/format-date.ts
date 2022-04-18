@@ -36,7 +36,7 @@ interface FormatDateArgs {
 export default {
   name: 'formatDate',
   callback: (date: string | Date, options: Handlebars.HelperOptions) => {
-    const args = (options?.hash ?? {}) as FormatDateArgs;
+    const args = (options?.hash ?? {}) as Partial<FormatDateArgs>;
     const dateToFormat = new Date(date);
     return new Intl.DateTimeFormat(args.lang ?? 'en', args).format(dateToFormat);
   }

@@ -24,8 +24,12 @@ interface FormatUrlArgs {
 export default {
   name: 'formatUrl',
   callback: (url: string, options: Handlebars.HelperOptions) => {
-    const args = {
+    const args: FormatUrlArgs = {
+      protocol: false,
       hostname: true,
+      pathname: false,
+      search: false,
+      hash: false,
       ...(options?.hash as Partial<FormatUrlArgs>)
     };
     let output = '';

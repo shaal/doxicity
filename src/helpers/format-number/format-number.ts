@@ -32,7 +32,7 @@ interface FormatNumberArgs {
 export default {
   name: 'formatNumber',
   callback: (num: number | string, options: Handlebars.HelperOptions) => {
-    const args = (options?.hash ?? {}) as FormatNumberArgs;
+    const args = (options?.hash ?? {}) as Partial<FormatNumberArgs>;
     const numberToFormat = parseFloat(String(num));
     return new Intl.NumberFormat(args.lang ?? 'en', args).format(numberToFormat);
   }
