@@ -55,6 +55,7 @@
     "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
+    "cpy": "^9.0.1",
     "deepmerge": "^4.2.2",
     "front-matter": "^4.0.2",
     "globby": "^13.1.1",

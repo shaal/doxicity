@@ -5,6 +5,13 @@ export interface DoxicityConfig {
   outputDir: string;
   /** A custom directory to look for templates in. If no template is found, the built-in templates will be used. */
   templateDir: string;
+  /** The name of your assets folder. Defaults to "assets". */
+  assetDirName: string;
+  /**
+   * An array of files to copy to the published assets folder. Supports globs. All directories must be relative to your
+   * project's root folder.
+   */
+  copyFiles: string[];
   /** Global data to be passed to every page. */
   data: {
     [key: string]: unknown;

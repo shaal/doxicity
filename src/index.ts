@@ -3,14 +3,18 @@ import path from 'path';
 import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
-import { parse as parseMarkdown, render as renderMarkdown } from './utilities/markdown.js';
+import { registerAssetPathHelper } from './helpers/built-ins/paths.js';
+import { copyFiles } from './utilities/copy.js';
+import { parse as parseMarkdown } from './utilities/markdown.js';
 import { registerHelper, registerPartial, render } from './utilities/template.js';
 import type { DoxicityConfig } from './utilities/types';
 
 export const defaultConfig: DoxicityConfig = {
+  assetDirName: 'assets',
   inputDir: '',
   outputDir: '',
   templateDir: '',
+  copyFiles: [],
   data: {},
   helpers: [],
   partials: [],
@@ -31,6 +35,9 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     throw new Error('No outputDir was specified in your config. Where do you want Doxicity to write the files?');
   }
 
+  // Register built-in helpers
+  registerAssetPathHelper(config);
+
   // Register custom helpers and partials
   config.helpers.forEach(helper => registerHelper(helper.name, helper.callback));
   config.partials.forEach(partial => registerPartial(partial.name, partial.template));
@@ -38,13 +45,15 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
   // Grab a list of markdown files from inputDir
   const sourceFiles = await globby(path.join(config.inputDir, '**/*.md'));
 
+  // Copy files to assets
+  await copyFiles(config.copyFiles, config);
+
   // Loop through each file
   for (const file of sourceFiles) {
     const page = await parseMarkdown(file);
-    const content = renderMarkdown(page.content);
     const templateName = typeof page.frontMatter.template === 'string' ? page.frontMatter.template : 'default';
     const templateData = merge(config.data, page.frontMatter);
-    templateData.content = content;
+    templateData.content = page.content;
 
     // Render the Handlebars template
     let html = await render(templateName, templateData, config);

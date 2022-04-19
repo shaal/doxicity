@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { URL } from 'url'; // in Browser, the URL in native accessible on window
 import Handlebars from 'handlebars';
+import { render as renderMarkdown } from './markdown.js';
 import type { DoxicityConfig } from './types';
 import type { TemplateDelegate } from 'handlebars';
 
@@ -25,9 +26,9 @@ export async function render(
     templateCache.set(templateName, template);
   }
 
-  // Sub-render the page content, since the markdown is allowed contain Handlebars
+  // Sub-render the page content, then render the markdown
   const contentTemplate = Handlebars.compile(data.content);
-  data.content = contentTemplate(Object.assign(data, { content: undefined }));
+  data.content = renderMarkdown(contentTemplate(Object.assign(data, { content: undefined })));
 
   return template(data);
 }
