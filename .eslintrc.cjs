@@ -80,7 +80,8 @@ module.exports = {
           'warn',
           {
             selector: 'default',
-            format: ['camelCase']
+            format: ['camelCase'],
+            leadingUnderscore: 'allow'
           },
           {
             selector: ['function', 'enumMember', 'property'],
