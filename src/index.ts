@@ -50,10 +50,23 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
 
   // Loop through each file
   for (const file of sourceFiles) {
-    const page = await parseMarkdown(file);
-    const templateName = typeof page.frontMatter.template === 'string' ? page.frontMatter.template : 'default';
-    const templateData = merge(config.data, page.frontMatter);
-    templateData.content = page.content;
+    const parsed = await parseMarkdown(file);
+    const templateName = typeof parsed.frontMatter.template === 'string' ? parsed.frontMatter.template : 'default';
+    const templateData = merge(config.data, parsed.frontMatter);
+
+    // Determine where the file will be written to
+    const { dir, name } = path.parse(file);
+    const outDir = path.join(config.outputDir, path.relative(config.inputDir, dir));
+    const outFile = path.join(outDir, `${name}.html`);
+    templateData.content = parsed.content;
+
+    // Create a Doxicity page object for this page. This will be passed to plugins and used to populate an array of
+    // published pages later on.
+    const page: DoxicityPage = {
+      inputFile: file,
+      outputFile: outFile,
+      data: templateData
+    };
 
     // Render the Handlebars template
     let html = await render(templateName, templateData, config);
@@ -62,20 +75,15 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     const doc = new JSDOM(html).window.document;
     for (const plugin of config.plugins) {
       if (plugin.transform) {
-        await plugin.transform(doc, config);
+        await plugin.transform(doc, page, config);
       }
     }
     html = doc.documentElement.outerHTML;
 
-    // Determine where the file will be written to
-    const { dir, name } = path.parse(file);
-    const outDir = path.join(config.outputDir, path.relative(config.inputDir, dir));
-    const outFile = path.join(outDir, `${name}.html`);
-
     // Run afterTransform plugins
     for (const plugin of config.plugins) {
       if (plugin.afterTransform) {
-        html = await plugin.afterTransform(html, config);
+        html = await plugin.afterTransform(html, page, config);
       }
     }
 
@@ -83,11 +91,7 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     await fs.mkdir(outDir, { recursive: true });
     await fs.writeFile(outFile, html, 'utf8');
 
-    publishedPages.push({
-      inputFile: file,
-      outputFile: outFile,
-      data: templateData
-    });
+    publishedPages.push(page);
   }
 
   // Run afterAll plugins

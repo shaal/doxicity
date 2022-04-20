@@ -51,10 +51,10 @@ export interface DoxicityPartial {
 
 export interface DoxicityPlugin {
   /** Hooks into the DOM transform phase, allowing you to mutate the document before it gets turned into HTML. */
-  transform?: (doc: Document, config: DoxicityConfig) => Document | Promise<Document>;
+  transform?: (doc: Document, page: DoxicityPage, config: DoxicityConfig) => Document | Promise<Document>;
 
   /** Hooks into the raw HTML after all rendering and transformations are complete. */
-  afterTransform?: (html: string, config: DoxicityConfig) => string | Promise<string>;
+  afterTransform?: (html: string, page: DoxicityPage, config: DoxicityConfig) => string | Promise<string>;
 
   /** Hooks into the pages after they've been rendered and after all transforms have completed. */
   afterAll?: (pages: DoxicityPage[], config: DoxicityConfig) => void | Promise<void>;

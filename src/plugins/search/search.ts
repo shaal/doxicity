@@ -1,12 +1,20 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 import fs from 'fs/promises';
 import path from 'path';
-import { JSDOM } from 'jsdom';
 import lunr from 'lunr';
 import { pathToUrl } from '../../utilities/path.js';
 import type { DoxicityPage, DoxicityPlugin } from 'src/utilities/types';
 
-interface SearchResult {
+interface PagesToIndex {
+  page: DoxicityPage;
+  title: string;
+  description: string;
+  headings: string[];
+  content: string;
+  url: string;
+}
+
+export interface SearchResult {
   /** The page's title. */
   title: string;
   /** The page's description. */
@@ -56,6 +64,7 @@ function stripWhitespace(string: string) {
 
 /** Makes in-page links scroll smoothly. */
 export default function (options: Partial<SearchOptions>): DoxicityPlugin {
+  const pagesToIndex: PagesToIndex[] = [];
   let hasClientBeenCopied = false;
 
   options = {
@@ -69,13 +78,12 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
   };
 
   return {
-    // Bake the search script into each page and copy the search client
-    transform: async (doc, config) => {
+    transform: async (doc, page, config) => {
       const searchDir = path.join(config.outputDir, config.assetDirName, options.searchDirName!);
       const scriptFilename = path.join(searchDir, 'client.js');
       const stylesFilename = path.join(searchDir, 'client.css');
 
-      // Copy the search client to the search dir
+      // Copy the search client to the search directory
       if (!hasClientBeenCopied) {
         await fs.mkdir(path.dirname(scriptFilename), { recursive: true });
         await Promise.all([
@@ -85,50 +93,49 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
         hasClientBeenCopied = true;
       }
 
-      // Append the script to each page
+      // Append the script to the page
       const script = doc.createElement('script');
       script.src = pathToUrl(config, scriptFilename);
       script.type = 'module';
       doc.body.append(script);
 
-      // Append the styles to each page
+      // Append the styles to the page
       const link = doc.createElement('link');
       link.rel = 'stylesheet';
       link.href = pathToUrl(config, stylesFilename);
       doc.head.append(link);
 
+      // Store data for the search index
+      const title = stripWhitespace(options.getTitle!(doc));
+      const description = stripWhitespace(options.getDescription!(doc));
+      const headings = options.getHeadings!(doc).map(stripWhitespace);
+      const content = stripWhitespace(options.getContent!(doc));
+      const url = pathToUrl(config, page.outputFile);
+      pagesToIndex.push({ page, title, description, headings, content, url });
+
       return doc;
     },
-    afterAll: (pages, config) => {
+    afterAll: (_pages, config) => {
       const searchIndexFilename = path.join(
         config.outputDir,
         config.assetDirName,
         path.join(options.searchDirName!, 'search.json')
       );
+
+      // Build the Lunr search index
       const searchIndex = lunr(async function () {
         let index = 0;
 
-        // The search index uses these field names extensively, so shortening them can save some serious bytes in
-        // search.json.
+        // The search index uses these field names extensively, so shortening them saves serious bytes in search.json
         this.ref('id'); // id
         this.field('t', { boost: 10 }); // title
         this.field('h', { boost: 5 }); // headings
         this.field('c'); // content
 
-        for (const page of pages) {
-          // Ignore this page?
-          if (options.ignore!(page)) continue;
-
-          const html = await fs.readFile(page.outputFile, 'utf8');
-          const doc = new JSDOM(html).window.document;
-          const title = stripWhitespace(options.getTitle!(doc));
-          const description = stripWhitespace(options.getDescription!(doc));
-          const headings = stripWhitespace(options.getHeadings!(doc).join(' '));
-          const content = stripWhitespace(options.getContent!(doc));
-          const url = pathToUrl(config, page.outputFile);
-
-          this.add({ id: index, t: title, h: headings, c: content });
-          map[index] = { title, description, url };
+        for (const page of pagesToIndex) {
+          if (options.ignore!(page.page)) continue;
+          this.add({ id: index, t: page.title, h: page.headings, c: page.content });
+          map[index] = { title: page.title, description: page.description, url: page.url };
           index++;
         }
 
