@@ -7,14 +7,14 @@ import { registerAssetPathHelper } from './helpers/built-ins/paths.js';
 import { copyFiles } from './utilities/copy.js';
 import { parse as parseMarkdown } from './utilities/markdown.js';
 import { registerHelper, registerPartial, render } from './utilities/template.js';
-import type { DoxicityConfig } from './utilities/types';
+import type { DoxicityConfig, DoxicityPage } from './utilities/types';
 
 export const defaultConfig: DoxicityConfig = {
   assetDirName: 'assets',
   inputDir: '',
   outputDir: '',
   templateDir: '',
-  copyFiles: [],
+  copyFiles: ['assets/**/*'],
   data: {},
   helpers: [],
   partials: [],
@@ -23,7 +23,7 @@ export const defaultConfig: DoxicityConfig = {
 
 export async function publish(userConfig: Partial<DoxicityConfig>) {
   const config = merge(defaultConfig, userConfig);
-  const publishedFiles = [];
+  const publishedPages: DoxicityPage[] = [];
 
   // Check for an input directory
   if (!config.inputDir) {
@@ -62,7 +62,7 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     const doc = new JSDOM(html).window.document;
     for (const plugin of config.plugins) {
       if (plugin.transform) {
-        plugin.transform(doc);
+        await plugin.transform(doc, config);
       }
     }
     html = doc.documentElement.outerHTML;
@@ -75,7 +75,7 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     // Run afterTransform plugins
     for (const plugin of config.plugins) {
       if (plugin.afterTransform) {
-        html = plugin.afterTransform(html);
+        html = await plugin.afterTransform(html, config);
       }
     }
 
@@ -83,14 +83,21 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     await fs.mkdir(outDir, { recursive: true });
     await fs.writeFile(outFile, html, 'utf8');
 
-    publishedFiles.push({
+    publishedPages.push({
       inputFile: file,
       outputFile: outFile,
       data: templateData
     });
   }
 
+  // Run afterAll plugins
+  for (const plugin of config.plugins) {
+    if (plugin.afterAll) {
+      await plugin.afterAll(publishedPages, config);
+    }
+  }
+
   return {
-    publishedFiles
+    publishedPages
   };
 }

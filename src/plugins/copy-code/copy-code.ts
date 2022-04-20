@@ -31,6 +31,7 @@ export default function (options: Partial<CopyCodeOptions>): DoxicityPlugin {
 
       if (hasCodeBlock) {
         const script = doc.createElement('script');
+        script.type = 'module';
         script.textContent = `
           document.addEventListener('click', event => {
             const button = event.target.closest('.copy-code-button');

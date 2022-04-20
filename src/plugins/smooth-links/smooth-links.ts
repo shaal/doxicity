@@ -5,6 +5,7 @@ export default function (): DoxicityPlugin {
   return {
     transform: doc => {
       const script = doc.createElement('script');
+      script.type = 'module';
       script.textContent = `
         document.addEventListener('click', event => {
           const link = event.target.closest('a');

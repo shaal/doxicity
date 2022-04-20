@@ -9,7 +9,8 @@ export interface DoxicityConfig {
   assetDirName: string;
   /**
    * An array of files to copy to the published assets folder. Supports globs. All directories must be relative to your
-   * project's root folder.
+   * project's root folder. If unset, Doxicity will look for a folder called "assets" in your root folder and copy it if
+   * it exists.
    */
   copyFiles: string[];
   /** Global data to be passed to every page. */
@@ -32,6 +33,12 @@ export interface DoxicityConfig {
   plugins: DoxicityPlugin[];
 }
 
+export interface DoxicityPage {
+  inputFile: string;
+  outputFile: string;
+  data: Record<string, unknown>;
+}
+
 export interface DoxicityHelper {
   name: string;
   callback: (args: unknown) => string;
@@ -44,8 +51,11 @@ export interface DoxicityPartial {
 
 export interface DoxicityPlugin {
   /** Hooks into the DOM transform phase, allowing you to mutate the document before it gets turned into HTML. */
-  transform?: (doc: Document) => Document;
+  transform?: (doc: Document, config: DoxicityConfig) => Document | Promise<Document>;
 
   /** Hooks into the raw HTML after all rendering and transformations are complete. */
-  afterTransform?: (html: string) => string;
+  afterTransform?: (html: string, config: DoxicityConfig) => string | Promise<string>;
+
+  /** Hooks into the pages after they've been rendered and after all transforms have completed. */
+  afterAll?: (pages: DoxicityPage[], config: DoxicityConfig) => void | Promise<void>;
 }

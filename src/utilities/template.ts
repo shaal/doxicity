@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { URL } from 'url'; // in Browser, the URL in native accessible on window
+import { URL } from 'url';
 import Handlebars from 'handlebars';
 import { render as renderMarkdown } from './markdown.js';
 import type { DoxicityConfig } from './types';

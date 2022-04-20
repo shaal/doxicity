@@ -1,4 +1,4 @@
-import { URL } from 'url'; // in Browser, the URL in native accessible on window
+import { URL } from 'url';
 
 interface FormatUrlArgs {
   /** Outputs the protocol, e.g. https:// */
