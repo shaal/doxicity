@@ -1,5 +1,5 @@
 import path from 'path';
-import { pathToUrl } from '../../utilities/path.js';
+import { getRelativeUrl } from '../../utilities/path.js';
 import { registerHelper } from '../../utilities/template.js';
 import type { DoxicityConfig } from '../../utilities/types';
 
@@ -7,7 +7,7 @@ import type { DoxicityConfig } from '../../utilities/types';
 export function registerAssetHelper(config: DoxicityConfig) {
   const callback = (filename: string) => {
     const fullPath = path.join(config.outputDir, config.assetDirName, filename);
-    return pathToUrl(config, fullPath);
+    return getRelativeUrl(config, fullPath);
   };
 
   registerHelper('asset', callback);

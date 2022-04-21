@@ -2,7 +2,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import lunr from 'lunr';
-import { pathToUrl } from '../../utilities/path.js';
+import { getRelativeUrl } from '../../utilities/path.js';
 import type { DoxicityPage, DoxicityPlugin } from 'src/utilities/types';
 
 interface PagesToIndex {
@@ -95,14 +95,14 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
 
       // Append the script to the page
       const script = doc.createElement('script');
-      script.src = pathToUrl(config, scriptFilename);
+      script.src = getRelativeUrl(config, scriptFilename);
       script.type = 'module';
       doc.body.append(script);
 
       // Append the styles to the page
       const link = doc.createElement('link');
       link.rel = 'stylesheet';
-      link.href = pathToUrl(config, stylesFilename);
+      link.href = getRelativeUrl(config, stylesFilename);
       doc.head.append(link);
 
       // Store data for the search index
@@ -110,7 +110,7 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
       const description = stripWhitespace(options.getDescription!(doc));
       const headings = options.getHeadings!(doc).map(stripWhitespace);
       const content = stripWhitespace(options.getContent!(doc));
-      const url = pathToUrl(config, page.outputFile);
+      const url = getRelativeUrl(config, page.outputFile);
       pagesToIndex.push({ page, title, description, headings, content, url });
 
       return doc;

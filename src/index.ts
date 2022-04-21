@@ -6,7 +6,7 @@ import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
 import { registerAssetHelper } from './helpers/built-ins/paths.js';
 import { parse as parseMarkdown } from './utilities/markdown.js';
-import { getOutputFilename } from './utilities/path.js';
+import { getHtmlFilename } from './utilities/path.js';
 import { registerHelper, registerPartial, render } from './utilities/template.js';
 import type { DoxicityConfig, DoxicityPage } from './utilities/types';
 
@@ -70,7 +70,7 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     const parsed = await parseMarkdown(file);
     const templateName = typeof parsed.frontMatter.template === 'string' ? parsed.frontMatter.template : 'default';
     const templateData = merge(config.data, parsed.frontMatter);
-    const outFile = getOutputFilename(config, file);
+    const outFile = getHtmlFilename(config, file);
     templateData.content = parsed.content;
 
     // Create a Doxicity page object for this page. This will be passed to plugins and used to populate an array of
