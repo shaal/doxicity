@@ -12,3 +12,7 @@ export function getHtmlFilename(config: DoxicityConfig, markdownFilename: string
   const outDir = path.join(config.outputDir, path.relative(config.inputDir, dir));
   return path.join(outDir, `${name}.html`);
 }
+
+export function isMarkdownFile(filename: string) {
+  return filename.toLowerCase().endsWith('.md');
+}

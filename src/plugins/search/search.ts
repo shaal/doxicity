@@ -2,7 +2,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import lunr from 'lunr';
-import { getRelativeUrl } from '../../utilities/path.js';
+import { getRelativeUrl } from '../../utilities/file.js';
 import type { DoxicityPage, DoxicityPlugin } from 'src/utilities/types';
 
 interface PagesToIndex {
@@ -79,7 +79,7 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
 
   return {
     transform: async (doc, page, config) => {
-      const searchDir = path.join(config.outputDir, config.assetDirName, options.searchDirName!);
+      const searchDir = path.join(config.outputDir, config.assetFolderName, options.searchDirName!);
       const scriptFilename = path.join(searchDir, 'client.js');
       const stylesFilename = path.join(searchDir, 'client.css');
 
@@ -118,7 +118,7 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
     afterAll: (_pages, config) => {
       const searchIndexFilename = path.join(
         config.outputDir,
-        config.assetDirName,
+        config.assetFolderName,
         path.join(options.searchDirName!, 'search.json')
       );
 

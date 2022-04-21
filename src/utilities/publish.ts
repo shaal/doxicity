@@ -5,11 +5,10 @@ import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
 import { registerAssetHelper } from '../helpers/built-ins/paths.js';
-import { defaultConfig } from '../index.js';
 import { parse as parseMarkdown } from '../utilities/markdown.js';
-import { getHtmlFilename } from '../utilities/path.js';
 import { registerHelper, registerPartial, render } from '../utilities/template.js';
 import { ConfigError } from './errors.js';
+import { getHtmlFilename } from './file.js';
 import type { DoxicityConfig, DoxicityPage } from '../utilities/types';
 
 function checkConfig(config: DoxicityConfig) {
@@ -23,23 +22,39 @@ function checkConfig(config: DoxicityConfig) {
     throw new ConfigError('No outputDir was specified in your config. Where do you want Doxicity to write the files?');
   }
 
-  // Verify asset dir name
-  if (!config.assetDirName || config.assetDirName.includes('/') || config.assetDirName.includes('\\')) {
-    throw new ConfigError(`Invalid assetDirName: "${config.assetDirName}". This must be a folder name, not a path.`);
+  // Verify asset folder name
+  if (!config.assetFolderName || config.assetFolderName.includes('/') || config.assetFolderName.includes('\\')) {
+    throw new ConfigError(
+      `Invalid assetFolderName: "${config.assetFolderName}". This must be a folder name, not a path.`
+    );
+  }
+
+  // Verify theme folder name
+  if (!config.themeFolderName || config.themeFolderName.includes('/') || config.themeFolderName.includes('\\')) {
+    throw new ConfigError(
+      `Invalid themeFolderName: "${config.themeFolderName}". This must be a folder name, not a path.`
+    );
   }
 }
 
-export async function publish(userConfig?: Partial<DoxicityConfig>) {
-  const config = merge(defaultConfig, userConfig ?? {});
+/** Deletes the outputDir */
+export async function clean(config: DoxicityConfig) {
+  checkConfig(config);
+
+  if (config.cleanOnPublish) {
+    try {
+      await fs.rm(config.outputDir, { recursive: true, force: true });
+    } catch (err) {
+      throw new Error(`Unable to clean the output directory: "${config.outputDir}"`);
+    }
+  }
+}
+
+/** Publishes files to the outputDir */
+export async function publish(config: DoxicityConfig) {
   const publishedPages: DoxicityPage[] = [];
 
   checkConfig(config);
-
-  // Clean before publishing
-  if (config.cleanOnPublish) {
-    // TODO - re-enable this
-    // await fs.rm(config.outputDir, { recursive: true });
-  }
 
   // Register built-in helpers
   registerAssetHelper(config);
@@ -50,9 +65,6 @@ export async function publish(userConfig?: Partial<DoxicityConfig>) {
 
   // Grab a list of markdown files from inputDir
   const sourceFiles = await globby(path.join(config.inputDir, '**/*.md'));
-
-  // Copy assets
-  await copyAssets(config);
 
   // Loop through each file
   for (const file of sourceFiles) {
@@ -103,21 +115,26 @@ export async function publish(userConfig?: Partial<DoxicityConfig>) {
     }
   }
 
-  return {
-    publishedPages
-  };
+  return { publishedPages };
 }
 
-export async function copyAssets(userConfig?: Partial<DoxicityConfig>) {
-  const config = merge(defaultConfig, userConfig ?? {});
+/** Copies assets to the asset folder */
+export async function copyAssets(config: DoxicityConfig) {
+  const assetDir = path.join(config.outputDir, config.assetFolderName);
+  const filesToCopy = config.copyAssets.map(glob => path.resolve(config.inputDir, glob));
 
   checkConfig(config);
 
-  // Copy files to assets
-  await Promise.all([
-    // Copy all theme files except for templates
-    cpy([path.join(config.themeDir, '**/*'), '!**/*.hbs'], path.join(config.outputDir, config.assetDirName)),
-    // Copy user files to assets
-    cpy(config.copyFiles, path.join(config.outputDir, config.assetDirName))
-  ]);
+  await fs.mkdir(assetDir, { recursive: true });
+  await cpy(filesToCopy, assetDir);
+}
+
+/** Copies theme files to the theme folder */
+export async function copyTheme(config: DoxicityConfig) {
+  const themeDir = path.join(config.outputDir, config.themeFolderName);
+
+  checkConfig(config);
+
+  await fs.mkdir(themeDir, { recursive: true });
+  await cpy([path.join(config.themeDir, '**/*'), '!**/*.hbs'], themeDir);
 }

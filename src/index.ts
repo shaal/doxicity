@@ -4,44 +4,64 @@ import { existsSync } from 'fs';
 import path from 'path';
 import process from 'process';
 import { URL } from 'url'; // in Browser, the URL in native accessible on window
+import browserSync from 'browser-sync';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
 import commandLineArgs from 'command-line-args';
-import { copyAssets, publish } from './utilities/publish.js';
+import merge from 'deepmerge';
+import getPort, { portNumbers } from 'get-port';
+import { isMarkdownFile } from './utilities/file.js';
+import { clean, copyAssets, copyTheme, publish } from './utilities/publish.js';
 import type { DoxicityConfig } from './utilities/types';
 
+const bs = browserSync.create();
 const currentDir = new URL('.', import.meta.url).pathname;
 let targetDirectory = process.cwd();
+let config: DoxicityConfig;
 
 interface CommandLineOptions {
   dir: string;
+  serve: boolean;
   watch: boolean;
 }
 
 export const defaultConfig: DoxicityConfig = {
-  assetDirName: 'assets',
+  assetFolderName: 'assets',
   cleanOnPublish: true,
-  copyFiles: ['assets/**/*'],
+  copyAssets: ['assets/**/*'],
   data: {},
   helpers: [],
   inputDir: '.',
   outputDir: '_site',
   partials: [],
   plugins: [],
-  themeDir: path.join(currentDir, '../themes/default')
+  themeDir: path.join(currentDir, '../themes/default'),
+  themeFolderName: 'theme'
 };
-
-export { publish };
 
 // Fetch command line options
-const options: CommandLineOptions = {
-  dir: targetDirectory,
-  watch: false,
-  ...(commandLineArgs([
-    { name: 'dir', alias: 'd', type: String },
-    { name: 'watch', alias: 'w', type: Boolean }
-  ]) as Partial<CommandLineOptions>)
-};
+let options: CommandLineOptions;
+
+try {
+  options = {
+    dir: targetDirectory,
+    serve: false,
+    watch: false,
+    ...(commandLineArgs([
+      { name: 'dir', alias: 'd', type: String },
+      { name: 'serve', alias: 's', type: Boolean },
+      { name: 'watch', alias: 'w', type: Boolean }
+    ]) as Partial<CommandLineOptions>)
+  };
+} catch (err) {
+  console.error(chalk.red((err as Error).message));
+  process.exit(1);
+}
+
+// When using --serve, watch mode must be enabled
+if (options.serve) {
+  options.watch = true;
+}
 
 // Switch to the target directory
 if (options.dir) {
@@ -50,24 +70,22 @@ if (options.dir) {
     process.chdir(targetDirectory);
   } catch (err) {
     console.error(chalk.red(`Invalid target directory: "${options.dir}"`));
-    process.exit(1);
+    process.exit(2);
   }
 }
 
-// Fetch the user's config
+// Load the user's config
 const userConfigFilename = path.join(targetDirectory, 'doxicity.config.js');
-let userConfig: Partial<DoxicityConfig> = {};
 if (existsSync(userConfigFilename)) {
-  userConfig = (await import(userConfigFilename)) as Partial<DoxicityConfig>;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const userConfig = (await import(userConfigFilename)).default as Partial<DoxicityConfig>;
+  config = merge(defaultConfig, userConfig);
 } else {
-  console.warn(chalk.yellow(`No config filed found at "${userConfigFilename}". Using default config.`));
+  config = { ...defaultConfig };
+  console.warn(chalk.yellow(`No config filed found at "${userConfigFilename}". Using default options!`));
 }
 
-// Combine both configs
-const config = { ...defaultConfig, ...userConfig };
-console.log(config);
-
-async function runPublish() {
+async function publishPages() {
   try {
     const result = await publish(config);
     const numPages = result.publishedPages.length;
@@ -76,14 +94,22 @@ async function runPublish() {
     console.log(chalk.green(`Doxicity successfully published ${term} to "${config.outputDir}"`));
   } catch (err: Error | unknown) {
     console.error(chalk.red((err as Error).message ?? err));
-    process.exit(1);
+    process.exit(3);
   }
 }
 
-// Run the initial publish
-await runPublish();
+// Clean before publishing
+if (config.cleanOnPublish) {
+  await clean(config);
+}
 
-// Watch files
+// Copy assets and themes
+await Promise.all([copyAssets(config), copyTheme(config)]);
+
+// Publish pages
+await publishPages();
+
+// Watch files for changes
 if (options.watch) {
   console.log(`Watching for changes in: ${targetDirectory}`);
 
@@ -95,30 +121,71 @@ if (options.watch) {
 
   markdownWatcher
     .on('add', async filename => {
-      if (filename.endsWith('.md')) {
+      // A file was added
+      if (isMarkdownFile(filename)) {
         console.log(`New page created: "${filename}"`);
-        await runPublish();
+        await publishPages();
       } else {
         console.log(`New file created: "${filename}"`);
-        await copyAssets(config);
+        await Promise.all([copyAssets(config), copyTheme(config)]);
+      }
+
+      if (options.serve) {
+        bs.reload();
       }
     })
     .on('change', async filename => {
-      if (filename.endsWith('.md')) {
+      // A file was changed
+      if (isMarkdownFile(filename)) {
         console.log(`Page changed: "${filename}"`);
-        await runPublish();
+        await publishPages();
       } else {
         console.log(`File changed: "${filename}"`);
-        await copyAssets(config);
+        await Promise.all([copyAssets(config), copyTheme(config)]);
+      }
+
+      if (options.serve) {
+        bs.reload();
       }
     })
     .on('unlink', async filename => {
-      if (filename.endsWith('.md')) {
-        console.log(`Page removed: "${filename}"`);
-        await runPublish();
-      } else {
-        console.log(`File removed: "${filename}"`);
-        await copyAssets(config);
+      // A file was deleted
+      console.log(`Page removed: "${filename}"`);
+
+      // Delete and republish everything. This could be optimized a bit, but works for now.
+      await clean(config);
+      await Promise.all([copyAssets(config), copyTheme(config)]);
+      await publishPages();
+
+      if (options.serve) {
+        bs.reload();
       }
     });
+}
+
+// Launch the dev server
+if (options.serve) {
+  const port = await getPort({
+    port: portNumbers(4000, 4999)
+  });
+
+  bs.init(
+    {
+      open: true,
+      startPath: '/',
+      port,
+      logLevel: 'silent',
+      logPrefix: '[doxicity]',
+      logFileChanges: false,
+      notify: false,
+      ghostMode: false,
+      server: {
+        baseDir: config.outputDir
+      }
+    },
+    () => {
+      const url = `http://localhost:${port}`;
+      console.log(chalk.cyan(`Launched the Doxicity dev server at ${url} 📚\n`));
+    }
+  );
 }

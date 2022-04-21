@@ -1,6 +1,8 @@
 export interface DoxicityConfig {
-  /** The name of your assets folder. This should not be a full path, only a folder name. Defaults to "assets". */
-  assetDirName: string;
+  /**
+   * The name of the folder to copy assets to. This should not be a full path, only a folder name. Defaults to "assets".
+   */
+  assetFolderName: string;
   /** Cleans the outputDir before publishing. Defaults to true. */
   cleanOnPublish: boolean;
   /**
@@ -8,7 +10,7 @@ export interface DoxicityConfig {
    * project's root folder. If unset, Doxicity will look for a folder called "assets" in your root folder and copy it if
    * it exists.
    */
-  copyFiles: string[];
+  copyAssets: string[];
   /** Global data to be passed to every page. */
   data: {
     [key: string]: unknown;
@@ -33,6 +35,11 @@ export interface DoxicityConfig {
   plugins: DoxicityPlugin[];
   /** The directory of the theme to use. Assets in this directory will be copied to the resulting assets directory. */
   themeDir: string;
+  /**
+   * The name of the folder to publish your theme to. This should not be a full path, only a folder name. Defaults to
+   * "theme".
+   */
+  themeFolderName: string;
 }
 
 export interface DoxicityPage {
