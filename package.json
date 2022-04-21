@@ -4,6 +4,7 @@
   "description": "A static site generator for documentation.",
   "main": "build/index.js",
   "type": "module",
+  "bin": "./build/index.js",
   "scripts": {
     "build": "tsc",
     "start": "npm run build -- -w",
@@ -25,6 +26,8 @@
   },
   "homepage": "https://github.com/claviska/doxicity#readme",
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/command-line-args": "^5.2.0",
     "@types/js-beautify": "^1.13.3",
     "@types/jsdom": "^16.2.14",
     "@types/lunr": "^2.3.4",
@@ -34,7 +37,6 @@
     "@types/prismjs": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
-    "chalk": "^5.0.1",
     "cspell": "^5.19.7",
     "esbuild": "^0.14.36",
     "eslint": "^8.9.0",
@@ -56,6 +58,8 @@
     "*.{js,css,md}": "prettier --write"
   },
   "dependencies": {
+    "chalk": "^5.0.1",
+    "command-line-args": "^5.2.1",
     "cpy": "^9.0.1",
     "deepmerge": "^4.2.2",
     "front-matter": "^4.0.2",
