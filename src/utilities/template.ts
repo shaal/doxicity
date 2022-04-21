@@ -45,10 +45,10 @@ export async function render(
   }
 }
 
-/** Looks for the specified template in the user's theme directory directory. Returns the template's source. */
+/** Looks for the specified template in the user's theme directory. Returns the template's source. */
 async function resolve(templateName: string, themeDir: string) {
   try {
-    const file = path.join(themeDir, `${templateName}.hbs`);
+    const file = path.resolve(themeDir, `${templateName}.hbs`);
     const source = await fs.readFile(file, 'utf8');
     return source;
   } catch {

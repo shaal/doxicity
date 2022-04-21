@@ -12,10 +12,7 @@ import { registerHelper, registerPartial, render } from '../utilities/template.j
 import { ConfigError } from './errors.js';
 import type { DoxicityConfig, DoxicityPage } from '../utilities/types';
 
-export async function publish(userConfig?: Partial<DoxicityConfig>) {
-  const config = merge(defaultConfig, userConfig ?? {});
-  const publishedPages: DoxicityPage[] = [];
-
+function checkConfig(config: DoxicityConfig) {
   // Check for an input directory
   if (!config.inputDir) {
     throw new ConfigError('No inputDir was specified in your config. Which files do you want to publish?');
@@ -30,10 +27,18 @@ export async function publish(userConfig?: Partial<DoxicityConfig>) {
   if (!config.assetDirName || config.assetDirName.includes('/') || config.assetDirName.includes('\\')) {
     throw new ConfigError(`Invalid assetDirName: "${config.assetDirName}". This must be a folder name, not a path.`);
   }
+}
+
+export async function publish(userConfig?: Partial<DoxicityConfig>) {
+  const config = merge(defaultConfig, userConfig ?? {});
+  const publishedPages: DoxicityPage[] = [];
+
+  checkConfig(config);
 
   // Clean before publishing
-  if (config.cleanBeforePublish) {
-    await fs.rm(config.outputDir, { recursive: true });
+  if (config.cleanOnPublish) {
+    // TODO - re-enable this
+    // await fs.rm(config.outputDir, { recursive: true });
   }
 
   // Register built-in helpers
@@ -46,13 +51,8 @@ export async function publish(userConfig?: Partial<DoxicityConfig>) {
   // Grab a list of markdown files from inputDir
   const sourceFiles = await globby(path.join(config.inputDir, '**/*.md'));
 
-  // Copy files to assets
-  await Promise.all([
-    // Copy all theme files except for templates
-    cpy([path.join(config.themeDir, '**/*'), '!**/*.hbs'], path.join(config.outputDir, config.assetDirName)),
-    // Copy user files to assets
-    cpy(config.copyFiles, path.join(config.outputDir, config.assetDirName))
-  ]);
+  // Copy assets
+  await copyAssets(config);
 
   // Loop through each file
   for (const file of sourceFiles) {
@@ -106,4 +106,18 @@ export async function publish(userConfig?: Partial<DoxicityConfig>) {
   return {
     publishedPages
   };
+}
+
+export async function copyAssets(userConfig?: Partial<DoxicityConfig>) {
+  const config = merge(defaultConfig, userConfig ?? {});
+
+  checkConfig(config);
+
+  // Copy files to assets
+  await Promise.all([
+    // Copy all theme files except for templates
+    cpy([path.join(config.themeDir, '**/*'), '!**/*.hbs'], path.join(config.outputDir, config.assetDirName)),
+    // Copy user files to assets
+    cpy(config.copyFiles, path.join(config.outputDir, config.assetDirName))
+  ]);
 }

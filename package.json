@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "chalk": "^5.0.1",
+    "chokidar": "^3.5.3",
     "command-line-args": "^5.2.1",
     "cpy": "^9.0.1",
     "deepmerge": "^4.2.2",

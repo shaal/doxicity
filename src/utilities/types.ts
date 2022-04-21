@@ -2,7 +2,7 @@ export interface DoxicityConfig {
   /** The name of your assets folder. This should not be a full path, only a folder name. Defaults to "assets". */
   assetDirName: string;
   /** Cleans the outputDir before publishing. Defaults to true. */
-  cleanBeforePublish: boolean;
+  cleanOnPublish: boolean;
   /**
    * An array of files to copy to the published assets folder. Supports globs. All directories must be relative to your
    * project's root folder. If unset, Doxicity will look for a folder called "assets" in your root folder and copy it if
