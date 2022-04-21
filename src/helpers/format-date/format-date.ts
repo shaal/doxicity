@@ -29,6 +29,8 @@ interface FormatDateArgs {
  * Formats a date using the Intl.DateTimeFormat API. Available arguments are described on this page:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/format
  *
+ * The special value "now" can be used to format the current date/time.
+ *
  * @example
  *
  * {{formatDate '2022-04-17' year='numeric' month='long' day='numeric'}}
@@ -36,8 +38,8 @@ interface FormatDateArgs {
 export default {
   name: 'formatDate',
   callback: (date: string | Date, options: Handlebars.HelperOptions) => {
+    const dateToFormat = date === 'now' ? new Date() : new Date(date);
     const args = (options?.hash ?? {}) as Partial<FormatDateArgs>;
-    const dateToFormat = new Date(date);
     return new Intl.DateTimeFormat(args.lang ?? 'en', args).format(dateToFormat);
   }
 };
