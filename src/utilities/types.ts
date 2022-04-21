@@ -1,12 +1,8 @@
 export interface DoxicityConfig {
-  /** The source directory containing your markdown files. */
-  inputDir: string;
-  /** The directory to write processed files. */
-  outputDir: string;
-  /** A custom directory to look for templates in. If no template is found, the built-in templates will be used. */
-  templateDir: string;
-  /** The name of your assets folder. Defaults to "assets". */
+  /** The name of your assets folder. This should not be a full path, only a folder name. Defaults to "assets". */
   assetDirName: string;
+  /** Cleans the outputDir before publishing. Defaults to true. */
+  cleanBeforePublish: boolean;
   /**
    * An array of files to copy to the published assets folder. Supports globs. All directories must be relative to your
    * project's root folder. If unset, Doxicity will look for a folder called "assets" in your root folder and copy it if
@@ -23,6 +19,10 @@ export interface DoxicityConfig {
    * For more information, visit: https://handlebarsjs.com/guide/#custom-helpers
    */
   helpers: DoxicityHelper[];
+  /** The source directory containing your markdown files. */
+  inputDir: string;
+  /** The directory to write processed files. */
+  outputDir: string;
   /**
    * Custom Handlebars partials to register for use in templates.
    *
@@ -31,6 +31,8 @@ export interface DoxicityConfig {
   partials: DoxicityPartial[];
   /** Optional plugins that hook into the Doxicity API and gives you superpowers. */
   plugins: DoxicityPlugin[];
+  /** The directory of the theme to use. Assets in this directory will be copied to the resulting assets directory. */
+  themeDir: string;
 }
 
 export interface DoxicityPage {

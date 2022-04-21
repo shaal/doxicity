@@ -14,5 +14,13 @@ module.exports = {
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'none',
-  useTabs: false
+  useTabs: false,
+  overrides: [
+    {
+      files: '*.hbs',
+      options: {
+        singleQuote: false
+      }
+    }
+  ]
 };

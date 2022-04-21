@@ -1,21 +1,20 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { URL } from 'url';
 import Handlebars from 'handlebars';
 import { render as renderMarkdown } from './markdown.js';
-import type { DoxicityConfig } from './types';
+import type { DoxicityConfig, DoxicityPage } from './types';
 import type { TemplateDelegate } from 'handlebars';
 
-const currentDir = new URL('.', import.meta.url).pathname;
 const templateCache = new Map<string, TemplateDelegate>();
 
 /** Renders a template and returns the resulting HTML. */
 export async function render(
+  page: DoxicityPage,
   templateName: string,
   data: Record<string, unknown>,
   config: DoxicityConfig
 ): Promise<string> {
-  const source = await resolve(templateName, [path.join(currentDir, '../../templates'), config.templateDir]);
+  const source = await resolve(templateName, config.themeDir);
   let template: TemplateDelegate;
 
   // Cache templates for better performance
@@ -26,31 +25,32 @@ export async function render(
     templateCache.set(templateName, template);
   }
 
-  // Sub-render the page content, then render the markdown
-  const contentTemplate = Handlebars.compile(data.content);
-  data.content = renderMarkdown(contentTemplate(Object.assign(data, { content: undefined })));
-
-  return template(data);
-}
-
-/**
- * Looks for the specified template name in the user's templates directory, then falls back to the default template
- * directory. Returns the template's source.
- */
-async function resolve(templateName: string, templateDirs: string[]) {
-  for (const dir of templateDirs) {
-    if (!dir) continue;
-
-    try {
-      const file = path.join(dir, `${templateName}.hbs`);
-      const source = await fs.readFile(file, 'utf8');
-      return source;
-    } catch {
-      // Not found, skip to the next one
-    }
+  // Sub-render page content and its markdown
+  try {
+    const contentTemplate = Handlebars.compile(data.content);
+    data.content = renderMarkdown(contentTemplate(Object.assign(data, { content: undefined })));
+  } catch (err) {
+    const filename = path.relative(config.inputDir, page.inputFile);
+    throw new Error(`Unable to render content from page "${filename}".\n\nHandlebars said: ${err as string}`);
   }
 
-  throw new Error(`Unable to resolve template "${templateName}"`);
+  // Render the template
+  try {
+    return template(data);
+  } catch (err) {
+    throw new Error(`Unable to render template "${templateName}".\n\nHandlebars said: ${err as string}`);
+  }
+}
+
+/** Looks for the specified template in the user's theme directory directory. Returns the template's source. */
+async function resolve(templateName: string, themeDir: string) {
+  try {
+    const file = path.join(themeDir, `${templateName}.hbs`);
+    const source = await fs.readFile(file, 'utf8');
+    return source;
+  } catch {
+    throw new Error(`Unable to resolve template "${templateName}"`);
+  }
 }
 
 /** Registers a custom Handlebars helper. */

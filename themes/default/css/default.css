@@ -1,0 +1,37 @@
+:root {
+  --docs-body-background-color: white;
+  --docs-body-color: #232323;
+  --docs-accent-color: #008a00;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font: 16px sans-serif;
+  background-color: var(--docs-body-background-color);
+  color: var(--docs-body-color);
+  padding: 0;
+  margin: 0;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--docs-accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--docs-accent-color);
+  text-decoration: underline;
+}

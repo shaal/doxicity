@@ -1,10 +1,10 @@
 import fs from 'fs/promises';
 import path from 'path';
+import cpy from 'cpy';
 import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
-import { registerAssetPathHelper } from './helpers/built-ins/paths.js';
-import { copyFiles } from './utilities/copy.js';
+import { registerAssetHelper } from './helpers/built-ins/paths.js';
 import { parse as parseMarkdown } from './utilities/markdown.js';
 import { getOutputFilename } from './utilities/path.js';
 import { registerHelper, registerPartial, render } from './utilities/template.js';
@@ -12,14 +12,15 @@ import type { DoxicityConfig, DoxicityPage } from './utilities/types';
 
 export const defaultConfig: DoxicityConfig = {
   assetDirName: 'assets',
-  inputDir: '',
-  outputDir: '',
-  templateDir: '',
+  cleanBeforePublish: true,
   copyFiles: ['assets/**/*'],
   data: {},
   helpers: [],
+  inputDir: '',
+  outputDir: '',
   partials: [],
-  plugins: []
+  plugins: [],
+  themeDir: path.resolve('../themes/default')
 };
 
 export async function publish(userConfig: Partial<DoxicityConfig>) {
@@ -36,8 +37,18 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     throw new Error('No outputDir was specified in your config. Where do you want Doxicity to write the files?');
   }
 
+  // Verify asset dir name
+  if (!config.assetDirName || config.assetDirName.includes('/') || config.assetDirName.includes('\\')) {
+    throw new Error(`Invalid assetDirName: "${config.assetDirName}". This must be a folder name, not a path.`);
+  }
+
+  // Clean before publishing
+  if (config.cleanBeforePublish) {
+    await fs.rm(config.outputDir, { recursive: true });
+  }
+
   // Register built-in helpers
-  registerAssetPathHelper(config);
+  registerAssetHelper(config);
 
   // Register custom helpers and partials
   config.helpers.forEach(helper => registerHelper(helper.name, helper.callback));
@@ -47,7 +58,12 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
   const sourceFiles = await globby(path.join(config.inputDir, '**/*.md'));
 
   // Copy files to assets
-  await copyFiles(config.copyFiles, config);
+  await Promise.all([
+    // Copy all theme files except for templates
+    cpy([path.join(config.themeDir, '**/*'), '!**/*.hbs'], path.join(config.outputDir, config.assetDirName)),
+    // Copy user files to assets
+    cpy(config.copyFiles, path.join(config.outputDir, config.assetDirName))
+  ]);
 
   // Loop through each file
   for (const file of sourceFiles) {
@@ -66,7 +82,7 @@ export async function publish(userConfig: Partial<DoxicityConfig>) {
     };
 
     // Render the Handlebars template
-    let html = await render(templateName, templateData, config);
+    let html = await render(page, templateName, templateData, config);
 
     // Run transform plugins
     const doc = new JSDOM(html).window.document;

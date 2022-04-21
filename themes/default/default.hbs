@@ -1,0 +1,41 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+    <meta name="description" content="{{description}}" />
+    <link rel="stylesheet" href="{{asset 'css/default.css'}}" />
+    <link rel="icon" href="/assets/images/logo.svg" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/touch-icon.png" />
+
+    {{! Sharing }}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content="{{metadata.sharing.twitterHandle}}" />
+    <meta property="og:url" content="{{site.url}}{{page.url}}" />
+    <meta property="og:title" content="{{metadata.title}}" />
+    <meta property="og:description" content="{{metadata.description}}" />
+    <meta name="twitter:image" content="{{metadata.image}}" />
+    <meta property="og:image" content="{{metadata.image}}" />
+  </head>
+  <body>
+    <main>
+      <aside class="sidebar">
+        <header>
+          <a href="/">
+            {{title}}
+          </a>
+        </header>
+
+        <nav class="site-nav">
+          SIDEBAR HERE
+        </nav>
+      </aside>
+
+      <section class="content">
+        <article>
+          {{{content}}}
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
