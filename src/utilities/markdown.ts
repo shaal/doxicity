@@ -27,7 +27,7 @@ markdown.use(markdownItAttrs, {
 });
 
 // Add tip/warning callout syntaxes
-['tip', 'warning'].forEach(type => {
+['tip', 'warning', 'danger'].forEach(type => {
   markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, type, {
     render: function (tokens: any, idx: number) {
       if (tokens[idx].nesting === 1) {
@@ -44,7 +44,7 @@ markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'details', {
   render: (tokens: any, idx: number) => {
     const m = tokens[idx].info.trim().match(/^details\s+(.*)$/);
     if (tokens[idx].nesting === 1) {
-      return `<details>\n<summary>${markdown.utils.escapeHtml(m[1])}</summary>\n`;
+      return `<details>\n<summary><span>${markdown.utils.escapeHtml(m[1])}</span></summary>\n`;
     }
     return '</details>\n';
   }
