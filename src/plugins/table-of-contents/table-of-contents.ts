@@ -11,7 +11,7 @@ interface TableOfContentsOptions {
   startLevel: HeadingLevel;
   /** The heading level to stop collecting entries from. Defaults to "h4". */
   endLevel: HeadingLevel;
-  /** A CSS selector that points to an element that contains the headings to add. Defaults to `document.body`. */
+  /** A CSS selector that points to an element that contains the headings to add. Defaults to "body". */
   within: string;
 }
 
