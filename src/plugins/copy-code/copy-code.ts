@@ -38,7 +38,12 @@ export default function (options: Partial<CopyCodeOptions>): DoxicityPlugin {
             const pre = button?.closest('pre');
             const code = pre?.querySelector('code');
             if (button && code) {
-              navigator.clipboard.writeText(code.innerText);
+              navigator.clipboard.writeText(code.innerText).then(() => {
+                button.classList.add('copy-code-button--copied');
+                button.addEventListener('animationend', () => {
+                  button.classList.remove('copy-code-button--copied');
+                }, { once: true });
+              });
             }
           });
         `;
