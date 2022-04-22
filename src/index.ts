@@ -26,6 +26,8 @@ interface CommandLineOptions {
   watch: boolean;
 }
 
+export * from './utilities/types';
+
 export const defaultConfig: DoxicityConfig = {
   assetFolderName: 'assets',
   cleanOnPublish: true,
