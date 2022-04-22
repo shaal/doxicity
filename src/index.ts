@@ -13,7 +13,7 @@ import getPort, { portNumbers } from 'get-port';
 import { AfterTransformPluginError, TransformPluginError, TemplateRenderError } from './utilities/errors.js';
 import { isMarkdownFile } from './utilities/file.js';
 import { clean, copyAssets, copyTheme, publish } from './utilities/publish.js';
-import type { DoxicityConfig } from './utilities/types';
+import type { DoxicityConfig } from './utilities/types.js';
 
 const bs = browserSync.create();
 const currentDir = new URL('.', import.meta.url).pathname;
@@ -26,7 +26,7 @@ interface CommandLineOptions {
   watch: boolean;
 }
 
-export * from './utilities/types';
+export * from './utilities/types.js';
 
 export const defaultConfig: DoxicityConfig = {
   assetFolderName: 'assets',

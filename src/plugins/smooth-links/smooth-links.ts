@@ -1,4 +1,4 @@
-import type { DoxicityPlugin } from 'src/utilities/types';
+import type { DoxicityPlugin } from 'src/utilities/types.js';
 
 /** Makes in-page links scroll smoothly. */
 export default function (): DoxicityPlugin {

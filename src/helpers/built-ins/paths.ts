@@ -1,7 +1,7 @@
 import path from 'path';
 import { getRelativeUrl } from '../../utilities/file.js';
 import { registerHelper } from '../../utilities/template.js';
-import type { DoxicityConfig } from '../../utilities/types';
+import type { DoxicityConfig } from '../../utilities/types.js';
 
 /** Registers the {{assetPath}} helper. */
 export function registerAssetHelper(config: DoxicityConfig) {

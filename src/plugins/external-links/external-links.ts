@@ -1,4 +1,4 @@
-import type { DoxicityPlugin } from 'src/utilities/types';
+import type { DoxicityPlugin } from 'src/utilities/types.js';
 
 interface SafeLinksOptions {
   /** Adds rel="noopener" to all external links. */
