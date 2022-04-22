@@ -100,14 +100,23 @@ async function publishPages() {
 
 // Clean before publishing
 if (config.cleanOnPublish) {
-  await clean(config);
+  try {
+    await clean(config);
+  } catch (err) {
+    console.error(chalk.red(`Unable to clean the output directory before publishing: ${(err as Error).message}`));
+    process.exit(4);
+  }
 }
 
-// Copy assets and themes
-await Promise.all([copyAssets(config), copyTheme(config)]);
-
-// Publish pages
-await publishPages();
+try {
+  // Copy assets and themes
+  await Promise.all([copyAssets(config), copyTheme(config)]);
+  // Publish pages
+  await publishPages();
+} catch (err) {
+  console.error(chalk.red((err as Error).message));
+  process.exit(5);
+}
 
 // Watch files for changes
 if (options.watch) {
@@ -153,9 +162,20 @@ if (options.watch) {
       console.log(`Page removed: "${filename}"`);
 
       // Delete and republish everything. This could be optimized a bit, but works for now.
-      await clean(config);
-      await Promise.all([copyAssets(config), copyTheme(config)]);
-      await publishPages();
+      try {
+        await clean(config);
+      } catch (err) {
+        console.error(chalk.red(`Unable to clean the output directory before publishing: ${(err as Error).message}`));
+        process.exit(4);
+      }
+
+      try {
+        await Promise.all([copyAssets(config), copyTheme(config)]);
+        await publishPages();
+      } catch (err) {
+        console.error(chalk.red((err as Error).message));
+        process.exit(5);
+      }
 
       if (options.serve) {
         bs.reload();
