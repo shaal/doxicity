@@ -9,6 +9,8 @@ interface AnchorHeadingsOptions {
   levels: HeadingLevel[];
   /** The class name to add to the anchor. */
   className: string;
+  /** A CSS selector that points to an element that contains the headings to process. Defaults to "main". */
+  within: string;
 }
 
 /** Converts headings to anchors for easier deep linking. */
@@ -16,12 +18,19 @@ export default function (options: Partial<AnchorHeadingsOptions>): DoxicityPlugi
   options = {
     levels: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     className: 'anchor-heading',
+    within: 'main',
     ...options
   };
 
   return {
     transform: doc => {
-      doc.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((heading: HTMLElement) => {
+      const within = doc.querySelector(options.within!);
+
+      if (!within) {
+        return doc;
+      }
+
+      within.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((heading: HTMLElement) => {
         const hasAnchor = heading.querySelector('a');
         const anchor = doc.createElement('a');
         const slug = createSlug(heading.textContent ?? '') ?? randomUUID().slice(-12);
