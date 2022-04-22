@@ -1,6 +1,6 @@
 import Prism from 'prismjs';
 import PrismLoader from 'prismjs/components/index.js';
-import type { DoxicityPlugin } from 'src/utilities/types.js';
+import type { DoxicityPlugin } from 'src/utilities/types';
 
 interface HighlightCodeOptions {
   /**

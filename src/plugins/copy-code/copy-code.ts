@@ -1,4 +1,4 @@
-import type { DoxicityPlugin } from 'src/utilities/types.js';
+import type { DoxicityPlugin } from 'src/utilities/types';
 
 interface CopyCodeOptions {
   /** The button's label, e.g. "Copy". */

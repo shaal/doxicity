@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { createSlug } from '../../utilities/slug.js';
-import type { DoxicityPlugin } from 'src/utilities/types.js';
+import type { DoxicityPlugin } from 'src/utilities/types';
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 

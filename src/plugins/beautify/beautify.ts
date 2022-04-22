@@ -1,6 +1,6 @@
 import beautify from 'js-beautify';
 import type { HTMLBeautifyOptions } from 'js-beautify';
-import type { DoxicityPlugin } from 'src/utilities/types.js';
+import type { DoxicityPlugin } from 'src/utilities/types';
 
 /**
  * Beautifies markup by re-indenting and lightly reformatting the HTML. This plugin should run after all other

@@ -16,7 +16,7 @@ import {
   TemplateRenderError
 } from './errors.js';
 import { getHtmlFilename } from './file.js';
-import type { DoxicityConfig, DoxicityPage } from '../utilities/types.js';
+import type { DoxicityConfig, DoxicityPage } from '../utilities/types';
 
 function checkConfig(config: DoxicityConfig) {
   // Check for an input directory

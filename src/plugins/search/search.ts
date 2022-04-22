@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import lunr from 'lunr';
 import { getRelativeUrl } from '../../utilities/file.js';
-import type { DoxicityPage, DoxicityPlugin } from 'src/utilities/types.js';
+import type { DoxicityPage, DoxicityPlugin } from 'src/utilities/types';
 
 interface PagesToIndex {
   page: DoxicityPage;
