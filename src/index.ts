@@ -127,13 +127,21 @@ try {
 if (options.watch) {
   console.log(`Watching for changes in: ${targetDirectory}`);
 
-  const markdownWatcher = chokidar.watch([path.join(targetDirectory, '**/*')], {
-    persistent: true,
-    ignored: [path.resolve(config.outputDir)],
-    ignoreInitial: true
-  });
+  const watcher = chokidar.watch(
+    [
+      // Watch the target directory
+      path.join(targetDirectory, '**/*'),
+      // Watch the default theme directory (helpful for dev)
+      path.join(currentDir, '../themes')
+    ],
+    {
+      persistent: true,
+      ignored: [path.resolve(config.outputDir)],
+      ignoreInitial: true
+    }
+  );
 
-  markdownWatcher
+  watcher
     .on('add', async filename => {
       // A file was added
       if (isMarkdownFile(filename)) {
@@ -149,6 +157,7 @@ if (options.watch) {
       }
     })
     .on('change', async filename => {
+      console.log('change');
       // A file was changed
       if (isMarkdownFile(filename)) {
         console.log(`Page changed: "${filename}"`);
