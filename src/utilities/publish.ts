@@ -4,10 +4,17 @@ import cpy from 'cpy';
 import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
-import { registerAssetHelper } from '../helpers/built-ins/paths.js';
+import { registerAssetHelper, registerThemeHelper } from '../helpers/built-ins/paths.js';
 import { parse as parseMarkdown } from '../utilities/markdown.js';
 import { registerHelper, registerPartial, render } from '../utilities/template.js';
-import { ConfigError } from './errors.js';
+import {
+  CleanError,
+  ConfigError,
+  TransformPluginError,
+  AfterTransformPluginError,
+  AfterAllPluginError,
+  TemplateRenderError
+} from './errors.js';
 import { getHtmlFilename } from './file.js';
 import type { DoxicityConfig, DoxicityPage } from '../utilities/types';
 
@@ -45,7 +52,7 @@ export async function clean(config: DoxicityConfig) {
     try {
       await fs.rm(config.outputDir, { recursive: true, force: true });
     } catch (err) {
-      throw new Error(`Unable to clean the output directory: "${config.outputDir}"`);
+      throw new CleanError(`Unable to clean the output directory: "${config.outputDir}"`);
     }
   }
 }
@@ -58,6 +65,7 @@ export async function publish(config: DoxicityConfig) {
 
   // Register built-in helpers
   registerAssetHelper(config);
+  registerThemeHelper(config);
 
   // Register custom helpers and partials
   config.helpers.forEach(helper => registerHelper(helper.name, helper.callback));
@@ -72,6 +80,7 @@ export async function publish(config: DoxicityConfig) {
     const templateName = typeof parsed.frontMatter.template === 'string' ? parsed.frontMatter.template : 'default';
     const templateData = merge(config.data, parsed.frontMatter);
     const outFile = getHtmlFilename(config, file);
+    let html = '';
     templateData.content = parsed.content;
 
     // Create a Doxicity page object for this page. This will be passed to plugins and used to populate an array of
@@ -83,13 +92,21 @@ export async function publish(config: DoxicityConfig) {
     };
 
     // Render the Handlebars template
-    let html = await render(page, templateName, templateData, config);
+    try {
+      html = await render(page, templateName, templateData, config);
+    } catch (err: Error | unknown) {
+      throw new TemplateRenderError(page, (err as Error).message);
+    }
 
     // Run transform plugins
     const doc = new JSDOM(html).window.document;
     for (const plugin of config.plugins) {
       if (plugin.transform) {
-        await plugin.transform(doc, page, config);
+        try {
+          await plugin.transform(doc, page, config);
+        } catch (err) {
+          throw new TransformPluginError(page, (err as Error).message);
+        }
       }
     }
     html = doc.documentElement.outerHTML;
@@ -97,7 +114,11 @@ export async function publish(config: DoxicityConfig) {
     // Run afterTransform plugins
     for (const plugin of config.plugins) {
       if (plugin.afterTransform) {
-        html = await plugin.afterTransform(html, page, config);
+        try {
+          html = await plugin.afterTransform(html, page, config);
+        } catch (err) {
+          throw new AfterTransformPluginError(page, (err as Error).message);
+        }
       }
     }
 
@@ -111,7 +132,11 @@ export async function publish(config: DoxicityConfig) {
   // Run afterAll plugins
   for (const plugin of config.plugins) {
     if (plugin.afterAll) {
-      await plugin.afterAll(publishedPages, config);
+      try {
+        await plugin.afterAll(publishedPages, config);
+      } catch (err) {
+        throw new AfterAllPluginError(publishedPages, (err as Error).message);
+      }
     }
   }
 
@@ -120,13 +145,13 @@ export async function publish(config: DoxicityConfig) {
 
 /** Copies assets to the asset folder */
 export async function copyAssets(config: DoxicityConfig) {
-  const assetDir = path.join(config.outputDir, config.assetFolderName);
+  const assetPath = path.join(config.outputDir, config.assetFolderName);
   const filesToCopy = config.copyAssets.map(glob => path.resolve(config.inputDir, glob));
 
   checkConfig(config);
 
-  await fs.mkdir(assetDir, { recursive: true });
-  await cpy(filesToCopy, assetDir);
+  await fs.mkdir(assetPath, { recursive: true });
+  await cpy(filesToCopy, assetPath);
 }
 
 /** Copies theme files to the theme folder */

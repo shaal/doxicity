@@ -2,6 +2,14 @@ import Prism from 'prismjs';
 import PrismLoader from 'prismjs/components/index.js';
 import type { DoxicityPlugin } from 'src/utilities/types';
 
+interface HighlightCodeOptions {
+  /**
+   * By default, an error will be thrown and publishing will be interrupted when an unknown language is found in a code
+   * field. Enabling this option will skip highlighting for unknown languages and allow publishing to continue.
+   */
+  ignoreMissingLangs: boolean;
+}
+
 PrismLoader('diff');
 PrismLoader.silent = true;
 
@@ -32,7 +40,12 @@ export function highlight(code: string, language: string): string {
  * are automatically loaded, so all you need to do is add this plugin to your Doxicity config and then add a CSS theme
  * to your website. Prism themes can be found here: https://github.com/PrismJS/prism-themes
  */
-export default function (): DoxicityPlugin {
+export default function (options: Partial<HighlightCodeOptions>): DoxicityPlugin {
+  options = {
+    ignoreMissingLangs: true,
+    ...options
+  };
+
   return {
     transform: doc => {
       doc.querySelectorAll('pre > code[class]').forEach((code: HTMLElement) => {
@@ -40,7 +53,14 @@ export default function (): DoxicityPlugin {
         code.classList.forEach(className => {
           if (className.startsWith('language-')) {
             const language = className.replace(/^language-/, '');
-            code.innerHTML = highlight(code.textContent ?? '', language);
+
+            try {
+              code.innerHTML = highlight(code.textContent ?? '', language);
+            } catch (err) {
+              if (!options.ignoreMissingLangs) {
+                throw new Error((err as Error).message);
+              }
+            }
           }
         });
       });

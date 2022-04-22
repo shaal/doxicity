@@ -10,6 +10,7 @@ import chokidar from 'chokidar';
 import commandLineArgs from 'command-line-args';
 import merge from 'deepmerge';
 import getPort, { portNumbers } from 'get-port';
+import { AfterTransformPluginError, TransformPluginError, TemplateRenderError } from './utilities/errors.js';
 import { isMarkdownFile } from './utilities/file.js';
 import { clean, copyAssets, copyTheme, publish } from './utilities/publish.js';
 import type { DoxicityConfig } from './utilities/types';
@@ -92,9 +93,17 @@ async function publishPages() {
     const term = numPages === 1 ? 'one page' : `${numPages} pages`;
 
     console.log(chalk.green(`Doxicity successfully published ${term} to "${config.outputDir}"`));
-  } catch (err: Error | unknown) {
-    console.error(chalk.red((err as Error).message ?? err));
-    process.exit(3);
+  } catch (err: Error | TransformPluginError | AfterTransformPluginError | unknown) {
+    if (
+      err instanceof AfterTransformPluginError ||
+      err instanceof TemplateRenderError ||
+      err instanceof TransformPluginError
+    ) {
+      console.error(chalk.red(`Error in ${err.page.inputFile}: ${err.message}`));
+    } else {
+      console.error(chalk.red((err as Error).message ?? err));
+    }
+    // process.exit(3);
   }
 }
 
@@ -114,7 +123,6 @@ try {
   await publishPages();
 } catch (err) {
   console.error(chalk.red((err as Error).message));
-  process.exit(5);
 }
 
 // Watch files for changes
@@ -173,7 +181,6 @@ if (options.watch) {
         await publishPages();
       } catch (err) {
         console.error(chalk.red((err as Error).message));
-        process.exit(5);
       }
 
       if (options.serve) {

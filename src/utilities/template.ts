@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
 import path from 'path';
+import chalk from 'chalk';
 import Handlebars from 'handlebars';
-import { TemplateRenderError, TemplateResolveError } from './errors.js';
+import { TemplateRenderError } from './errors.js';
 import { render as renderMarkdown } from './markdown.js';
 import type { DoxicityConfig, DoxicityPage } from './types';
 import type { TemplateDelegate } from 'handlebars';
@@ -16,6 +17,7 @@ export async function render(
   config: DoxicityConfig
 ): Promise<string> {
   const source = await resolve(templateName, config.themeDir);
+  const filename = path.relative(config.inputDir, page.inputFile);
   let template: TemplateDelegate;
 
   // Cache templates for better performance
@@ -31,9 +33,9 @@ export async function render(
     const contentTemplate = Handlebars.compile(data.content);
     data.content = renderMarkdown(contentTemplate(Object.assign(data, { content: undefined })));
   } catch (err) {
-    const filename = path.relative(config.inputDir, page.inputFile);
     throw new TemplateRenderError(
-      `Unable to render content from page "${filename}".\n\nHandlebars said: ${err as string}`
+      page,
+      `Unable to render content from "${filename}":\n\n${chalk.yellow(err as string)}`
     );
   }
 
@@ -41,7 +43,10 @@ export async function render(
   try {
     return template(data);
   } catch (err) {
-    throw new TemplateRenderError(`Unable to render template "${templateName}".\n\nHandlebars said: ${err as string}`);
+    throw new TemplateRenderError(
+      page,
+      `Unable to render template "${templateName}" in "${filename}":\n\n${chalk.yellow(err as string)}`
+    );
   }
 }
 
@@ -52,7 +57,7 @@ async function resolve(templateName: string, themeDir: string) {
     const source = await fs.readFile(file, 'utf8');
     return source;
   } catch {
-    throw new TemplateResolveError(`Unable to resolve template "${templateName}"`);
+    throw new Error(`Unable to resolve template "${templateName}"`);
   }
 }
 
