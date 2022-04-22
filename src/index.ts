@@ -99,7 +99,7 @@ async function publishPages() {
       err instanceof TemplateRenderError ||
       err instanceof TransformPluginError
     ) {
-      console.error(chalk.red(`Error in ${err.page.inputFile}: ${err.message}`));
+      console.error(chalk.red(`${err.page.inputFile}: ${err.message}`));
     } else {
       console.error(chalk.red((err as Error).message ?? err));
     }
@@ -115,7 +115,7 @@ if (config.cleanOnPublish) {
   }
 }
 
-// Copy assets, copy themes, and publish pages
+// Initial copying of assets, copying of themes, and publishing of pages
 try {
   await Promise.all([copyAssets(config), copyTheme(config)]);
   await publishPages();

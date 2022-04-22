@@ -21,25 +21,25 @@ import type { DoxicityConfig, DoxicityPage } from '../utilities/types';
 function checkConfig(config: DoxicityConfig) {
   // Check for an input directory
   if (!config.inputDir) {
-    throw new ConfigError('No inputDir was specified in your config. Which files do you want to publish?');
+    throw new ConfigError('Invalid inputDir in your config. You need to tell Doxicity which files to process!');
   }
 
   // Check for an output directory
   if (!config.outputDir) {
-    throw new ConfigError('No outputDir was specified in your config. Where do you want Doxicity to write the files?');
+    throw new ConfigError('Invalid outputDir in your config. You need to tell Doxicity where to publish your site!');
   }
 
   // Verify asset folder name
   if (!config.assetFolderName || config.assetFolderName.includes('/') || config.assetFolderName.includes('\\')) {
     throw new ConfigError(
-      `Invalid assetFolderName: "${config.assetFolderName}". This must be a folder name, not a path.`
+      `Invalid assetFolderName in your config: "${config.assetFolderName}". This should be a folder name, not a path.`
     );
   }
 
   // Verify theme folder name
   if (!config.themeFolderName || config.themeFolderName.includes('/') || config.themeFolderName.includes('\\')) {
     throw new ConfigError(
-      `Invalid themeFolderName: "${config.themeFolderName}". This must be a folder name, not a path.`
+      `Invalid themeFolderName in your config: "${config.themeFolderName}". This should be a folder name, not a path.`
     );
   }
 }

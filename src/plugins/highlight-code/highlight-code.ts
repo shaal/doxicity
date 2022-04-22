@@ -23,7 +23,7 @@ export function highlight(code: string, language: string): string {
     PrismLoader(alias);
 
     if (!Prism.languages[alias]) {
-      throw new Error(`"${language}" is not a supported language for code highlighting.`);
+      throw new Error(`Unsupported language for code highlighting: "${language}"`);
     }
   }
 
