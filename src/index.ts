@@ -103,7 +103,6 @@ async function publishPages() {
     } else {
       console.error(chalk.red((err as Error).message ?? err));
     }
-    // process.exit(3);
   }
 }
 
@@ -112,8 +111,7 @@ if (config.cleanOnPublish) {
   try {
     await clean(config);
   } catch (err) {
-    console.error(chalk.red(`Unable to clean the output directory before publishing: ${(err as Error).message}`));
-    process.exit(4);
+    console.error(chalk.yellow(`Unable to clean the output directory before publishing: ${(err as Error).message}`));
   }
 }
 
@@ -172,8 +170,9 @@ if (options.watch) {
       try {
         await clean(config);
       } catch (err) {
-        console.error(chalk.red(`Unable to clean the output directory before publishing: ${(err as Error).message}`));
-        process.exit(4);
+        console.error(
+          chalk.yellow(`Unable to clean the output directory before publishing: ${(err as Error).message}`)
+        );
       }
 
       try {
