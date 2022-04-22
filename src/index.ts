@@ -132,7 +132,7 @@ if (options.watch) {
       // Watch the target directory
       path.join(targetDirectory, '**/*'),
       // Watch the default theme directory (helpful for dev)
-      path.join(currentDir, '../themes')
+      path.join(config.themeDir)
     ],
     {
       persistent: true,
