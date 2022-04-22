@@ -110,7 +110,7 @@ pre {
   background: var(--docs-color-neutral-100);
   color: var(--docs-color-neutral-900);
   border-radius: var(--docs-border-radius);
-  padding: 1rem;
+  padding: 0;
 }
 
 pre:not(:last-child) {
@@ -123,7 +123,9 @@ pre > code {
   border-radius: 0;
   hyphens: none;
   tab-size: 2;
-  padding: 0;
+  padding: 1rem;
+  white-space: nowrap;
+  overflow: auto;
 }
 
 pre .token.comment {
