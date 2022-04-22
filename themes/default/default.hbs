@@ -18,24 +18,35 @@
     <meta property="og:image" content="{{metadata.image}}" />
   </head>
   <body>
-    <main>
-      <aside class="sidebar">
-        <header>
-          <h1>
-            <a href="/">{{title}}</a>
-          </h1>
-        </header>
+    <button id="docs-menu-toggle" type="button" aria-label="Menu">
+      <svg width="148" height="148" viewBox="0 0 148 148" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="currentColor" stroke-width="18" fill="none" fill-rule="evenodd" stroke-linecap="round">
+          <path d="M9.5 125.5h129M9.5 74.5h129M9.5 23.5h129"></path>
+        </g>
+      </svg>
+    </button>
 
-        <nav class="site-nav">
-          SIDEBAR HERE
-        </nav>
-      </aside>
+    <aside id="docs-sidebar">
+      <header>
+        <h1>
+          <a href="/"><img src="{{themePath 'images/wordmark.svg'}}" alt="{{title}}" /></a>
+        </h1>
+      </header>
 
-      <section class="content">
-        <article>
-          {{{content}}}
-        </article>
-      </section>
+      <nav>
+        Sidebar content goes here
+      </nav>
+    </aside>
+
+    <main id="docs-content">
+      <article>
+        {{{content}}}
+      </article>
     </main>
+
+    <script>
+      const toggle = document.getElementById('docs-menu-toggle'); toggle.addEventListener('click',
+      toggle.addEventListener('click', () => document.documentElement.classList.toggle('docs-menu-toggled')));
+    </script>
   </body>
 </html>
