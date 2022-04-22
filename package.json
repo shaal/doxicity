@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build -- -w",
+    "prepublishOnly": "npm run build",
     "prepare": "husky install",
     "spellcheck": "cspell \"**/*.{js,ts,json,html,css,md}\" --no-progress"
   },
