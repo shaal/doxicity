@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1269px" height="409px" viewBox="0 0 1269 409" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="1165px" height="308px" viewBox="0 0 1165 308" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>wordmark</title>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="wordmark" transform="translate(51.624141, 50.950296)" fill-rule="nonzero">
+        <g id="wordmark" transform="translate(-0.375859, -0.049704)" fill-rule="nonzero">
             <g id="book" transform="translate(126.875859, 154.049704) rotate(-10.000000) translate(-126.875859, -154.049704) translate(22.375859, 16.049704)">
                 <path d="M0,26.0377358 L0,249.962264 C0,265.584906 15.675,276 26.125,276 L209,276 L209,0 L26.125,0 C10.45,0 0,10.4150943 0,26.0377358 Z" id="path3978" fill="#008A00"></path>
                 <polygon id="path3982" fill="#60A917" points="48 225 209 225 209 0 48 0"></polygon>
