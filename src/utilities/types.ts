@@ -16,6 +16,11 @@ export interface DoxicityConfig {
     [key: string]: unknown;
   };
   /**
+   * Set to true when working in dev mode. This prevents templates from being cached and makes publishing less
+   * efficient, but it improves the developer experience.
+   */
+  dev: boolean;
+  /**
    * Custom Handlebars helpers to register for use in templates.
    *
    * For more information, visit: https://handlebarsjs.com/guide/#custom-helpers

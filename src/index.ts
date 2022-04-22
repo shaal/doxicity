@@ -31,6 +31,7 @@ export const defaultConfig: DoxicityConfig = {
   cleanOnPublish: true,
   copyAssets: ['assets/**/*'],
   data: {},
+  dev: false,
   helpers: [],
   inputDir: '.',
   outputDir: '_site',
@@ -126,20 +127,18 @@ try {
 // Watch files for changes
 if (options.watch) {
   console.log(`Watching for changes in: ${targetDirectory}`);
+  const pathsToWatch = [path.join(targetDirectory, '**/*')];
 
-  const watcher = chokidar.watch(
-    [
-      // Watch the target directory
-      path.join(targetDirectory, '**/*'),
-      // Watch the default theme directory (helpful for dev)
-      path.join(config.themeDir)
-    ],
-    {
-      persistent: true,
-      ignored: [path.resolve(config.outputDir)],
-      ignoreInitial: true
-    }
-  );
+  // Watch the themeDir in dev mode so templates and CSS update
+  if (config.dev) {
+    pathsToWatch.push(path.join(config.themeDir));
+  }
+
+  const watcher = chokidar.watch(pathsToWatch, {
+    persistent: true,
+    ignored: [path.resolve(config.outputDir)],
+    ignoreInitial: true
+  });
 
   watcher
     .on('add', async filename => {
@@ -165,6 +164,7 @@ if (options.watch) {
       } else {
         console.log(`File changed: "${filename}"`);
         await Promise.all([copyAssets(config), copyTheme(config)]);
+        await publishPages();
       }
 
       if (options.serve) {

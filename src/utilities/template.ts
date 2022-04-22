@@ -21,7 +21,7 @@ export async function render(
   let template: TemplateDelegate;
 
   // Cache templates for better performance
-  if (templateCache.has(templateName)) {
+  if (templateCache.has(templateName) && !config.dev) {
     template = templateCache.get(templateName)!;
   } else {
     template = Handlebars.compile(source);
