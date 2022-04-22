@@ -108,10 +108,9 @@ if (config.cleanOnPublish) {
   }
 }
 
+// Copy assets, copy themes, and publish pages
 try {
-  // Copy assets and themes
   await Promise.all([copyAssets(config), copyTheme(config)]);
-  // Publish pages
   await publishPages();
 } catch (err) {
   console.error(chalk.red((err as Error).message));
