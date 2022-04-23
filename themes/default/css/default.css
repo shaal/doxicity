@@ -289,6 +289,10 @@ ol ol:last-child {
   display: inline;
 }
 
+aside .anchor-heading:hover::before {
+  display: none;
+}
+
 /* Tables */
 table {
   width: 100%;
@@ -485,6 +489,34 @@ pre .token.italic {
   margin-top: calc(-0.5 * var(--docs-content-vertical-spacing));
 }
 
+/* Aside */
+aside {
+  float: right;
+  min-width: 300px;
+  max-width: 50%;
+  background: var(--docs-color-neutral-100);
+  border-radius: var(--docs-border-radius);
+  padding: 1rem;
+  margin-left: 1rem;
+}
+
+aside > :first-child {
+  margin-top: 0;
+}
+
+aside > :last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 600px) {
+  aside {
+    float: none;
+    width: 100%;
+    max-width: none;
+    margin: var(--docs-content-vertical-spacing) 0;
+  }
+}
+
 /* Details */
 details {
   background-color: var(--docs-color-neutral-100);
@@ -534,6 +566,7 @@ details + details {
   background-color: var(--docs-body-background-color);
   border-right: solid var(--docs-border-width) var(--docs-border-color);
   padding: 2.5rem 2rem 2rem 2rem;
+  margin: 0;
   overflow: auto;
   transition: 250ms transform ease-in-out;
   z-index: 1;
