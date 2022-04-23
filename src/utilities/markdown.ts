@@ -56,6 +56,16 @@ markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'aside', {
   }
 });
 
+// Add cover syntax
+markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'cover', {
+  render: function (tokens: any, idx: number) {
+    if (tokens[idx].nesting === 1) {
+      return `<div class="cover">`;
+    }
+    return '</div>\n';
+  }
+});
+
 // Add details syntax
 markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'details', {
   validate: (params: string) => params.trim().match(/^details\s+(.*)$/),

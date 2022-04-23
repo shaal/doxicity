@@ -603,6 +603,7 @@ details + details {
 
 /* Main content */
 #docs-content {
+  position: relative;
   padding: var(--docs-content-vertical-spacing) var(--docs-content-padding);
   margin-left: var(--docs-sidebar-width);
   transition: 250ms margin ease-in-out, 250ms transform ease-in-out;
@@ -634,6 +635,33 @@ details + details {
 #docs-content > article {
   max-width: var(--docs-content-max-width);
   margin: 0 auto;
+}
+
+/* Cover blocks span the full width of the content section, breaking out of the container's default width. */
+.cover {
+  width: calc(100vw - var(--docs-sidebar-width));
+  position: relative;
+  left: calc(50% + var(--docs-sidebar-width) / 2);
+  right: 50%;
+  background: var(--docs-color-neutral-100);
+  padding: var(--docs-content-vertical-spacing) var(--docs-content-padding);
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.cover > :first-child {
+  margin-top: 0;
+}
+
+.cover > :last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .cover {
+    width: calc(100vw);
+    left: calc(50%);
+  }
 }
 
 /* Menu toggle */
