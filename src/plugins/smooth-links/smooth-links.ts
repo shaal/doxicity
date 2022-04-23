@@ -19,6 +19,7 @@ export default function (): DoxicityPlugin {
                 top: target.offsetTop,
                 behavior: 'smooth'
               });
+              history.replaceState(undefined, undefined, \`#\${id}\`);
             }
           }
         });
