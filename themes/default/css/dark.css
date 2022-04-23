@@ -23,7 +23,7 @@
   --docs-color-neutral-800: var(--docs-color-gray-800);
   --docs-color-neutral-900: var(--docs-color-gray-900);
   --docs-color-neutral-950: var(--docs-color-gray-950);
-  --docs-color-neutral-0: black;
+  --docs-color-neutral-0: var(--docs-color-neutral-50);
   --docs-color-neutral-1000: white;
 
   --docs-color-warning-50: var(--docs-color-amber-50);

@@ -2,12 +2,18 @@
 @import 'dark.css';
 
 :root {
+  --docs-font-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --docs-font-serif: Georgia, serif;
+  --docs-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   --docs-body-background-color: var(--docs-color-neutral-0);
   --docs-body-color: var(--docs-color-neutral-1000);
-  --docs-body-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --docs-body-font: var(--docs-font-sans-serif);
+  --docs-body-font-size: 16px;
   --docs-body-line-height: 1.5;
-  --docs-code-font: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+  --docs-font-weight-normal: 400;
+  --docs-font-weight-semibold: 500;
+  --docs-font-weight-bold: 700;
   --docs-heading-font: var(--docs-body-font);
   --docs-border-color: var(--docs-color-neutral-200);
   --docs-border-width: 1px;
@@ -33,6 +39,11 @@
   outline-offset: var(--docs-focus-ring-offset);
 }
 
+::selection {
+  background-color: var(--docs-color-primary-300);
+  /* color: var(--docs-color-neutral-1000); */
+}
+
 html {
   height: 100%;
   box-sizing: border-box;
@@ -43,7 +54,8 @@ html {
 
 body {
   height: 100%;
-  font: 16px var(--docs-body-font);
+  font: var(--docs-body-font-size) var(--docs-body-font);
+  font-weight: var(--docs-font-weight-normal);
   background-color: var(--docs-body-background-color);
   line-height: var(--docs-body-line-height);
   color: var(--docs-body-color);
@@ -60,7 +72,25 @@ h4,
 h5,
 h6 {
   font-family: var(--docs-heading-font);
-  margin-bottom: 1.5rem;
+  margin: 0;
+}
+
+h1:not(:first-child),
+h2:not(:first-child),
+h3:not(:first-child),
+h4:not(:first-child),
+h5:not(:first-child),
+h6:not(:first-child) {
+  margin-top: 1.5rem;
+}
+
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
+  margin-top: 0.5rem;
 }
 
 article h1 {
@@ -79,6 +109,70 @@ a {
 a:hover {
   color: var(--docs-color-primary-700);
   text-decoration: underline;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: var(--docs-font-weight-bold);
+}
+
+blockquote {
+  font-family: var(--docs-font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  background-color: var(--docs-color-neutral-100);
+  border-radius: var(--docs-border-radius);
+  padding: 1.5rem;
+  margin: 0 -2rem;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 1230px) {
+  blockquote {
+    border-radius: 0;
+  }
+}
+
+/* Lists */
+ul,
+ol {
+  padding: 0;
+  margin: 0 0 1.5rem 1rem;
+}
+
+ul {
+  list-style: disc;
+}
+
+li {
+  padding: 0;
+  margin: 0 0 0.5rem 0;
+}
+
+kbd {
+  background: var(--docs-color-neutral-100);
+  border: solid 1px var(--docs-color-neutral-200);
+  box-shadow: inset 0 1px 0 0 var(--docs-color-neutral-0);
+  font-family: var(--docs-font-mono);
+  border-radius: 2px;
+  color: var(--docs-color-neutral-700);
+  padding: 0.125em 0.25em;
+}
+
+mark {
+  background-color: var(--docs-color-yellow-200);
+  border-radius: var(--docs-border-radius) 0 var(--docs-border-radius) 0;
+  padding: 0.125em 0.25em;
 }
 
 /* Anchor headings */
@@ -107,10 +201,12 @@ a:hover {
 /* Code blocks */
 pre {
   position: relative;
-  background: var(--docs-color-neutral-100);
+  background-color: var(--docs-color-neutral-100);
+  font-family: var(--docs-font-mono);
   color: var(--docs-color-neutral-900);
   border-radius: var(--docs-border-radius);
   padding: 0;
+  white-space: pre;
 }
 
 pre:not(:last-child) {
@@ -124,7 +220,7 @@ pre > code {
   hyphens: none;
   tab-size: 2;
   padding: 1rem;
-  white-space: nowrap;
+  white-space: pre;
   overflow: auto;
 }
 
@@ -195,9 +291,15 @@ pre .token.italic {
 
 /* Inline code */
 code {
+  font-family: var(--docs-font-mono);
   background-color: rgba(0 0 0 / 0.05);
-  border-radius: var(--docs-border-radius);
+  background-blend-mode: darken;
+  border-radius: var(--docs-border-radius) 0 var(--docs-border-radius) 0;
   padding: 0.125em 0.25em;
+}
+
+.docs-theme-dark code {
+  background-color: rgba(255 255 255 / 0.05);
 }
 
 /* Copy code button */
@@ -213,6 +315,10 @@ code {
   border: none;
   cursor: pointer;
   transition: 100ms all;
+}
+
+.docs-theme-dark .copy-code-button {
+  background: var(--docs-color-neutral-300);
 }
 
 .copy-code-button:hover {
@@ -240,7 +346,7 @@ code {
 /* Callouts */
 .callout {
   background-color: var(--docs-color-neutral-100);
-  border-left: solid 4px var(--docs-color-neutral-300);
+  border-left: solid 4px var(--docs-color-neutral-500);
   border-radius: var(--docs-border-radius);
   padding: 1.5rem;
 }
@@ -259,24 +365,24 @@ code {
 
 .callout--tip {
   background-color: var(--docs-color-primary-100);
-  border-left-color: var(--docs-color-primary-400);
+  border-left-color: var(--docs-color-primary-500);
 }
 
 .callout--warning {
   background-color: var(--docs-color-warning-100);
-  border-left-color: var(--docs-color-warning-400);
+  border-left-color: var(--docs-color-warning-500);
 }
 
 .callout--danger {
   background-color: var(--docs-color-danger-100);
-  border-left-color: var(--docs-color-danger-400);
+  border-left-color: var(--docs-color-danger-500);
 }
 
 /* Details */
 details {
   background-color: var(--docs-color-neutral-100);
   border-radius: var(--docs-border-radius);
-  padding: 1.5rem;
+  padding: 1rem;
   margin: 1.5rem 0;
 }
 
@@ -285,6 +391,7 @@ details summary {
   padding: 1rem;
   margin: -1rem;
   cursor: pointer;
+  user-select: none;
 }
 
 details summary span {
@@ -389,7 +496,7 @@ details > :last-child {
   left: 0.25rem;
   height: auto;
   width: auto;
-  color: var(--docs-color-primary-700);
+  color: var(--docs-color-neutral-900);
   border: none;
   border-radius: var(--docs-border-radius);
   background: var(--docs-body-background-color);
