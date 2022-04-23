@@ -23,6 +23,7 @@
   --docs-focus-ring: solid 3px var(--docs-color-primary-700);
   --docs-sidebar-width: 300px;
   --docs-content-padding: 2rem;
+  --docs-content-vertical-spacing: 2rem;
 }
 
 *,
@@ -74,6 +75,7 @@ h4,
 h5,
 h6 {
   font-family: var(--docs-heading-font);
+  font-weight: var(--docs-font-weight-semibold);
   margin: 0;
 }
 
@@ -83,7 +85,31 @@ h3:not(:first-child),
 h4:not(:first-child),
 h5:not(:first-child),
 h6:not(:first-child) {
-  margin-top: 1.5rem;
+  margin-top: 3rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  font-size: 1.625rem;
+}
+
+h4 {
+  font-size: 1.375rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+}
+
+h6 {
+  font-size: 0.875rem;
 }
 
 h1 + p,
@@ -95,19 +121,30 @@ h6 + p {
   margin-top: 0.5rem;
 }
 
-article h1 {
-  font-size: 2rem;
-}
-
 p {
-  margin-bottom: 1.5rem;
+  margin-block-end: 1.25em;
 }
 
 img {
   display: block;
   width: calc(100% + (var(--docs-content-padding) * 2));
   height: auto;
-  margin: 0 calc(-1 * var(--docs-content-padding)) 1.5rem calc(-1 * var(--docs-content-padding));
+  border-radius: var(--docs-border-radius);
+  margin: 0 calc(-1 * var(--docs-content-padding)) var(--docs-content-vertical-spacing)
+    calc(-1 * var(--docs-content-padding));
+}
+
+.callout img,
+details img {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media screen and (max-width: 1230px) {
+  img {
+    border-radius: 0;
+  }
 }
 
 a {
@@ -179,7 +216,7 @@ blockquote {
   font-size: 1.25rem;
   font-style: italic;
   background-color: var(--docs-color-neutral-100);
-  border-radius: var(--docs-border-radius);
+  border-left: solid 6px var(--docs-color-neutral-300);
   padding: 1.5rem;
   margin: 0 calc(-1 * var(--docs-content-padding)) 1.5rem calc(-1 * var(--docs-content-padding));
 }
@@ -202,7 +239,7 @@ blockquote > :last-child {
 ul,
 ol {
   padding: 0;
-  margin: 0 0 1.5rem 1rem;
+  margin: 0 0 var(--docs-content-vertical-spacing) 1rem;
 }
 
 ul {
@@ -234,6 +271,7 @@ ol ol:last-child {
 
 .anchor-heading:hover {
   text-decoration: none;
+  color: inherit;
 }
 
 .anchor-heading::before {
@@ -241,7 +279,7 @@ ol ol:last-child {
   position: absolute;
   content: '#';
   left: -1em;
-  color: var(--docs-color-neutral-400);
+  color: var(--docs-color-primary-700);
   font-weight: normal;
 }
 
@@ -254,7 +292,8 @@ table {
   width: 100%;
   border: none;
   border-collapse: collapse;
-  margin-bottom: 1.5rem;
+  color: inherit;
+  margin-bottom: var(--docs-content-vertical-spacing);
 }
 
 table tr {
@@ -268,7 +307,11 @@ table th {
 
 table td,
 table th {
-  padding: 0.75rem 1rem;
+  padding: 1rem 1rem;
+}
+
+table td {
+  white-space: nowrap;
 }
 
 /* Code blocks */
@@ -283,7 +326,7 @@ pre {
 }
 
 pre:not(:last-child) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--docs-content-vertical-spacing);
 }
 
 pre > code {
@@ -405,14 +448,12 @@ pre .token.italic {
 
 /* Callouts */
 .callout {
+  position: relative;
   background-color: var(--docs-color-neutral-100);
-  border-left: solid 4px var(--docs-color-neutral-500);
-  border-radius: var(--docs-border-radius);
+  border-left: solid 6px var(--docs-color-neutral-500);
+  color: var(--docs-color-neutral-800);
   padding: 1.5rem;
-}
-
-.callout:not(:last-child) {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--docs-content-vertical-spacing);
 }
 
 .callout > :first-child {
@@ -426,16 +467,19 @@ pre .token.italic {
 .callout--tip {
   background-color: var(--docs-color-primary-100);
   border-left-color: var(--docs-color-primary-500);
+  color: var(--docs-color-primary-800);
 }
 
 .callout--warning {
   background-color: var(--docs-color-warning-100);
   border-left-color: var(--docs-color-warning-500);
+  color: var(--docs-color-warning-800);
 }
 
 .callout--danger {
   background-color: var(--docs-color-danger-100);
   border-left-color: var(--docs-color-danger-500);
+  color: var(--docs-color-danger-800);
 }
 
 /* Details */
@@ -443,7 +487,7 @@ details {
   background-color: var(--docs-color-neutral-100);
   border-radius: var(--docs-border-radius);
   padding: 1rem;
-  margin: 1.5rem 0;
+  margin: 0 0 var(--docs-content-vertical-spacing) 0;
 }
 
 details summary {
@@ -459,6 +503,9 @@ details summary span {
 }
 
 details[open] summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 0 2px 0 0 var(--docs-color-neutral-0);
   margin-bottom: 1rem;
 }
 
@@ -486,6 +533,7 @@ details > :last-child {
   padding: 2.5rem 2rem 2rem 2rem;
   overflow: auto;
   transition: 250ms transform ease-in-out;
+  z-index: 1;
 }
 
 #docs-sidebar > header {
@@ -519,7 +567,7 @@ details > :last-child {
 
 /* Main content */
 #docs-content {
-  padding: 1.5rem var(--docs-content-padding);
+  padding: var(--docs-content-vertical-spacing) var(--docs-content-padding);
   margin-left: var(--docs-sidebar-width);
   transition: 250ms margin ease-in-out, 250ms transform ease-in-out;
 }
