@@ -1,6 +1,6 @@
 # Doxicity
 
-A static site generator for documentation.
+A tool for writing better documentation.
 
 Built with love in New Hampshire.
 
