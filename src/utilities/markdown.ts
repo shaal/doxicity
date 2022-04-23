@@ -46,6 +46,16 @@ markdown.use(markdownItMark);
   });
 });
 
+// Add aside syntax
+markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'aside', {
+  render: function (tokens: any, idx: number) {
+    if (tokens[idx].nesting === 1) {
+      return `<aside>`;
+    }
+    return '</aside>\n';
+  }
+});
+
 // Add details syntax
 markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'details', {
   validate: (params: string) => params.trim().match(/^details\s+(.*)$/),
