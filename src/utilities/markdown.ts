@@ -8,8 +8,10 @@ import frontMatter from 'front-matter';
 import MarkdownIt from 'markdown-it';
 import markdownItAttrs from 'markdown-it-attrs';
 import markdownItContainer from 'markdown-it-container';
+/* @ts-expect-error - no types */
+import markdownItIns from 'markdown-it-ins';
 import markdownItKbd from 'markdown-it-kbd';
-/* @ts-expect-error no types */
+/* @ts-expect-error - no types */
 import markdownItMark from 'markdown-it-mark';
 
 const markdown = MarkdownIt({
@@ -28,6 +30,7 @@ markdown.use(markdownItAttrs, {
   rightDelimiter: '}',
   allowedAttributes: ['class', 'id', 'style', 'title', /^data-/]
 });
+markdown.use(markdownItIns);
 markdown.use(markdownItKbd);
 markdown.use(markdownItMark);
 
