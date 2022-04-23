@@ -6,7 +6,6 @@
 import fs from 'fs/promises';
 import frontMatter from 'front-matter';
 import MarkdownIt from 'markdown-it';
-import markdownItAttrs from 'markdown-it-attrs';
 import markdownItContainer from 'markdown-it-container';
 /* @ts-expect-error - no types */
 import markdownItIns from 'markdown-it-ins';
@@ -24,12 +23,6 @@ const markdown = MarkdownIt({
   quotes: '“”‘’'
 });
 
-// Add attributes plugin
-markdown.use(markdownItAttrs, {
-  leftDelimiter: '{',
-  rightDelimiter: '}',
-  allowedAttributes: ['class', 'id', 'style', 'title', /^data-/]
-});
 markdown.use(markdownItIns);
 markdown.use(markdownItKbd);
 markdown.use(markdownItMark);
