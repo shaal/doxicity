@@ -22,6 +22,7 @@
   --docs-focus-ring-offset: 1px;
   --docs-focus-ring: solid 3px var(--docs-color-primary-700);
   --docs-sidebar-width: 300px;
+  --docs-sidebar-transition-speed: 250ms;
   --docs-content-padding: 2rem;
   --docs-content-vertical-spacing: 2rem;
 }
@@ -568,7 +569,7 @@ details + details {
   padding: 2.5rem 2rem 2rem 2rem;
   margin: 0;
   overflow: auto;
-  transition: 250ms transform ease-in-out;
+  transition: var(--docs-sidebar-transition-speed) transform ease-in-out;
   z-index: 1;
 }
 
@@ -606,7 +607,8 @@ details + details {
   position: relative;
   padding: var(--docs-content-vertical-spacing) var(--docs-content-padding);
   margin-left: var(--docs-sidebar-width);
-  transition: 250ms margin ease-in-out, 250ms transform ease-in-out;
+  transition: var(--docs-sidebar-transition-speed) margin ease-in-out,
+    var(--docs-sidebar-transition-speed) transform ease-in-out;
 }
 
 .docs-menu-toggled #docs-content {
@@ -647,6 +649,11 @@ details + details {
   padding: var(--docs-content-vertical-spacing) var(--docs-content-padding);
   margin-left: -50vw;
   margin-right: -50vw;
+}
+
+.docs-menu-toggled .cover {
+  width: 100vw;
+  left: 50%;
 }
 
 .cover > :first-child {
