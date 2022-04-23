@@ -94,6 +94,7 @@ h1 {
 
 h2 {
   font-size: 1.875rem;
+  border-bottom: solid var(--docs-border-width) var(--docs-border-color);
 }
 
 h3 {
@@ -112,26 +113,12 @@ h6 {
   font-size: 0.875rem;
 }
 
-h1 + p,
-h2 + p,
-h3 + p,
-h4 + p,
-h5 + p,
-h6 + p {
-  margin-top: 0.5rem;
-}
-
 p {
   margin-block-end: 1.25em;
 }
 
 img {
-  display: block;
-  width: calc(100% + (var(--docs-content-padding) * 2));
-  height: auto;
-  border-radius: var(--docs-border-radius);
-  margin: 0 calc(-1 * var(--docs-content-padding)) var(--docs-content-vertical-spacing)
-    calc(-1 * var(--docs-content-padding));
+  max-width: 100%;
 }
 
 .callout img,
@@ -182,7 +169,7 @@ kbd {
   border: solid 1px var(--docs-color-neutral-200);
   box-shadow: inset 0 1px 0 0 var(--docs-color-neutral-0);
   font-family: var(--docs-font-mono);
-  border-radius: var(--docs-border-radius) 0 var(--docs-border-radius) 0;
+  border-radius: 2px;
   color: var(--docs-color-neutral-700);
   padding: 0.125em 0.25em;
 }
@@ -190,7 +177,7 @@ kbd {
 ins {
   background-color: var(--docs-color-green-200);
   color: var(--docs-color-green-900);
-  border-radius: var(--docs-border-radius) 0 var(--docs-border-radius) 0;
+  border-radius: 2px;
   text-decoration: none;
   padding: 0.125em 0.25em;
 }
@@ -198,7 +185,7 @@ ins {
 s {
   background-color: var(--docs-color-red-200);
   color: var(--docs-color-red-900);
-  border-radius: var(--docs-border-radius) 0 var(--docs-border-radius) 0;
+  border-radius: 2px;
   text-decoration: none;
   padding: 0.125em 0.25em;
 }
@@ -206,7 +193,7 @@ s {
 mark {
   background-color: var(--docs-color-yellow-200);
   color: var(--docs-color-neutral-1000);
-  border-radius: var(--docs-border-radius) 0 var(--docs-border-radius) 0;
+  border-radius: 2px;
   padding: 0.125em 0.25em;
 }
 
@@ -227,12 +214,6 @@ blockquote > :first-child {
 
 blockquote > :last-child {
   margin-bottom: 0;
-}
-
-@media screen and (max-width: 1230px) {
-  blockquote {
-    border-radius: 0;
-  }
 }
 
 /* Lists */
@@ -308,10 +289,6 @@ table th {
 table td,
 table th {
   padding: 1rem 1rem;
-}
-
-table td {
-  white-space: nowrap;
 }
 
 /* Code blocks */
