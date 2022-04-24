@@ -15,7 +15,7 @@ echo "# This is amazing\n\nYour content goes here." > index.md
 doxicity
 ```
 
-By default, your documentation site will be output in a folder called `_site`.
+By default, your documentation site will be output in a folder called `docs`.
 
 ## Configuration
 
@@ -24,7 +24,7 @@ You can configure your Doxicity site by adding a file called `doxicity.config.js
 ```js
 export default {
   inputDir: '.',
-  outputDir: '_site',
+  outputDir: 'docs',
   helpers: [],
   copyAssets: ['assets/**/*'],
   dev: true,

@@ -34,7 +34,7 @@ export const defaultConfig: DoxicityConfig = {
   dev: false,
   helpers: [],
   inputDir: '.',
-  outputDir: '_site',
+  outputDir: 'docs',
   partials: [],
   plugins: [],
   themeDir: path.join(currentDir, '../themes/default'),
