@@ -19,8 +19,7 @@ const markdown = MarkdownIt({
   breaks: false,
   langPrefix: 'language-',
   linkify: false,
-  typographer: false,
-  quotes: '“”‘’'
+  typographer: false
 });
 
 markdown.use(markdownItIns);
