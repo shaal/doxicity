@@ -33,7 +33,7 @@ export default {
 };
 ```
 
-::: tip
+:::tip
 TypeScript users can import the `DoxicityConfig` type to get a strongly typed config.
 :::
 
