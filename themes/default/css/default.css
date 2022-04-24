@@ -136,12 +136,6 @@ details img {
   margin-right: 0;
 }
 
-@media screen and (max-width: 1230px) {
-  img {
-    border-radius: 0;
-  }
-}
-
 a {
   color: var(--docs-color-primary-700);
   text-decoration: none;
@@ -221,7 +215,7 @@ blockquote {
   border-radius: var(--docs-border-radius);
   border-left: solid 6px var(--docs-color-neutral-300);
   padding: 1.5rem;
-  margin: 0 calc(-1 * var(--docs-content-padding)) 1.5rem calc(-1 * var(--docs-content-padding));
+  margin: 0 0 1.5rem 0;
 }
 
 blockquote > :first-child {
@@ -230,12 +224,6 @@ blockquote > :first-child {
 
 blockquote > :last-child {
   margin-bottom: 0;
-}
-
-@media screen and (max-width: 1230px) {
-  blockquote {
-    border-radius: 0;
-  }
 }
 
 /* Lists */
@@ -512,9 +500,9 @@ aside > :last-child {
 @media screen and (max-width: 600px) {
   aside {
     float: none;
-    width: 100%;
+    width: calc(100% + (var(--docs-content-padding) * 2));
     max-width: none;
-    margin: var(--docs-content-vertical-spacing) 0;
+    margin: var(--docs-content-vertical-spacing) calc(-1 * var(--docs-content-padding));
   }
 }
 
