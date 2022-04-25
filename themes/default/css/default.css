@@ -312,7 +312,7 @@ pre {
   font-family: var(--docs-font-mono);
   color: var(--docs-color-neutral-900);
   border-radius: var(--docs-border-radius);
-  padding: 0;
+  padding: 1rem;
   white-space: pre;
 }
 
@@ -326,8 +326,9 @@ pre > code {
   border-radius: 0;
   hyphens: none;
   tab-size: 2;
-  padding: 1rem;
   white-space: pre;
+  padding: 1rem;
+  margin: -1rem;
   overflow: auto;
 }
 
@@ -561,12 +562,61 @@ details + details {
   z-index: 1;
 }
 
+#docs-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+#docs-sidebar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+#docs-sidebar:hover::-webkit-scrollbar-thumb {
+  background: var(--docs-color-neutral-300);
+}
+
+#docs-sidebar:hover::-webkit-scrollbar-track {
+  background: var(--docs-color-neutral-100);
+}
+
 #docs-sidebar > header {
   margin-bottom: 1rem;
 }
 
 #docs-sidebar > header h1 {
   margin: 0;
+}
+
+#docs-sidebar nav li > p {
+  font-weight: var(--docs-font-weight-semibold);
+  border-bottom: solid var(--docs-border-width) var(--docs-border-color);
+  margin: 1.5rem 0 0.25rem 0;
+}
+
+#docs-sidebar ul li a {
+  padding: 0.2rem 0;
+  display: block;
+}
+
+#docs-sidebar nav > ul,
+#docs-sidebar nav > ul > li > ul {
+  padding: 0;
+  margin: 0;
+}
+
+#docs-sidebar nav > ul > li,
+#docs-sidebar nav > ul > li > ul > li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#docs-sidebar nav > ul > li > ul > li {
+  margin-left: 0.5rem;
+}
+
+#docs-sidebar nav > ul > li > ul > li > ul > li {
+  margin-left: 1rem;
 }
 
 #docs-sidebar > header img {
