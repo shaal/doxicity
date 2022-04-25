@@ -34,7 +34,20 @@
       </header>
 
       <nav>
-        Sidebar content goes here
+        {{#>sidebar}}
+          To configure the sidebar, create a file called <code>_sidebar.md</code> and add some links. For example:
+<pre>
+- Section A
+  - [Link 1](1.html)
+  - [Link 2](2.html)
+  - [Link 3](3.html)
+
+- Section B
+  - [Link 4](4.html)
+  - [Link 5](5.html)
+  - [Link 6](6.html)
+</pre>
+        {{/sidebar}}
       </nav>
     </aside>
 

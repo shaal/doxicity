@@ -13,6 +13,10 @@ import markdownItKbd from 'markdown-it-kbd';
 /* @ts-expect-error - no types */
 import markdownItMark from 'markdown-it-mark';
 
+interface RenderOptions {
+  preserveHandlebars: boolean;
+}
+
 const markdown = MarkdownIt({
   html: true,
   xhtmlOut: false,
@@ -82,6 +86,35 @@ export async function parse(file: string) {
 }
 
 /** Renders a string of markdown. */
-export function render(content: string) {
-  return markdown.render(content);
+export function render(content: string, options?: Partial<RenderOptions>) {
+  options = {
+    preserveHandlebars: true,
+    ...options
+  };
+
+  if (!options.preserveHandlebars) {
+    return markdown.render(content);
+  }
+
+  // Temporarily replace Handlebars brackets with placeholders while we render the markdown
+  let html = content
+    .replace(/{{{/g, 'DOXICITY_RAW_START')
+    .replace(/}}}/g, 'DOXICITY_RAW_END')
+    .replace(/{{>/g, 'DOXICITY_PARTIAL_START')
+    .replace(/{{#/g, 'DOXICITY_BLOCK_START')
+    .replace(/{{#>/g, 'DOXICITY_BLOCK_PARTIAL_START')
+    .replace(/{{/g, 'DOXICITY_START')
+    .replace(/}}/g, 'DOXICITY_END');
+
+  html = markdown.render(html);
+
+  // Restore the original brackets
+  return html
+    .replace(/DOXICITY_RAW_START/g, '{{{')
+    .replace(/DOXICITY_RAW_END/g, '}}}')
+    .replace(/DOXICITY_PARTIAL_START/g, '{{>')
+    .replace(/DOXICITY_BLOCK_START/g, '{{#')
+    .replace(/DOXICITY_BLOCK_PARTIAL_START/g, '{{#>')
+    .replace(/DOXICITY_START/g, '{{')
+    .replace(/DOXICITY_END/g, '}}');
 }

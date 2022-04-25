@@ -30,12 +30,6 @@ export interface DoxicityConfig {
   inputDir: string;
   /** The directory to write processed files. */
   outputDir: string;
-  /**
-   * Custom Handlebars partials to register for use in templates.
-   *
-   * For more information, visit: https://handlebarsjs.com/guide/#partials
-   */
-  partials: DoxicityPartial[];
   /** Optional plugins that hook into the Doxicity API and gives you superpowers. */
   plugins: DoxicityPlugin[];
   /** The directory of the theme to use. Assets in this directory will be copied to the resulting assets directory. */
@@ -56,11 +50,6 @@ export interface DoxicityPage {
 export interface DoxicityHelper {
   name: string;
   callback: (args: unknown) => string;
-}
-
-export interface DoxicityPartial {
-  name: string;
-  template: string;
 }
 
 export interface DoxicityPlugin {

@@ -67,6 +67,6 @@ export function registerHelper(name: string, callback: (args: unknown) => string
 }
 
 /** Registers a custom Handlebars partial. */
-export function registerPartial(name: string, template: string) {
-  Handlebars.registerPartial(name, template);
+export function registerPartial(name: string, htmlTemplate: string) {
+  Handlebars.registerPartial(name, htmlTemplate);
 }

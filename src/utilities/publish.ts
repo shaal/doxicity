@@ -5,7 +5,8 @@ import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
 import { registerAssetHelper, registerThemeHelper } from '../helpers/built-ins/paths.js';
-import { parse as parseMarkdown } from '../utilities/markdown.js';
+import { registerStringHelpers } from '../helpers/built-ins/strings.js';
+import { parse as parseMarkdown, render as renderMarkdown } from '../utilities/markdown.js';
 import { registerHelper, registerPartial, render } from '../utilities/template.js';
 import {
   CleanError,
@@ -64,24 +65,46 @@ export async function publish(config: DoxicityConfig) {
   checkConfig(config);
 
   // Register built-in helpers
+  registerStringHelpers();
   registerAssetHelper(config);
   registerThemeHelper(config);
 
   // Register custom helpers and partials
   config.helpers.forEach(helper => registerHelper(helper.name, helper.callback));
-  config.partials.forEach(partial => registerPartial(partial.name, partial.template));
 
-  // Grab a list of markdown files from inputDir
-  const sourceFiles = await globby(path.join(config.inputDir, '**/*.md'));
+  // Grab a list of markdown files from inputDir. Partials are identified by a preceding underscore, e.g. _partial.md.
+  // All other files will be turned into pages.
+  const [partialFiles, pageFiles] = await Promise.all([
+    globby(path.join(config.inputDir, '**/_*.md')),
+    globby(path.join(config.inputDir, '**/[^_]*.md'))
+  ]);
+
+  // Register partials
+  for (const file of partialFiles) {
+    const dirName = path.dirname(file);
+    const baseName = path.basename(file).replace(/^_/, '').replace(/\.md$/, '');
+    // Use path.posix.join() to ensure we always get a forward slash for partials inside folders
+    const name = path.posix.join(path.relative(config.inputDir, dirName), baseName);
+
+    if (name) {
+      const { content } = await parseMarkdown(file);
+      try {
+        const html = renderMarkdown(content, { preserveHandlebars: true });
+        registerPartial(name, html);
+      } catch (err) {
+        throw new Error(`Unable to prerender partial from "${file}": ${(err as Error).message}`);
+      }
+    }
+  }
 
   // Loop through each file
-  for (const file of sourceFiles) {
-    const parsed = await parseMarkdown(file);
-    const templateName = typeof parsed.frontMatter.template === 'string' ? parsed.frontMatter.template : 'default';
-    const templateData = merge(config.data, parsed.frontMatter);
+  for (const file of pageFiles) {
+    const { content, frontMatter } = await parseMarkdown(file);
+    const templateName = typeof frontMatter.template === 'string' ? frontMatter.template : 'default';
+    const templateData = merge(config.data, frontMatter);
     const outFile = getHtmlFilename(config, file);
     let html = '';
-    templateData.content = parsed.content;
+    templateData.content = content;
 
     // Create a Doxicity page object for this page. This will be passed to plugins and used to populate an array of
     // published pages later on.
