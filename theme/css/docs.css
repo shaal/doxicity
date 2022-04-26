@@ -50,7 +50,7 @@
 
 ::selection {
   background-color: var(--docs-color-primary-300);
-  /* color: var(--docs-color-neutral-1000); */
+  color: var(--docs-color-neutral-900);
 }
 
 html {
@@ -207,6 +207,7 @@ hr {
 
 /* Blockquotes */
 blockquote {
+  position: relative;
   font-family: var(--docs-font-serif);
   font-size: 1.33rem;
   font-style: italic;
@@ -445,7 +446,7 @@ pre .token.italic {
   border-left: solid 6px var(--docs-color-neutral-500);
   border-radius: var(--docs-border-radius);
   color: var(--docs-color-neutral-800);
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
   margin-bottom: var(--docs-content-vertical-spacing);
 }
 
@@ -463,16 +464,46 @@ pre .token.italic {
   color: var(--docs-color-primary-800);
 }
 
+.callout::before {
+  content: '';
+  position: absolute;
+  top: calc(50% - 0.8rem);
+  left: calc(-0.8rem - 3px);
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--docs-font-serif);
+  font-weight: var(--docs-font-weight-bold);
+  color: var(--docs-color-neutral-0);
+  clip-path: circle(50% at 50% 50%);
+}
+
+.callout--tip::before {
+  content: 'i';
+  background-color: var(--docs-color-primary-500);
+}
+
 .callout--warning {
   background-color: var(--docs-color-warning-100);
   border-left-color: var(--docs-color-warning-500);
-  color: var(--docs-color-warning-800);
+}
+
+.callout--warning::before {
+  content: '!';
+  background-color: var(--docs-color-warning-500);
 }
 
 .callout--danger {
   background-color: var(--docs-color-danger-100);
   border-left-color: var(--docs-color-danger-500);
   color: var(--docs-color-danger-800);
+}
+
+.callout--danger::before {
+  content: '!';
+  background-color: var(--docs-color-danger-500);
 }
 
 .callout + .callout {
@@ -534,7 +565,11 @@ details[open] summary {
   margin-bottom: 1rem;
 }
 
-details :last-child {
+details[open] summary:focus-visible {
+  border-radius: var(--docs-border-radius);
+}
+
+details > :last-child {
   margin-bottom: 0;
 }
 
@@ -543,7 +578,7 @@ details > :nth-child(2) {
 }
 
 details + details {
-  margin-top: calc(-1 * var(--docs-content-vertical-spacing) + var(--docs-border-width));
+  margin-top: calc(-1 * var(--docs-content-vertical-spacing) + (2 * var(--docs-border-width)));
 }
 
 /* Sidebar */
@@ -653,7 +688,7 @@ details + details {
   margin-left: 0;
 }
 
-#docs-content > article :last-child {
+#docs-content > article > :last-child {
   margin-bottom: 0;
 }
 

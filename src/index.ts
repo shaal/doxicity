@@ -18,8 +18,6 @@ import type { DoxicityConfig } from './utilities/types';
 export const rootDir = path.resolve(new URL('../', import.meta.url).pathname);
 export const themeDir = path.join(rootDir, 'theme');
 
-console.log(rootDir);
-
 const bs = browserSync.create();
 let targetDirectory = process.cwd();
 let config: DoxicityConfig;
