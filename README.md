@@ -1,4 +1,4 @@
-# Doxicity
+<img src="./themes/default/images/workmark.svg" alt="Doxicity" style="max-width: 360px;">
 
 Write amazing docs. Fast, free, and flexible
 
