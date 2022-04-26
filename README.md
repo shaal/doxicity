@@ -1,6 +1,6 @@
 # Doxicity
 
-A tool for writing better documentation.
+Write amazing docs. Fast, free, and flexible
 
 Built with love in New Hampshire.
 
