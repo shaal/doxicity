@@ -482,6 +482,7 @@ pre .token.italic {
 
 .callout--tip::before {
   content: 'i';
+  font-style: italic;
   background-color: var(--docs-color-primary-500);
 }
 
@@ -502,7 +503,7 @@ pre .token.italic {
 }
 
 .callout--danger::before {
-  content: '!';
+  content: '‼';
   background-color: var(--docs-color-danger-500);
 }
 
