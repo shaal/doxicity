@@ -15,8 +15,12 @@ import { isMarkdownFile } from './utilities/file.js';
 import { clean, copyAssets, copyTheme, publish } from './utilities/publish.js';
 import type { DoxicityConfig } from './utilities/types';
 
+export const rootDir = path.resolve(new URL('../', import.meta.url).pathname);
+export const themeDir = path.join(rootDir, 'theme');
+
+console.log(rootDir);
+
 const bs = browserSync.create();
-const currentDir = new URL('.', import.meta.url).pathname;
 let targetDirectory = process.cwd();
 let config: DoxicityConfig;
 
@@ -36,7 +40,6 @@ export const defaultConfig: DoxicityConfig = {
   inputDir: '.',
   outputDir: 'docs',
   plugins: [],
-  themeDir: path.join(currentDir, '../themes/default'),
   themeFolderName: 'theme'
 };
 
@@ -130,7 +133,7 @@ if (options.watch) {
 
   // Watch the themeDir in dev mode so templates and CSS update
   if (config.dev) {
-    pathsToWatch.push(path.join(config.themeDir));
+    pathsToWatch.push(themeDir);
   }
 
   const watcher = chokidar.watch(pathsToWatch, {

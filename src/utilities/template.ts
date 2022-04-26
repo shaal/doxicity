@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import chalk from 'chalk';
 import Handlebars from 'handlebars';
+import { themeDir } from '../index.js';
 import { TemplateRenderError } from './errors.js';
 import { render as renderMarkdown } from './markdown.js';
 import type { DoxicityConfig, DoxicityPage } from './types';
@@ -16,7 +17,8 @@ export async function render(
   data: Record<string, unknown>,
   config: DoxicityConfig
 ): Promise<string> {
-  const source = await resolve(templateName, config.themeDir);
+  const file = path.join(themeDir, `${templateName}.hbs`);
+  const source = await fs.readFile(file, 'utf8');
   const filename = path.relative(config.inputDir, page.inputFile);
   let template: TemplateDelegate;
 
@@ -47,17 +49,6 @@ export async function render(
       page,
       `Unable to render template "${templateName}" in "${filename}":\n\n${chalk.yellow(err as string)}`
     );
-  }
-}
-
-/** Looks for the specified template in the user's theme directory. Returns the template's source. */
-async function resolve(templateName: string, themeDir: string) {
-  try {
-    const file = path.resolve(themeDir, `${templateName}.hbs`);
-    const source = await fs.readFile(file, 'utf8');
-    return source;
-  } catch {
-    throw new Error(`Unable to resolve template "${templateName}"`);
   }
 }
 

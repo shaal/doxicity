@@ -4,8 +4,9 @@ import cpy from 'cpy';
 import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
-import { registerAssetHelper, registerThemeHelper } from '../helpers/built-ins/paths.js';
-import { registerStringHelpers } from '../helpers/built-ins/strings.js';
+import { registerAssetHelper, registerThemeHelper } from '../helpers/paths/paths.js';
+import { registerStringHelpers } from '../helpers/strings/strings.js';
+import { themeDir } from '../index.js';
 import { parse as parseMarkdown, render as renderMarkdown } from '../utilities/markdown.js';
 import { registerHelper, registerPartial, render } from '../utilities/template.js';
 import {
@@ -168,21 +169,21 @@ export async function publish(config: DoxicityConfig) {
 
 /** Copies assets to the asset folder */
 export async function copyAssets(config: DoxicityConfig) {
-  const assetPath = path.join(config.outputDir, config.assetFolderName);
+  const targetDir = path.join(config.outputDir, config.assetFolderName);
   const filesToCopy = config.copyAssets.map(glob => path.resolve(config.inputDir, glob));
 
   checkConfig(config);
 
-  await fs.mkdir(assetPath, { recursive: true });
-  await cpy(filesToCopy, assetPath);
+  await fs.mkdir(targetDir, { recursive: true });
+  await cpy(filesToCopy, targetDir);
 }
 
 /** Copies theme files to the theme folder */
 export async function copyTheme(config: DoxicityConfig) {
-  const themeDir = path.join(config.outputDir, config.themeFolderName);
+  const targetDir = path.join(config.outputDir, config.themeFolderName);
 
   checkConfig(config);
 
-  await fs.mkdir(themeDir, { recursive: true });
-  await cpy([path.join(config.themeDir, '**/*'), '!**/*.hbs'], themeDir);
+  await fs.mkdir(targetDir, { recursive: true });
+  await cpy([path.join(themeDir, '**/*'), '!**/*.hbs'], targetDir);
 }

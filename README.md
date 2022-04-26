@@ -1,6 +1,6 @@
 # Doxicity
 
-Write amazing docs. Fast, free, and flexible
+_Write amazing docs. Fast, free, and flexible._
 
 Built with love in New Hampshire.
 

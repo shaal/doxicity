@@ -32,8 +32,6 @@ export interface DoxicityConfig {
   outputDir: string;
   /** Optional plugins that hook into the Doxicity API and gives you superpowers. */
   plugins: DoxicityPlugin[];
-  /** The directory of the theme to use. Assets in this directory will be copied to the resulting assets directory. */
-  themeDir: string;
   /**
    * The name of the folder to publish your theme to. This should not be a full path, only a folder name. Defaults to
    * "theme".
