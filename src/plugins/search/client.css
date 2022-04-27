@@ -28,7 +28,7 @@ body.site-search-visible {
 .site-search__panel {
   display: flex;
   flex-direction: column;
-  max-width: 460px;
+  max-width: 500px;
   max-height: calc(100vh - 20rem);
   background-color: var(--docs-color-neutral-0);
   border-radius: calc(3 * var(--docs-border-radius));
