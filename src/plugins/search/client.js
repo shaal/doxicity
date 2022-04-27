@@ -208,7 +208,7 @@
         .split(' ')
         .map((term, index, arr) => `${term}${index === arr.length - 1 ? `* ${term}~1` : '~1'}`)
         .join(' ');
-      const matches = hasQuery ? searchIndex.search(searchTokens) : [];
+      const matches = hasQuery ? searchIndex.search(`${query} ${searchTokens}`) : [];
       const hasResults = hasQuery && matches.length > 0;
 
       siteSearch.classList.toggle('site-search--has-results', hasQuery && hasResults);
