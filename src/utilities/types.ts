@@ -40,6 +40,7 @@ export interface DoxicityConfig {
 }
 
 export interface DoxicityPage {
+  pathname: string;
   inputFile: string;
   outputFile: string;
   data: Record<string, unknown>;

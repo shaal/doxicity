@@ -1,5 +1,12 @@
 :root,
 .docs-theme-light {
+  --docs-overlay-color: hsl(240 3.8% 46.1% / 33%);
+  --docs-shadow-x-small: 0 1px 2px hsl(240 3.8% 46.1% / 12%);
+  --docs-shadow-small: 0 1px 2px hsl(240 3.8% 46.1% / 24%);
+  --docs-shadow-medium: 0 2px 4px hsl(240 3.8% 46.1% / 24%);
+  --docs-shadow-large: 0 2px 8px hsl(240 3.8% 46.1% / 24%);
+  --docs-shadow-x-large: 0 4px 16px hsl(240 3.8% 46.1% / 24%);
+
   /* Palettes */
   --docs-color-primary-50: var(--docs-color-green-50);
   --docs-color-primary-100: var(--docs-color-green-100);

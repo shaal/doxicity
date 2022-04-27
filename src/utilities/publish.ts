@@ -104,12 +104,14 @@ export async function publish(config: DoxicityConfig) {
     const templateName = typeof frontMatter.template === 'string' ? frontMatter.template : 'default';
     const templateData = merge(config.data, frontMatter);
     const outFile = getHtmlFilename(config, file);
+    const { pathname } = new URL(`https://internal/${path.relative(config.outputDir, outFile)}`);
     let html = '';
     templateData.content = content;
 
     // Create a Doxicity page object for this page. This will be passed to plugins and used to populate an array of
     // published pages later on.
     const page: DoxicityPage = {
+      pathname,
       inputFile: file,
       outputFile: outFile,
       data: templateData
@@ -123,7 +125,11 @@ export async function publish(config: DoxicityConfig) {
     }
 
     // Run transform plugins
-    const doc = new JSDOM(html).window.document;
+    const doc = new JSDOM(html, {
+      // We must set a default URL so links are parsed with a hostname. Let's use a bogus TLD so we can identify which
+      // links are internal and which links are external.
+      url: `https://internal/`
+    }).window.document;
     for (const plugin of config.plugins) {
       if (plugin.transform) {
         try {

@@ -64,46 +64,35 @@ function stripWhitespace(string: string) {
 
 /** Makes in-page links scroll smoothly. */
 export default function (options: Partial<SearchOptions>): DoxicityPlugin {
-  const pagesToIndex: PagesToIndex[] = [];
-  let hasClientBeenCopied = false;
+  let pagesToIndex: PagesToIndex[] = [];
 
   options = {
     ignore: () => false,
-    getTitle: doc => doc.querySelector('h1')?.textContent ?? doc.querySelector('title')?.textContent ?? '',
+    getTitle: doc => doc.querySelector('title')?.textContent?.trim() ?? '',
     getDescription: doc => doc.querySelector('meta[name="description"]')?.getAttribute('content') ?? '',
-    getHeadings: doc => [...doc.querySelectorAll('h2, h3, h4')].map(heading => heading.textContent ?? ''),
-    getContent: doc => doc.querySelector('body')?.textContent ?? '',
+    getHeadings: doc => [...doc.querySelectorAll('h2, h3, h4')].map(heading => heading.textContent?.trim() ?? ''),
+    getContent: doc => doc.querySelector('body')?.textContent?.trim() || '',
     searchDirName: 'search',
     ...options
   };
 
   return {
-    transform: async (doc, page, config) => {
+    transform: (doc, page, config) => {
       const searchDir = path.join(config.outputDir, config.assetFolderName, options.searchDirName!);
-      const scriptFilename = path.join(searchDir, 'client.js');
-      const stylesFilename = path.join(searchDir, 'client.css');
+      const clientScriptFilename = path.join(searchDir, 'client.js');
+      const clientStylesFilename = path.join(searchDir, 'client.css');
 
-      // Copy the search client to the search directory
-      if (!hasClientBeenCopied) {
-        await fs.mkdir(path.dirname(scriptFilename), { recursive: true });
-        await Promise.all([
-          fs.copyFile('../src/plugins/search/client.js', scriptFilename),
-          fs.copyFile('../src/plugins/search/client.css', stylesFilename)
-        ]);
-        hasClientBeenCopied = true;
-      }
+      // Add the search client to the page
+      const clientScript = doc.createElement('script');
+      clientScript.src = getRelativeUrl(config, clientScriptFilename);
+      clientScript.defer = true;
+      doc.body.append(clientScript);
 
-      // Append the script to the page
-      const script = doc.createElement('script');
-      script.src = getRelativeUrl(config, scriptFilename);
-      script.type = 'module';
-      doc.body.append(script);
-
-      // Append the styles to the page
-      const link = doc.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = getRelativeUrl(config, stylesFilename);
-      doc.head.append(link);
+      // Add the search styles to the page
+      const clientStyles = doc.createElement('link');
+      clientStyles.rel = 'stylesheet';
+      clientStyles.href = getRelativeUrl(config, clientStylesFilename);
+      doc.head.append(clientStyles);
 
       // Store data for the search index
       const title = stripWhitespace(options.getTitle!(doc));
@@ -115,12 +104,25 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
 
       return doc;
     },
-    afterAll: (_pages, config) => {
+    afterAll: async (_pages, config) => {
       const searchIndexFilename = path.join(
         config.outputDir,
         config.assetFolderName,
         path.join(options.searchDirName!, 'search.json')
       );
+
+      // Copy the search client to the search directory
+      const searchDir = path.join(config.outputDir, config.assetFolderName, options.searchDirName!);
+      const clientScriptFilename = path.join(searchDir, 'client.js');
+      const clientStylesFilename = path.join(searchDir, 'client.css');
+      const searchIndexUrl = getRelativeUrl(config, searchIndexFilename);
+      const lunrSource = `${await fs.readFile('../node_modules/lunr/lunr.min.js', 'utf8')}\n`;
+      const scriptSource =
+        lunrSource +
+        (await fs.readFile('../src/plugins/search/client.js', 'utf8')).replace(/SEARCH_INDEX_URL/g, searchIndexUrl);
+      await fs.mkdir(path.dirname(clientScriptFilename), { recursive: true });
+      await fs.copyFile('../src/plugins/search/client.css', clientStylesFilename);
+      await fs.writeFile(clientScriptFilename, scriptSource, 'utf8');
 
       // Build the Lunr search index
       const searchIndex = lunr(async function () {
@@ -142,6 +144,9 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
         // Write the search index
         await fs.mkdir(path.dirname(searchIndexFilename), { recursive: true });
         await fs.writeFile(searchIndexFilename, JSON.stringify({ searchIndex, map }), 'utf8');
+
+        // Reset the index for the next run
+        pagesToIndex = [];
       });
     }
   };
