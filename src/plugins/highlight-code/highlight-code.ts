@@ -41,7 +41,7 @@ export function highlight(code: string, language: string): string {
  * to your website. Prism themes can be found here: https://github.com/PrismJS/prism-themes
  */
 export default function (options: Partial<HighlightCodeOptions>): DoxicityPlugin {
-  options = {
+  const opts: HighlightCodeOptions = {
     ignoreMissingLangs: true,
     ...options
   };
@@ -57,7 +57,7 @@ export default function (options: Partial<HighlightCodeOptions>): DoxicityPlugin
             try {
               code.innerHTML = highlight(code.textContent ?? '', language);
             } catch (err) {
-              if (!options.ignoreMissingLangs) {
+              if (!opts.ignoreMissingLangs) {
                 throw new Error((err as Error).message);
               }
             }

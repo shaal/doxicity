@@ -10,7 +10,7 @@ interface CopyCodeOptions {
  * handle the copy functionality, a small script will be appended to the body.
  */
 export default function (options: Partial<CopyCodeOptions>): DoxicityPlugin {
-  options = {
+  const opts: CopyCodeOptions = {
     label: 'Copy',
     ...options
   };
@@ -24,7 +24,7 @@ export default function (options: Partial<CopyCodeOptions>): DoxicityPlugin {
         const button = doc.createElement('button');
         button.setAttribute('type', 'button');
         button.classList.add('copy-code-button');
-        button.textContent = options.label!;
+        button.textContent = opts.label;
         pre.append(button);
         hasCodeBlock = true;
       });

@@ -54,9 +54,11 @@ markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'aside', {
 
 // Add cover syntax
 markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'cover', {
-  render: function (tokens: any, idx: number) {
+  validate: (params: string) => params.trim().match(/^cover\s+(.*)$/),
+  render: (tokens: any, idx: number) => {
+    const m = tokens[idx].info.trim().match(/^cover\s+(.*)$/);
     if (tokens[idx].nesting === 1) {
-      return `<div class="cover">`;
+      return `<div class="cover ${markdown.utils.escapeHtml(m[1])}">`;
     }
     return '</div>\n';
   }
@@ -87,12 +89,12 @@ export async function parse(file: string) {
 
 /** Renders a string of markdown. */
 export function render(content: string, options?: Partial<RenderOptions>) {
-  options = {
+  const opts: RenderOptions = {
     preserveHandlebars: true,
     ...options
   };
 
-  if (!options.preserveHandlebars) {
+  if (!opts.preserveHandlebars) {
     return markdown.render(content);
   }
 

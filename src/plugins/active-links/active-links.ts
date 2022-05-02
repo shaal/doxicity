@@ -10,7 +10,7 @@ interface SafeLinksOptions {
 
 /** Transforms external links to make them safer and optionally add a target. */
 export default function (options: Partial<SafeLinksOptions>): DoxicityPlugin {
-  options = {
+  const opts: SafeLinksOptions = {
     className: 'active-link',
     within: 'body',
     ...options
@@ -18,7 +18,7 @@ export default function (options: Partial<SafeLinksOptions>): DoxicityPlugin {
 
   return {
     transform: (doc, page) => {
-      doc.querySelectorAll(options.within!).forEach(el => {
+      doc.querySelectorAll(opts.within).forEach(el => {
         el.querySelectorAll('a').forEach(link => {
           // Ignore external links
           if (isExternalLink(link)) {
@@ -26,7 +26,7 @@ export default function (options: Partial<SafeLinksOptions>): DoxicityPlugin {
           }
 
           if (normalizePathname(link.pathname) === normalizePathname(page.pathname)) {
-            link.classList.add(options.className!);
+            link.classList.add(opts.className);
           }
         });
       });

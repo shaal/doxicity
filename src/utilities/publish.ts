@@ -124,12 +124,18 @@ export async function publish(config: DoxicityConfig) {
       throw new TemplateRenderError(page, (err as Error).message);
     }
 
-    // Run transform plugins
+    // Parse the template and get a Document object
     const doc = new JSDOM(html, {
       // We must set a default URL so links are parsed with a hostname. Let's use a bogus TLD so we can identify which
       // links are internal and which links are external.
       url: `https://internal/`
     }).window.document;
+
+    // Inject head and body content from config
+    doc.head.innerHTML = `${doc.head.innerHTML}\n${config.appendToHead}`;
+    doc.body.innerHTML = `${doc.body.innerHTML}\n${config.appendToBody}`;
+
+    // Run transform plugins
     for (const plugin of config.plugins) {
       if (plugin.transform) {
         try {
@@ -139,6 +145,8 @@ export async function publish(config: DoxicityConfig) {
         }
       }
     }
+
+    // Serialize the Document object to HTML
     html = doc.documentElement.outerHTML;
 
     // Run afterTransform plugins

@@ -33,9 +33,9 @@ interface SearchOptions {
    */
   getTitle: (doc: Document) => string;
   /**
-   * A function that fetches the page description you want to index from the DOM. The description is added to
-   * search.json so you can show it in search results. By default, it will be fetched from
-   * <meta name="description"> if the tag exists. This function should return a plain text description, not HTML.
+   * A function that fetches the page description you want to index from the DOM. The description is added to the search
+   * index so you can show it in search results. By default, it will be fetched from <meta name="description"> if the
+   * tag exists. This function should return a plain text description, not HTML.
    */
   getDescription: (doc: Document) => string;
   /**
@@ -64,9 +64,7 @@ function stripWhitespace(string: string) {
 
 /** Makes in-page links scroll smoothly. */
 export default function (options: Partial<SearchOptions>): DoxicityPlugin {
-  let pagesToIndex: PagesToIndex[] = [];
-
-  options = {
+  const opts: SearchOptions = {
     ignore: () => false,
     getTitle: doc => doc.querySelector('title')?.textContent?.trim() ?? '',
     getDescription: doc => doc.querySelector('meta[name="description"]')?.getAttribute('content') ?? '',
@@ -75,12 +73,13 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
     searchDirName: 'search',
     ...options
   };
+  let pagesToIndex: PagesToIndex[] = [];
 
   return {
     transform: (doc, page, config) => {
-      const searchDir = path.join(config.outputDir, config.assetFolderName, options.searchDirName!);
-      const clientScriptFilename = path.join(searchDir, 'client.js');
-      const clientStylesFilename = path.join(searchDir, 'client.css');
+      const searchDir = path.join(config.outputDir, config.assetFolderName, opts.searchDirName);
+      const clientScriptFilename = path.join(searchDir, 'search-client.js');
+      const clientStylesFilename = path.join(searchDir, 'search-client.css');
 
       // Add the search client to the page
       const clientScript = doc.createElement('script');
@@ -95,10 +94,10 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
       doc.head.append(clientStyles);
 
       // Store data for the search index
-      const title = stripWhitespace(options.getTitle!(doc));
-      const description = stripWhitespace(options.getDescription!(doc));
-      const headings = options.getHeadings!(doc).map(stripWhitespace);
-      const content = stripWhitespace(options.getContent!(doc));
+      const title = stripWhitespace(opts.getTitle(doc));
+      const description = stripWhitespace(opts.getDescription(doc));
+      const headings = opts.getHeadings(doc).map(stripWhitespace);
+      const content = stripWhitespace(opts.getContent(doc));
       const url = getRelativeUrl(config, page.outputFile);
       pagesToIndex.push({ page, title, description, headings, content, url });
 
@@ -108,34 +107,37 @@ export default function (options: Partial<SearchOptions>): DoxicityPlugin {
       const searchIndexFilename = path.join(
         config.outputDir,
         config.assetFolderName,
-        path.join(options.searchDirName!, 'search.json')
+        path.join(opts.searchDirName, 'search-index.json')
       );
 
       // Copy the search client to the search directory
-      const searchDir = path.join(config.outputDir, config.assetFolderName, options.searchDirName!);
-      const clientScriptFilename = path.join(searchDir, 'client.js');
-      const clientStylesFilename = path.join(searchDir, 'client.css');
+      const searchDir = path.join(config.outputDir, config.assetFolderName, opts.searchDirName);
+      const clientScriptFilename = path.join(searchDir, 'search-client.js');
+      const clientStylesFilename = path.join(searchDir, 'search-client.css');
       const searchIndexUrl = getRelativeUrl(config, searchIndexFilename);
       const lunrSource = `${await fs.readFile('../node_modules/lunr/lunr.min.js', 'utf8')}\n`;
       const scriptSource =
         lunrSource +
-        (await fs.readFile('../src/plugins/search/client.js', 'utf8')).replace(/SEARCH_INDEX_URL/g, searchIndexUrl);
+        (await fs.readFile('../src/plugins/search/search-client.js', 'utf8')).replace(
+          /SEARCH_INDEX_URL/g,
+          searchIndexUrl
+        );
       await fs.mkdir(path.dirname(clientScriptFilename), { recursive: true });
-      await fs.copyFile('../src/plugins/search/client.css', clientStylesFilename);
+      await fs.copyFile('../src/plugins/search/search-client.css', clientStylesFilename);
       await fs.writeFile(clientScriptFilename, scriptSource, 'utf8');
 
       // Build the Lunr search index
       const searchIndex = lunr(async function () {
         let index = 0;
 
-        // The search index uses these field names extensively, so shortening them saves serious bytes in search.json
+        // The search index uses these field names extensively, so shortening them saves a lot of bytes
         this.ref('id'); // id
         this.field('t', { boost: 10 }); // title
         this.field('h', { boost: 5 }); // headings
         this.field('c'); // content
 
         for (const page of pagesToIndex) {
-          if (options.ignore!(page.page)) continue;
+          if (opts.ignore(page.page)) continue;
           this.add({ id: index, t: page.title, h: page.headings, c: page.content });
           map[index] = { title: page.title, description: page.description, url: page.url };
           index++;

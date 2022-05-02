@@ -29,6 +29,8 @@ interface CommandLineOptions {
 }
 
 export const defaultConfig: DoxicityConfig = {
+  appendToBody: '',
+  appendToHead: '',
   assetFolderName: 'assets',
   cleanOnPublish: true,
   copyAssets: ['assets/**/*'],
@@ -36,7 +38,7 @@ export const defaultConfig: DoxicityConfig = {
   dev: false,
   helpers: [],
   inputDir: '.',
-  outputDir: 'docs',
+  outputDir: '_docs',
   plugins: [],
   themeFolderName: 'theme'
 };
@@ -156,7 +158,6 @@ if (options.watch) {
       }
     })
     .on('change', async filename => {
-      console.log('change');
       // A file was changed
       if (isMarkdownFile(filename)) {
         console.log(`Page changed: "${filename}"`);

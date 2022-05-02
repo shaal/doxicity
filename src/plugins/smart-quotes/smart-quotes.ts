@@ -9,14 +9,14 @@ interface SmartQuotesOptions {
 
 /** Adds smart quotes and some typography enhancements to selected content. */
 export default function (options: Partial<SmartQuotesOptions>): DoxicityPlugin {
-  options = {
+  const opts: SmartQuotesOptions = {
     selector: 'main',
     ...options
   };
 
   return {
     transform: doc => {
-      const elements = [...doc.querySelectorAll(options.selector!)];
+      const elements = [...doc.querySelectorAll(opts.selector)];
       // eslint-disable-next-line
       elements.forEach(el => smartquotes.element(el));
       return doc;

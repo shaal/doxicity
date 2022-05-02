@@ -46,17 +46,17 @@
   --docs-color-warning-900: var(--docs-color-amber-900);
   --docs-color-warning-950: var(--docs-color-amber-950);
 
-  --docs-color-danger-50: var(--docs-color-red-50);
-  --docs-color-danger-100: var(--docs-color-red-100);
-  --docs-color-danger-200: var(--docs-color-red-200);
-  --docs-color-danger-300: var(--docs-color-red-300);
-  --docs-color-danger-400: var(--docs-color-red-400);
-  --docs-color-danger-500: var(--docs-color-red-500);
-  --docs-color-danger-600: var(--docs-color-red-600);
-  --docs-color-danger-700: var(--docs-color-red-700);
-  --docs-color-danger-800: var(--docs-color-red-800);
-  --docs-color-danger-900: var(--docs-color-red-900);
-  --docs-color-danger-950: var(--docs-color-red-950);
+  --docs-color-danger-50: var(--docs-color-rose-50);
+  --docs-color-danger-100: var(--docs-color-rose-100);
+  --docs-color-danger-200: var(--docs-color-rose-200);
+  --docs-color-danger-300: var(--docs-color-rose-300);
+  --docs-color-danger-400: var(--docs-color-rose-400);
+  --docs-color-danger-500: var(--docs-color-rose-500);
+  --docs-color-danger-600: var(--docs-color-rose-600);
+  --docs-color-danger-700: var(--docs-color-rose-700);
+  --docs-color-danger-800: var(--docs-color-rose-800);
+  --docs-color-danger-900: var(--docs-color-rose-900);
+  --docs-color-danger-950: var(--docs-color-rose-950);
 
   /* Gray */
   --docs-color-gray-50: hsl(0 0% 97.5%);

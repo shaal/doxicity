@@ -268,7 +268,7 @@
   document.addEventListener('keydown', event => {
     if (
       !isShowing &&
-      event.key === '/' &&
+      (event.key === '/' || (event.key === 'k' && (event.metaKey || event.ctrlKey))) &&
       !event.composedPath().some(el => ['input', 'textarea'].includes(el?.tagName?.toLowerCase()))
     ) {
       event.preventDefault();

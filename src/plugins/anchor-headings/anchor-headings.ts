@@ -15,7 +15,7 @@ interface AnchorHeadingsOptions {
 
 /** Converts headings to anchors for easier deep linking. */
 export default function (options: Partial<AnchorHeadingsOptions>): DoxicityPlugin {
-  options = {
+  const opts: AnchorHeadingsOptions = {
     levels: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
     className: 'anchor-heading',
     within: 'main',
@@ -24,7 +24,7 @@ export default function (options: Partial<AnchorHeadingsOptions>): DoxicityPlugi
 
   return {
     transform: doc => {
-      const within = doc.querySelector(options.within!);
+      const within = doc.querySelector(opts.within);
 
       if (!within) {
         return doc;
@@ -46,12 +46,12 @@ export default function (options: Partial<AnchorHeadingsOptions>): DoxicityPlugi
 
         heading.setAttribute('id', id);
         anchor.setAttribute('href', `#${encodeURIComponent(id)}`);
-        if (options.className) {
-          anchor.classList.add(options.className);
+        if (opts.className) {
+          anchor.classList.add(opts.className);
         }
 
         // Wrap the interior of the heading with the link
-        if (options.levels?.includes(heading.tagName.toLowerCase() as HeadingLevel)) {
+        if (opts.levels?.includes(heading.tagName.toLowerCase() as HeadingLevel)) {
           const headingHtml = heading.innerHTML;
           anchor.innerHTML = headingHtml;
           heading.innerHTML = anchor.outerHTML;

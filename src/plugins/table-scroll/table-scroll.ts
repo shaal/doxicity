@@ -11,7 +11,7 @@ interface TableScrollOptions {
 
 /** Adds a <div class="table-wrapper"> element around tables so when they overflow you can make them scroll. */
 export default function (options: Partial<TableScrollOptions>): DoxicityPlugin {
-  options = {
+  const opts: TableScrollOptions = {
     className: 'table-scroll',
     styles: {
       maxWidth: '100%',
@@ -26,12 +26,12 @@ export default function (options: Partial<TableScrollOptions>): DoxicityPlugin {
       const tables = [...doc.querySelectorAll('table')];
       tables.forEach(table => {
         const div = doc.createElement('div');
-        div.classList.add(options.className!);
+        div.classList.add(opts.className);
 
-        Object.keys(options.styles ?? {}).forEach(property => {
+        Object.keys(opts.styles ?? {}).forEach(property => {
           /* @ts-expect-error - setting styles */
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          div.style[property] = options.styles![property];
+          div.style[property] = opts.styles[property];
         });
 
         table.insertAdjacentElement('beforebegin', div);

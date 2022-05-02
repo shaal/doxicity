@@ -78,7 +78,7 @@ function makeNav(doc: Document, headings: HTMLHeadingElement[], container: Eleme
 
 /** Generates a table of contents from headings on the page. */
 export default function (options: Partial<TableOfContentsOptions>): DoxicityPlugin {
-  options = {
+  const opts: TableOfContentsOptions = {
     target: '.table-of-contents',
     startLevel: 'h2',
     endLevel: 'h4',
@@ -88,9 +88,9 @@ export default function (options: Partial<TableOfContentsOptions>): DoxicityPlug
 
   return {
     transform: doc => {
-      const within = options.within ? doc.querySelector(options.within) : doc.body;
-      const startLevel = getHeadingLevel(options.startLevel!);
-      const endLevel = getHeadingLevel(options.endLevel!);
+      const within = opts.within ? doc.querySelector(opts.within) : doc.body;
+      const startLevel = getHeadingLevel(opts.startLevel);
+      const endLevel = getHeadingLevel(opts.endLevel);
       const levelsToInclude = [1, 2, 3, 4, 5, 6].slice(startLevel - 1, endLevel);
       const headingSelector = levelsToInclude.map(level => `h${level}`).join(',');
 
@@ -104,7 +104,7 @@ export default function (options: Partial<TableOfContentsOptions>): DoxicityPlug
 
       // Add the table of contents to the target container(s), but only if nav items exist
       if (nav.children.length > 0) {
-        [...doc.querySelectorAll(options.target!)].forEach((container: Element) => {
+        [...doc.querySelectorAll(opts.target)].forEach((container: Element) => {
           container.innerHTML = nav.outerHTML;
         });
       }
