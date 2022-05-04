@@ -4,7 +4,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'import'],
   extends: ['eslint:recommended'],
   env: {
-    es2021: true,
+    es2022: true,
     browser: true
   },
   reportUnusedDisableDirectives: true,
