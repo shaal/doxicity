@@ -27,6 +27,11 @@
   --docs-content-vertical-spacing: 2rem;
 }
 
+html.docs-theme-dark .only-light,
+html:not(.docs-theme-dark) .only-dark {
+  display: none !important;
+}
+
 @media screen and (max-width: 768px) {
   :root {
     --docs-content-padding: 1rem;
@@ -786,7 +791,7 @@ details + details {
   left: 0.25rem;
   height: auto;
   width: auto;
-  color: var(--docs-color-neutral-900);
+  color: var(--docs-color-neutral-700);
   border: none;
   border-radius: 50%;
   background: var(--docs-body-background-color);

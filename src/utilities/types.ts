@@ -17,6 +17,27 @@ export interface DoxicityConfig {
   copyAssets: string[];
   /** Global data to be passed to every page. */
   data: {
+    meta?: {
+      /** The logo to use in light mode. */
+      logo?: string;
+      /** Optional logo to use in dark mode. */
+      logoDark?: string;
+      /**
+       * By default, this will be set to the current page's URL. You can override it if you want to provide a different
+       * URL for sharing.
+       */
+      url?: string;
+      /** The default title of your documentation website. */
+      title?: string;
+      /** The default description of your documentation website. */
+      description?: string;
+      /** The image to provide to OpenGraph clients. Used primarily when sharing links on third-party websites. */
+      image?: string;
+      /** The favicon to show in browsers and bookmarks. */
+      favicon?: string;
+      /** The Twitter username to provide when sharing on Twitter and supportive platforms. */
+      twitterCreator?: string;
+    };
     [key: string]: unknown;
   };
   /**

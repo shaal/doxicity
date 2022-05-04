@@ -5,17 +5,29 @@
     <title>{{title}}</title>
     <meta name="description" content="{{description}}" />
     <link rel="stylesheet" href="{{themePath 'css/docs.css'}}" />
-    <link rel="icon" href="{{themePath 'images/logo.svg'}}" type="image/x-icon" />
-    <link rel="apple-touch-icon" sizes="180x180" href="{{themePath 'images/logo.svg'}}" />
 
-    {{! Sharing }}
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:creator" content="{{metadata.twitterHandle}}" />
-    <meta property="og:url" content="{{site.url}}{{page.url}}" />
-    <meta property="og:title" content="{{metadata.title}}" />
-    <meta property="og:description" content="{{metadata.description}}" />
-    <meta name="twitter:image" content="{{metadata.image}}" />
-    <meta property="og:image" content="{{metadata.image}}" />
+    {{!-- Favicons --}}
+    {{#use meta.favicon (themePath 'images/logo.svg')}}
+      <link rel="icon" href="{{this}}" type="image/x-icon" />
+      <link rel="apple-touch-icon" sizes="180x180" href="{{this}}" />
+    {{/use}}
+
+    {{! Twitter Cards }}
+    {{#if meta.twitterCreator}}
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:creator" content="{{meta.twitterCreator}}" />
+      {{#if meta.image}}
+        <meta name="twitter:image" content="{{meta.image}}" />
+      {{/if}}
+    {{/if}}
+
+    {{! OpenGraph }}
+    <meta property="og:url" content="{{meta.url}}" />
+    <meta property="og:title" content="{{meta.title}}" />
+    <meta property="og:description" content="{{meta.description}}" />
+    {{#if meta.image}}
+      <meta property="og:image" content="{{meta.image}}" />
+    {{/if}}
   </head>
   <body>
     {{!-- Set the initial theme and menu states early to prevent flashing --}}
@@ -52,7 +64,12 @@
     <aside id="docs-sidebar">
       <header>
         <h1>
-          <a href="/"><img src="{{themePath 'images/wordmark.svg'}}" alt="{{title}}" /></a>
+          <a href="/" class="only-light">
+            <img src="{{themePath 'images/wordmark.svg'}}" alt="{{title}}" />
+          </a>
+          <a href="/" class="only-dark">
+            <img src="{{themePath 'images/wordmark-dark.svg'}}" alt="{{title}}" />
+          </a>
         </h1>
       </header>
 

@@ -4,8 +4,8 @@ import cpy from 'cpy';
 import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
+import { use as useHelper } from '../helpers/logic/logic.js';
 import { registerAssetHelper, registerThemeHelper } from '../helpers/paths/paths.js';
-import { registerStringHelpers } from '../helpers/strings/strings.js';
 import { themeDir } from '../index.js';
 import { parse as parseMarkdown, render as renderMarkdown } from '../utilities/markdown.js';
 import { registerHelper, registerPartial, render } from '../utilities/template.js';
@@ -66,9 +66,9 @@ export async function publish(config: DoxicityConfig) {
   checkConfig(config);
 
   // Register built-in helpers
-  registerStringHelpers();
   registerAssetHelper(config);
   registerThemeHelper(config);
+  registerHelper('use', useHelper);
 
   // Register custom helpers and partials
   config.helpers.forEach(helper => registerHelper(helper.name, helper.callback));
