@@ -21,6 +21,7 @@ export const themeDir = path.join(rootDir, 'theme');
 const bs = browserSync.create();
 let targetDirectory = process.cwd();
 let config: DoxicityConfig;
+let isConfigDirty = false;
 
 interface CommandLineOptions {
   dir: string;
@@ -129,7 +130,7 @@ try {
 // Watch files for changes
 if (options.watch) {
   console.log(`Watching for changes in: ${targetDirectory}`);
-  const pathsToWatch = [path.join(targetDirectory, '**/*')];
+  const pathsToWatch = [path.join(targetDirectory, '**/*'), userConfigFilename];
 
   // Watch the themeDir in dev mode so templates and CSS update
   if (config.dev) {
@@ -159,6 +160,18 @@ if (options.watch) {
     })
     .on('change', async filename => {
       // A file was changed
+      if (filename === userConfigFilename) {
+        isConfigDirty = true;
+      }
+
+      if (isConfigDirty) {
+        console.log(
+          chalk.yellow(
+            `** Your config file has changed! Please restart the dev server for your changes to take effect. **`
+          )
+        );
+      }
+
       if (isMarkdownFile(filename)) {
         console.log(`Page changed: "${filename}"`);
         await publishPages();
@@ -220,7 +233,7 @@ if (options.serve) {
     },
     () => {
       const url = `http://localhost:${port}`;
-      console.log(chalk.cyan(`Launched the Doxicity dev server at ${url} 📚\n`));
+      console.log(chalk.cyan(`Launched the Doxicity dev server at ${url} 📚`));
     }
   );
 }
