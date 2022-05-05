@@ -25,11 +25,25 @@
   --docs-sidebar-transition-speed: 250ms;
   --docs-content-padding: 2rem;
   --docs-content-vertical-spacing: 2rem;
+  --docs-skip-to-main-width: 240px;
 }
 
+/* Utils */
 html.docs-theme-dark .docs-only-light,
 html:not(.docs-theme-dark) .docs-only-dark {
   display: none !important;
+}
+
+.docs-visually-hidden:not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  border: none !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  padding: 0 !important;
 }
 
 @media screen and (max-width: 768px) {
@@ -38,6 +52,7 @@ html:not(.docs-theme-dark) .docs-only-dark {
   }
 }
 
+/* Bare styles */
 *,
 *:before,
 *:after {
@@ -805,13 +820,31 @@ details + details {
   height: 1.25rem;
 }
 
+/* Skip to main content */
+#docs-skip-to-main {
+  position: fixed;
+  top: 0.25rem;
+  left: calc(50% - var(--docs-skip-to-main-width) / 2);
+  z-index: 10;
+  width: var(--docs-skip-to-main-width);
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--docs-border-radius);
+  background: var(--docs-color-neutral-0);
+  color: var(--docs-color-neutral-1000);
+  padding: 0.5rem;
+}
+
 /* Icon addons */
 #docs-icon-addons {
   position: fixed;
   z-index: 10;
-  top: 0.25rem;
-  right: 0.25rem;
+  top: 0;
+  right: 0;
   display: flex;
+  background: var(--docs-color-neutral-0);
+  border-bottom-left-radius: var(--docs-border-radius);
+  padding: 0.25rem;
 }
 
 #docs-icon-addons button,
@@ -830,6 +863,12 @@ details + details {
   padding: 0.5rem;
   margin: 0;
   cursor: pointer;
+  transition: 250ms transform ease;
+}
+
+#docs-icon-addons button:hover,
+#docs-icon-addons a:hover {
+  transform: scale(1.1);
 }
 
 #docs-icon-addons a:not(:last-child),

@@ -11,6 +11,10 @@ export default function (): DoxicityPlugin {
           const link = event.target.closest('a');
           const id = (link?.hash ?? '').substr(1);
 
+          if (link.getAttribute('data-smooth-link') === 'no') {
+            return;
+          }
+
           if (id) {
             const target = document.getElementById(id);
             if (target) {
