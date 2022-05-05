@@ -1,8 +1,4 @@
 export interface DoxicityConfig {
-  /** Content to append to the <body> element of every page. Useful for adding scripts. */
-  appendToBody: string;
-  /** Content to append to the <head> element of every page. Useful for adding stylesheets and other metadata. */
-  appendToHead: string;
   /**
    * The name of the folder to copy assets to. This should not be a full path, only a folder name. Defaults to "assets".
    */

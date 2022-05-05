@@ -2,6 +2,40 @@ body.site-search-visible {
   overflow: hidden;
 }
 
+/* Search box */
+.site-search-box {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: none;
+  border-radius: 9999px;
+  background: var(--docs-color-neutral-100);
+  font: inherit;
+  color: var(--docs-color-neutral-700);
+  padding: 0.75rem 1rem;
+  margin: 0;
+  cursor: pointer;
+}
+
+.site-search-box span {
+  flex: 1 1 auto;
+  width: 1rem;
+  height: 1rem;
+  text-align: left;
+  line-height: 1;
+  margin: 0 1rem;
+}
+
+.site-search-box:focus {
+  outline: none;
+}
+
+.site-search-box:focus-visible {
+  outline: var(--docs-focus-ring);
+}
+
+/* Site search */
 .site-search {
   position: fixed;
   top: 0;

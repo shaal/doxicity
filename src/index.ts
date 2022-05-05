@@ -30,8 +30,6 @@ interface CommandLineOptions {
 }
 
 export const defaultConfig: DoxicityConfig = {
-  appendToBody: '',
-  appendToHead: '',
   assetFolderName: 'assets',
   cleanOnPublish: true,
   copyAssets: ['assets/**/*'],

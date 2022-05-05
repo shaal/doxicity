@@ -131,10 +131,6 @@ export async function publish(config: DoxicityConfig) {
       url: `https://internal/`
     }).window.document;
 
-    // Inject head and body content from config
-    doc.head.innerHTML = `${doc.head.innerHTML}\n${config.appendToHead}`;
-    doc.body.innerHTML = `${doc.body.innerHTML}\n${config.appendToBody}`;
-
     // Run transform plugins
     for (const plugin of config.plugins) {
       if (plugin.transform) {
