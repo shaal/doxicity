@@ -3,22 +3,22 @@ import { getRelativeUrl } from '../../utilities/file.js';
 import { registerHelper } from '../../utilities/template.js';
 import type { DoxicityConfig } from '../../utilities/types';
 
-/** Registers the {{assetPath}} helper. */
+/** Registers the {{asset}} helper. */
 export function registerAssetHelper(config: DoxicityConfig) {
   const callback = (filename: string) => {
     const fullPath = path.join(config.outputDir, config.assetFolderName, filename);
     return getRelativeUrl(config, fullPath);
   };
 
-  registerHelper('assetPath', callback);
+  registerHelper('asset', callback);
 }
 
-/** Registers the {{themePath}} helper. */
+/** Registers the {{theme}} helper. */
 export function registerThemeHelper(config: DoxicityConfig) {
   const callback = (filename: string) => {
     const fullPath = path.join(config.outputDir, config.themeFolderName, filename);
     return getRelativeUrl(config, fullPath);
   };
 
-  registerHelper('themePath', callback);
+  registerHelper('theme', callback);
 }

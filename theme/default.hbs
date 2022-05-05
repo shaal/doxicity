@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}}</title>
     <meta name="description" content="{{description}}" />
-    <link rel="stylesheet" href="{{themePath 'css/docs.css'}}" />
+    <link rel="stylesheet" href="{{theme 'css/docs.css'}}" />
 
     {{!-- Favicons --}}
-    {{#use meta.favicon (themePath 'images/logo.svg')}}
+    {{#use meta.favicon (theme 'images/logo.svg')}}
       <link rel="icon" href="{{this}}" type="image/x-icon" />
       <link rel="apple-touch-icon" sizes="180x180" href="{{this}}" />
     {{/use}}
@@ -72,10 +72,10 @@
       <header>
         <h1>
           <a href="/" class="docs-only-light">
-            <img src="{{themePath 'images/wordmark.svg'}}" alt="{{title}}" />
+            <img src="{{theme 'images/wordmark.svg'}}" alt="{{title}}" />
           </a>
           <a href="/" class="docs-only-dark">
-            <img src="{{themePath 'images/wordmark-dark.svg'}}" alt="{{title}}" />
+            <img src="{{theme 'images/wordmark-dark.svg'}}" alt="{{title}}" />
           </a>
         </h1>
       </header>
@@ -98,7 +98,7 @@
     </main>
 
     {{!-- Menu and theme toggles --}}
-    <script type="module" src="{{themePath 'js/docs.js'}}"></script>
+    <script type="module" src="{{theme 'js/docs.js'}}"></script>
 
     {{!-- If _tail.md exists, it will be injected here --}}
     {{#>tail}}{{/tail}}
