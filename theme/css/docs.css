@@ -28,6 +28,10 @@
   --docs-skip-to-main-width: 200px;
 }
 
+:root:not(.docs-with-sidebar) {
+  --docs-sidebar-width: 0;
+}
+
 /* Utils */
 html.docs-theme-dark .docs-only-light,
 html:not(.docs-theme-dark) .docs-only-dark {
@@ -192,7 +196,7 @@ kbd {
   font-family: var(--docs-font-mono);
   border-radius: var(--docs-border-radius);
   color: var(--docs-color-neutral-700);
-  padding: 0.125em 0.33em;
+  padding: 0.125em 0.4em;
 }
 
 ins {
@@ -737,6 +741,10 @@ details + details {
     var(--docs-sidebar-transition-speed) transform ease-in-out;
 }
 
+html:not(.docs-with-sidebar) #docs-content {
+  margin-left: 0;
+}
+
 .docs-menu-toggled #docs-content {
   margin-left: 0;
 }
@@ -755,7 +763,7 @@ details + details {
     overflow: hidden;
   }
 
-  .docs-menu-toggled #docs-content {
+  html.docs-with-sidebar .docs-menu-toggled #docs-content {
     transform: translateX(calc(var(--docs-sidebar-width)));
   }
 }
@@ -790,6 +798,11 @@ details + details {
 
 .cover > :last-child {
   margin-bottom: 0;
+}
+
+/* When a cover is the first element in the content, make it flush with the top */
+#docs-content article .cover:first-child {
+  margin-top: calc(-1 * var(--docs-content-vertical-spacing));
 }
 
 @media screen and (max-width: 768px) {

@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" {{#unless meta.noSidebar}}class="docs-with-sidebar"{{/unless}}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,13 +42,15 @@
       document.documentElement.classList.toggle('docs-theme-dark', theme === 'dark' || (!theme && prefersDark));
     </script>
 
-    <button id="docs-menu-toggle" type="button" aria-label="Menu">
-      <svg width="148" height="148" viewBox="0 0 148 148" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="currentColor" stroke-width="18" fill="none" fill-rule="evenodd" stroke-linecap="round">
-          <path d="M9.5 125.5h129M9.5 74.5h129M9.5 23.5h129"></path>
-        </g>
-      </svg>
-    </button>
+    {{#unless meta.noSidebar}}
+      <button id="docs-menu-toggle" type="button" aria-label="Menu">
+        <svg width="148" height="148" viewBox="0 0 148 148" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="currentColor" stroke-width="18" fill="none" fill-rule="evenodd" stroke-linecap="round">
+            <path d="M9.5 125.5h129M9.5 74.5h129M9.5 23.5h129"></path>
+          </g>
+        </svg>
+      </button>
+    {{/unless}}
 
     <a id="docs-skip-to-main" class="docs-visually-hidden" href="#main-content" data-smooth-link="no">
       Skip to main content
@@ -68,27 +70,29 @@
       {{/theme-toggle}}
     </div>
 
-    <aside id="docs-sidebar">
-      <header>
-        <h1>
-          <a href="/" class="docs-only-light">
-            <img src="{{theme 'images/wordmark.svg'}}" alt="{{title}}" />
-          </a>
-          <a href="/" class="docs-only-dark">
-            <img src="{{theme 'images/wordmark-dark.svg'}}" alt="{{title}}" />
-          </a>
-        </h1>
-      </header>
+    {{#unless meta.noSidebar}}
+      <aside id="docs-sidebar">
+        <header>
+          <h1>
+            <a href="/" class="docs-only-light">
+              <img src="{{theme 'images/wordmark.svg'}}" alt="{{title}}" />
+            </a>
+            <a href="/" class="docs-only-dark">
+              <img src="{{theme 'images/wordmark-dark.svg'}}" alt="{{title}}" />
+            </a>
+          </h1>
+        </header>
 
-      {{!-- Sidebar addons container --}}
-      <div id="docs-sidebar-addons"></div>
+        {{!-- Sidebar addons container --}}
+        <div id="docs-sidebar-addons"></div>
 
-      <nav>
-        {{#>sidebar}}
-          To configure the sidebar, create a file called <code>_sidebar.md</code> and add some links!
-        {{/sidebar}}
-      </nav>
-    </aside>
+        <nav>
+          {{#>sidebar}}
+            To configure the sidebar, create a file called <code>_sidebar.md</code> and add some links!
+          {{/sidebar}}
+        </nav>
+      </aside>
+    {{/unless}}
 
     <main id="docs-content">
       <a id="main-content"></a>
@@ -97,7 +101,7 @@
       </article>
     </main>
 
-    {{!-- Menu and theme toggles --}}
+    {{!-- Default theme scripts --}}
     <script type="module" src="{{theme 'js/docs.js'}}"></script>
 
     {{!-- If _tail.md exists, it will be injected here --}}

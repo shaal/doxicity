@@ -31,6 +31,8 @@ export interface DoxicityConfig {
       image?: string;
       /** The favicon to show in browsers and bookmarks. */
       favicon?: string;
+      /** Disables the sidebar. You can target individual pages by setting `meta.noSidebar` in your front matter. */
+      noSidebar?: boolean;
       /** The Twitter username to provide when sharing on Twitter and supportive platforms. */
       twitterCreator?: string;
     };
