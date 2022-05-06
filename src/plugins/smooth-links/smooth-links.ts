@@ -11,7 +11,7 @@ export default function (): DoxicityPlugin {
           const link = event.target.closest('a');
           const id = (link?.hash ?? '').substr(1);
 
-          if (link.getAttribute('data-smooth-link') === 'no') {
+          if (!link || link.getAttribute('data-smooth-link') === 'no') {
             return;
           }
 
