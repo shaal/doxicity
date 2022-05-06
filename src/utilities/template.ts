@@ -13,16 +13,18 @@ const templateCache = new Map<string, TemplateDelegate>();
 /** Renders a template and returns the resulting HTML. */
 export async function render(
   page: DoxicityPage,
-  templateName: string,
   data: Record<string, unknown>,
   config: DoxicityConfig
 ): Promise<string> {
+  // Originally, the idea was to allow more than one template in a theme. This probably isn't necessary anymore given
+  // how the app has evolved, but I'm leaving the caching logic intact in case we want to allow this in the future.
+  const templateName = 'default';
   const file = path.join(themeDir, `${templateName}.hbs`);
   const source = await fs.readFile(file, 'utf8');
   const filename = path.relative(config.inputDir, page.inputFile);
   let template: TemplateDelegate;
 
-  // Cache templates for better performance
+  // Cache the template for better performance
   if (templateCache.has(templateName) && !config.dev) {
     template = templateCache.get(templateName)!;
   } else {

@@ -101,7 +101,6 @@ export async function publish(config: DoxicityConfig) {
   // Loop through each file
   for (const file of pageFiles) {
     const { content, frontMatter } = await parseMarkdown(file);
-    const templateName = typeof frontMatter.template === 'string' ? frontMatter.template : 'default';
     const templateData = merge(config.data, frontMatter);
     const outFile = getHtmlFilename(config, file);
     const { pathname } = new URL(`https://internal/${path.relative(config.outputDir, outFile)}`);
@@ -119,7 +118,7 @@ export async function publish(config: DoxicityConfig) {
 
     // Render the Handlebars template
     try {
-      html = await render(page, templateName, templateData, config);
+      html = await render(page, templateData, config);
     } catch (err: Error | unknown) {
       throw new TemplateRenderError(page, (err as Error).message);
     }
