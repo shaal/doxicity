@@ -27,3 +27,23 @@ document.addEventListener('keydown', event => {
     toggleTheme();
   }
 });
+
+// Open details on print
+const detailsOpenOnPrint = new Set();
+
+window.addEventListener('beforeprint', () => {
+  detailsOpenOnPrint.clear();
+  document.querySelectorAll('details').forEach(details => {
+    if (details.open) {
+      detailsOpenOnPrint.add(details);
+    }
+    details.open = true;
+  });
+});
+
+window.addEventListener('afterprint', () => {
+  document.querySelectorAll('details').forEach(details => {
+    details.open = detailsOpenOnPrint.has(details);
+  });
+  detailsOpenOnPrint.clear();
+});

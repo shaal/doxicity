@@ -25,7 +25,7 @@
   --docs-sidebar-transition-speed: 250ms;
   --docs-content-padding: 2rem;
   --docs-content-vertical-spacing: 2rem;
-  --docs-skip-to-main-width: 240px;
+  --docs-skip-to-main-width: 200px;
 }
 
 /* Utils */
@@ -181,7 +181,7 @@ code {
   padding: 0.125em 0.25em;
 }
 
-.docs-theme-dark code {
+.docs-theme-dark :not(pre) > code {
   background-color: rgba(255 255 255 / 0.05);
 }
 
@@ -382,7 +382,7 @@ pre .token.property,
 pre .token.keyword,
 pre .token.tag,
 pre .token.url {
-  color: var(--docs-color-blue-800);
+  color: var(--docs-color-blue-700);
 }
 
 pre .token.symbol,
@@ -432,18 +432,18 @@ pre .token.italic {
   position: absolute;
   top: 0;
   right: 0;
-  background: var(--docs-color-neutral-200);
+  background: var(--docs-color-neutral-100);
   border-top-right-radius: var(--docs-border-radius);
   border-bottom-left-radius: var(--docs-border-radius);
-  color: var(--docs-color-neutral-800);
-  padding: 0.5rem 0.75rem;
   border: none;
+  border-left: solid var(--docs-border-width) var(--docs-color-neutral-0);
+  border-bottom: solid var(--docs-border-width) var(--docs-color-neutral-0);
+  font-size: 0.75rem;
+  color: var(--docs-color-neutral-600);
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
   transition: 100ms all;
-}
-
-.docs-theme-dark .copy-code-button {
-  background: var(--docs-color-neutral-300);
 }
 
 .copy-code-button:hover {
@@ -628,6 +628,7 @@ details + details {
   padding: 2.75rem 2rem 2rem 2rem;
   margin: 0;
   overflow: auto;
+  scrollbar-width: thin;
   transition: var(--docs-sidebar-transition-speed) transform ease-in-out;
   z-index: 1;
 }
@@ -884,4 +885,62 @@ details + details {
 /* Sidebar addons */
 #docs-sidebar-addons:not(:empty) {
   margin-bottom: var(--docs-content-vertical-spacing);
+}
+
+/* Print styles */
+@media print {
+  a[href]::after {
+    content: ' (' attr(href) ')';
+  }
+
+  details,
+  pre,
+  .callout {
+    border: solid var(--docs-border-width) var(--docs-border-color);
+  }
+
+  details summary {
+    list-style: none;
+  }
+
+  details summary span {
+    padding-left: 0;
+  }
+
+  details summary::marker,
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .callout::before {
+    border: solid var(--docs-border-width) var(--docs-border-color);
+  }
+
+  .copy-code-button {
+    display: none;
+  }
+
+  .cover {
+    position: static;
+    width: 100%;
+    left: auto;
+    right: auto;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #docs-sidebar {
+    display: none;
+    transform: none;
+  }
+
+  #docs-content {
+    margin-left: 0;
+  }
+
+  #docs-menu-toggle,
+  #docs-icon-addons,
+  .external-link__icon {
+    display: none;
+  }
 }
