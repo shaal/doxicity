@@ -2,6 +2,7 @@ export { default as activeLinksPlugin } from './plugins/active-links/active-link
 export { default as anchorHeadingsPlugin } from './plugins/anchor-headings/anchor-headings.js';
 export { default as beautifyPlugin } from './plugins/beautify/beautify.js';
 export { default as copyCodePlugin } from './plugins/copy-code/copy-code.js';
+export { default as customTitlePlugin } from './plugins/custom-title/custom-title.js';
 export { default as externalLinksPlugin } from './plugins/external-links/external-links.js';
 export { default as highlightCodePlugin } from './plugins/highlight-code/highlight-code.js';
 export { default as iconAddonPlugin } from './plugins/icon-addon/icon-addon.js';
