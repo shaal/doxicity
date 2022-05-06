@@ -4,7 +4,9 @@
   "description": "Write amazing docs. Fast, free, and flexible.",
   "main": "build/index.js",
   "type": "module",
-  "bin": "./build/index.js",
+  "bin": {
+    "doxicity": "./build/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "npm run build -- -w",
