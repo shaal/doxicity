@@ -889,7 +889,7 @@ details + details {
 
 /* Print styles */
 @media print {
-  a[href]::after {
+  a:not(.anchor-heading)[href]::after {
     content: ' (' attr(href) ')';
   }
 
