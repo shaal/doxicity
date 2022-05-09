@@ -1,0 +1,15 @@
+---
+title: Changelog
+---
+
+# {{title}}
+
+Doxicity follows [Semantic Versioning](https://semver.org/). Breaking changes will not be accepted until the next major version. As such, all contributions must consider the project's roadmap and take this into consideration. Features that are deemed no longer necessary will be deprecated but not removed.
+
+:::warning
+During the beta period, these restrictions may be relaxed in the event of a mission-critical bug. 🐛
+:::
+
+## 1.0.0-beta.3
+
+- Initial release

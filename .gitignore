@@ -1,5 +1,6 @@
 .DS_Store
 .eslintcache
-build
+dist
 node_modules
 _test-site
+_website

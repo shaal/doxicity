@@ -5,7 +5,7 @@
     "lib": ["es2021", "dom", "dom.iterable"],
     "baseUrl": ".",
     "rootDir": "./src",
-    "outDir": "./build",
+    "outDir": "./dist",
     "declaration": true,
     "strict": true,
     "strictPropertyInitialization": false,

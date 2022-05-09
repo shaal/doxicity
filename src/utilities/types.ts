@@ -3,7 +3,7 @@ export interface DoxicityConfig {
    * The name of the folder to copy assets to. This should not be a full path, only a folder name. Defaults to "assets".
    */
   assetFolderName: string;
-  /** Cleans the outputDir before publishing. Defaults to true. */
+  /** Deletes the outputDir before publishing. Defaults to false. */
   cleanOnPublish: boolean;
   /**
    * An array of files to copy to the published assets folder. Supports globs. All directories must be relative to your
@@ -23,9 +23,9 @@ export interface DoxicityConfig {
        * URL for sharing.
        */
       url?: string;
-      /** The default title of your documentation website. */
+      /** The default title of your documentation website, primarily used for sharing. */
       title?: string;
-      /** The default description of your documentation website. */
+      /** The default description of your documentation website, primarily used for sharing. */
       description?: string;
       /** The image to provide to OpenGraph clients. Used primarily when sharing links on third-party websites. */
       image?: string;

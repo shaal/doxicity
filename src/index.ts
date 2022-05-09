@@ -31,7 +31,7 @@ interface CommandLineOptions {
 
 export const defaultConfig: DoxicityConfig = {
   assetFolderName: 'assets',
-  cleanOnPublish: true,
+  cleanOnPublish: false,
   copyAssets: ['assets/**/*'],
   data: {},
   dev: false,

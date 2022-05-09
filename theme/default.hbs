@@ -1,4 +1,11 @@
-<html lang="en" {{#unless meta.noSidebar}}class="docs-with-sidebar"{{/unless}}>
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="
+    {{#if meta.theme}}docs-theme-{{meta.theme}}{{/if}}
+    {{#unless meta.noSidebar}}docs-with-sidebar{{/unless}}
+  "
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
