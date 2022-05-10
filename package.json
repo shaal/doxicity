@@ -61,7 +61,6 @@
   },
   "devDependencies": {
     "@types/browser-sync": "^2.26.3",
-    "@types/chalk": "^2.2.0",
     "@types/command-line-args": "^5.2.0",
     "@types/js-beautify": "^1.13.3",
     "@types/jsdom": "^16.2.14",
