@@ -4,6 +4,8 @@
 
 Doxicity turns a directory of markdown files into a robust, accessible documentation website. You can configure it, add plugins, and use Handlebars expressions to do amazing things.
 
+It's fast, free, and flexible.
+
 Designed in New Hampshire by [Cory LaViska](https://twitter.com/claviska).
 
 <div class="docs-splash__cta">

@@ -5,19 +5,13 @@ description: How to author pages in markdown using Doxicity.
 
 # {{title}}
 
-Everyone loves good documentation, but few actually enjoy creating it. Unfortunately, documentation is often one of the last things to land in a project. Sometimes, it's neglected entirely.
-
-Doxicity removes the friction of creating a documentation website by allowing you to focus on the stuff that matters — content! Using markdown, you can create pages that turn into a robust, accessible documentation website with a single command.
-
 If you're new to markdown, this page will bring you up to speed with what you need to know to get started.
-
-## Intro to Markdown
 
 Markdown is a markup syntax that turns text into HTML. It's a convenient way to go from `[this](this.html)` to `<a href="this.html">this<a>` without having to type all those quotes and brackets. It's built to be as simple as possible — most users can pick up the basics in just a few minutes.
 
-Doxicity mostly adheres to the [CommonMark spec](https://commonmark.org/), but there are a few additional syntaxes that are really helpful when writing docs.
+Doxicity adheres to the [CommonMark spec](https://commonmark.org/), but there are a few additional syntaxes that are really helpful when writing docs.
 
-### Markdown Cheat Sheet
+## Markdown Cheat Sheet
 
 The following table includes a non-exhaustive list of CommonMark syntaxes that are supported. You can expect these to work in Doxicity and most places markdown is supported.
 
@@ -36,7 +30,7 @@ The following table includes a non-exhaustive list of CommonMark syntaxes that a
 | Image           | <pre>\!\[alt text\](image.jpg)</pre>                                                                                           |
 | Table           | <pre>\| Syntax \| Description \|<br>\| ----------- \| ----------- \|<br>\| Header \| Title \|<br>\| Paragraph \| Text \|</pre> |
 
-### Doxicity-flavored Markdown
+## Doxicity-flavored Markdown
 
 The following table includes additional Doxicity-specific markdown syntaxes. You should only expect these to work with Doxicity.
 
