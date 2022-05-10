@@ -1,4 +1,4 @@
-# Doxicity
+# Doxicity 📗
 
 _Write amazing docs. Fast, free, and flexible._
 
