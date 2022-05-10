@@ -1,4 +1,4 @@
-<div class="cover docs-splash docs-theme-dark">
+<div class="docs-cover docs-splash docs-theme-dark">
 <div class="docs-splash__content">
 <img class="docs-splash__logo" src="{{theme 'images/wordmark-dark.svg'}}" alt="Doxicity" />
 
@@ -7,7 +7,7 @@ Doxicity turns a directory of markdown files into a robust, accessible documenta
 Designed in New Hampshire by [Cory LaViska](https://twitter.com/claviska).
 
 <div class="docs-splash__cta">
-  <a class="docs-splash__button" href="#docs-splash-end">Try It</a>
+  <a class="docs-splash__button" href="#docs-splash-end">Learn More</a>
   <a class="docs-splash__button docs-splash__button--outline" href="/quick-start.html">Quick Start</a>
 </div>
 

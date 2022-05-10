@@ -56,7 +56,7 @@ markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'aside', {
 markdown.use(markdownItContainer as MarkdownIt.PluginWithParams, 'cover', {
   render: function (tokens: any, idx: number) {
     if (tokens[idx].nesting === 1) {
-      return `<div class="cover">`;
+      return `<div class="docs-cover">`;
     }
     return '</div>\n';
   }

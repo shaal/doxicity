@@ -788,7 +788,7 @@ html:not(.docs-with-sidebar) #docs-content {
 }
 
 /* Cover blocks span the full width of the content section, breaking out of the container's default width. */
-.cover {
+.docs-cover {
   position: relative;
   width: 100vw;
   left: 50%;
@@ -799,35 +799,35 @@ html:not(.docs-with-sidebar) #docs-content {
     var(--docs-sidebar-transition-speed) width ease-in-out;
 }
 
-.docs-with-sidebar .cover {
+.docs-with-sidebar .docs-cover {
   width: calc(100vw - var(--docs-sidebar-width));
   left: calc(50% + var(--docs-sidebar-width) / 2);
 }
 
-.docs-with-sidebar.docs-menu-toggled .cover {
+.docs-with-sidebar.docs-menu-toggled .docs-cover {
   width: 100vw;
   left: 50%;
 }
 
-.cover img {
+.docs-cover img {
   border-radius: 0;
 }
 
-.cover > :first-child {
+.docs-cover > :first-child {
   margin-top: 0;
 }
 
-.cover > :last-child {
+.docs-cover > :last-child {
   margin-bottom: 0;
 }
 
 /* When a cover is the first element in the content, make it flush with the top */
-#docs-content article .cover:first-child {
+#docs-content article .docs-cover:first-child {
   margin-top: calc(-1 * var(--docs-content-vertical-spacing));
 }
 
 @media screen and (max-width: 768px) {
-  .docs-with-sidebar .cover {
+  .docs-with-sidebar .docs-cover {
     width: 100vw;
     left: 50%;
   }
@@ -954,7 +954,7 @@ html:not(.docs-with-sidebar) #docs-content {
     display: none;
   }
 
-  .cover {
+  .docs-cover {
     position: static;
     width: 100%;
     left: auto;
@@ -1259,7 +1259,7 @@ html:not(.docs-with-sidebar) #docs-content {
 
 .docs-splash__content {
   max-width: 560px;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   padding: 1rem 2rem;
 }
 
@@ -1287,7 +1287,7 @@ html:not(.docs-with-sidebar) #docs-content {
   padding: 1rem 2rem;
   cursor: pointer;
   user-select: none;
-  transition: 250s transform ease;
+  transition: 250ms transform ease;
 }
 
 .docs-splash__button--outline {
@@ -1297,7 +1297,7 @@ html:not(.docs-with-sidebar) #docs-content {
 
 .docs-splash__button:hover {
   color: inherit;
-  transform: scale(1.5);
+  transform: scale(1.025);
 }
 
 .docs-splash__continue {
