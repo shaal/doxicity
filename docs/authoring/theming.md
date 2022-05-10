@@ -1,5 +1,6 @@
 ---
 title: Theming
+description: Doxicity ships with a default theme that you can customize.
 ---
 
 # {{title}}
@@ -25,7 +26,7 @@ Available colors are described on the [configuration page](/config/#all-configur
 
 Sorry, but building all this open source stuff is a lot of work! 😅 If you're reading this, you're one of Doxicity's earliest users. Apologies for any bugs, rough edges, or missing docs — such as this section!
 
-Over the next few weeks, I will continue to improve this website, but for now please refer to the following sections of the project's source code for a complete list of theme tokens that Doxicity provides. Many are self-explanatory, but if anything is unclear, feel free to reach out on the discussion forum.
+I will continue to improve these docs as the project evolves, but for now please refer to the following sections of the project's source code for a complete list of theme tokens that Doxicity provides. Many are self-explanatory, but if anything is unclear, feel free to reach out on the discussion forum.
 
 - [Theme tokens](https://github.com/claviska/doxicity/blob/main/theme/css/docs.css)
 - [Light mode color palettes](https://github.com/claviska/doxicity/blob/main/theme/css/light.css)

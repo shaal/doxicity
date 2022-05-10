@@ -56,7 +56,8 @@
     "markdown-it-kbd": "^2.2.2",
     "markdown-it-mark": "^3.0.1",
     "slugify": "^1.6.5",
-    "smartquotes": "^2.3.2"
+    "smartquotes": "^2.3.2",
+    "url-join": "^5.0.0"
   },
   "devDependencies": {
     "@types/browser-sync": "^2.26.3",

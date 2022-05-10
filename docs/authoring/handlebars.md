@@ -1,5 +1,6 @@
 ---
 title: Using Handlebars
+description: Add logic and more to your docs using Handlebars.
 ---
 
 # {{title}}

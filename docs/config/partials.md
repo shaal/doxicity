@@ -1,5 +1,6 @@
 ---
 title: Partials
+description: Include chunks of contents from any page using partials.
 ---
 
 # {{title}}

@@ -1,6 +1,6 @@
 ---
 title: Welcome to Doxicity
-description: Write amazing docs. Fast, free, and flexible.
+description: Get started here!
 ---
 
 {{>splash}}
@@ -17,6 +17,10 @@ Doxicity removes the friction of creating a documentation website by allowing yo
 
 Doxicity ships with an elegant theme that includes light/dark mode, multiple theme colors, and printer-friendly styles out of the box. Most of its functionality comes from plugins, which are fun to write but incredibly powerful.
 
+:::warning
+👋 Thanks for checking this project out! Doxicity is very young and still experimental, so there may be breaking changes as the project evolves. All changes will be listed [in the changelog](/resources/changelog.html).
+:::
+
 ## Try It
 
 The fastest way to try Doxicity is by running the following commands in your terminal. Installation isn't required, but you'll need to have [Node.js](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) on your machine.
@@ -29,10 +33,6 @@ npx doxicity --serve
 This will create a single markdown filed called `index.md` and publish it to `_docs/index.html`. It will then launch a development server so you can preview your work as you edit. Go ahead and make some changes to `index.md` and watch the browser instantly update. ✨
 
 If this is your first time using Doxicity, please [check out the quick start](/quick-start.html) to see everything you can do!
-
-:::warning
-Doxicity is very young and still in an experimental beta phase. There may be breaking changes now and then as the project evolves. All updates, including instructions for upgrading, will be listed [in the changelog](/resources/changelog.html).
-:::
 
 ## Notable Features
 

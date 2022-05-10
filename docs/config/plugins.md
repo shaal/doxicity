@@ -1,5 +1,6 @@
 ---
 title: Plugins
+description: Learn how to do amazing things with Doxicity's plugin system.
 ---
 
 # {{title}}

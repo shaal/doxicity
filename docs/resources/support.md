@@ -1,5 +1,6 @@
 ---
 title: Help & Support
+description: Have questions? Here's how you can get in touch.
 ---
 
 # {{title}}

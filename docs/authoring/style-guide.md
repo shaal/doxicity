@@ -1,5 +1,6 @@
 ---
 title: Style Guide
+description: A quick demo of various markdown features.
 ---
 
 # {{title}}
@@ -44,8 +45,6 @@ Iste non tenetur recusandae quis porro a hic quam voluptatem? Explicabo accusamu
 
 ## Tables
 
-Tables are pretty useful, don't you think?
-
 | Header  | Another header    | One more                                                               |
 | ------- | ----------------- | ---------------------------------------------------------------------- |
 | field 1 | something         | why not                                                                |
@@ -72,7 +71,7 @@ What did you think? Was it everything you expected it to be?
 
 ## Callouts
 
-Doxicity lets you create special callouts for tips, warnings, and dangerous announcements.
+Create special callouts for tips, warnings, and dangerous announcements.
 
 :::tip
 This is a tip. It's good to call helpful things out.
@@ -108,7 +107,9 @@ This is a dangerous callout. Something will probably break if you're not careful
 #### Just so you know...
 
 This is an aside. You can call things out with it pretty easily. What do you think?
-Sure, there's no markdown syntax for it but we've added it. Just start a line with `:::aside` and end it with `:::` and you're done.
+Just start a line with `:::aside` and end it with `:::` and you're done.
+
+You can even have images and just about any other content in your asides.
 :::
 
 Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste non tenetur recusandae quis porro a hic quam voluptatem? Explicabo accusamus architecto dolore quas blanditiis, hic molestiae illum optio similique aspernatur.
@@ -139,7 +140,7 @@ This is more information that you can consume. It will expand and collapse as ne
 This is more information that you can consume. It will expand and collapse as needed.
 :::
 
-Here's the code.
+Here's the code that creates them.
 
 ```md
 :::details Learn More
@@ -170,7 +171,7 @@ You can do some really cool things with covers because they break out of the usu
 
 Let's _imagine_ we want a section to span the full width of the page. Is that even possible? It sure is! Just add a cover field and you'll get a block-level element that stretches the full body, forming your very own cover section. 
 
-This one isn't that pretty, but padding is intentionally omitted so you have full control over what goes inside here. How about a nice splash for your homepage?
+This one isn't that pretty and probably feels out of place, but imagine using it for a homepage splash or something like that!
 
 </div>
 :::

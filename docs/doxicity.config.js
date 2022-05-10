@@ -16,6 +16,7 @@ import {
 } from '../dist/plugins.js';
 
 export default {
+  url: 'https://doxicity.com/',
   inputDir: '.',
   outputDir: '_website',
   cleanOnPublish: true,
@@ -63,8 +64,9 @@ export default {
   ],
   data: {
     meta: {
-      title: 'Hello, world!',
-      description: 'This is a description of your docs site.'
+      title: 'Doxicity',
+      description: 'Write amazing docs. Fast, free, and flexible.',
+      twitterCreator: 'doxicityApp'
     }
   }
 };

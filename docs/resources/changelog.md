@@ -1,5 +1,6 @@
 ---
 title: Changelog
+description: See what's changed with every version of Doxicity.
 ---
 
 # {{title}}

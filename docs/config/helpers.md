@@ -1,5 +1,6 @@
 ---
 title: Helpers
+description: Extend Doxicity's template engine with your own custom helpers.
 ---
 
 # {{title}}

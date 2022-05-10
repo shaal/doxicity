@@ -14,23 +14,20 @@ export interface DoxicityConfig {
   /** Global data to be passed to every page. */
   data: {
     meta?: {
-      /** The logo to use in light mode. */
-      logo?: string;
-      /** Optional logo to use in dark mode. */
-      logoDark?: string;
-      /**
-       * By default, this will be set to the current page's URL. You can override it if you want to provide a different
-       * URL for sharing.
-       */
-      url?: string;
-      /** The default title of your documentation website, primarily used for sharing. */
+      /** The default title of your documentation website. This will also be the default title when sharing. */
       title?: string;
-      /** The default description of your documentation website, primarily used for sharing. */
+      /**
+       * The default description of your documentation website. This will also be the default description when sharing.
+       */
       description?: string;
       /** The image to provide to OpenGraph clients. Used primarily when sharing links on third-party websites. */
       image?: string;
       /** The favicon to show in browsers and bookmarks. */
       favicon?: string;
+      /** The logo to use in light mode. */
+      logo?: string;
+      /** Optional logo to use in dark mode. */
+      logoDark?: string;
       /** Sets the theme's access color. Defaults to green. */
       primaryColor?:
         | 'gray'
@@ -83,6 +80,8 @@ export interface DoxicityConfig {
    * "theme".
    */
   themeFolderName: string;
+  /** The base URL where your docs will be hosted, e.g. https://example.com/ */
+  url?: string;
 }
 
 export interface DoxicityPage {

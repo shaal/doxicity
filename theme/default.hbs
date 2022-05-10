@@ -16,7 +16,6 @@
     {{!-- Favicons --}}
     {{#use meta.favicon (theme 'images/logo.svg')}}
       <link rel="icon" href="{{this}}" type="image/x-icon" />
-      <link rel="apple-touch-icon" sizes="180x180" href="{{this}}" />
     {{/use}}
 
     {{! Twitter Cards }}
@@ -29,11 +28,13 @@
     {{/if}}
 
     {{! OpenGraph }}
-    <meta property="og:url" content="{{meta.url}}" />
-    <meta property="og:title" content="{{meta.title}}" />
-    <meta property="og:description" content="{{meta.description}}" />
-    {{#if meta.image}}
-      <meta property="og:image" content="{{meta.image}}" />
+    {{#if $url}}
+      <meta property="og:url" content="{{$url}}" />
+      <meta property="og:title" content="{{meta.title}}" />
+      <meta property="og:description" content="{{meta.description}}" />
+      {{#if meta.image}}
+        <meta property="og:image" content="{{meta.image}}" />
+      {{/if}}
     {{/if}}
 
     {{!-- If _head.md exists, it will be injected here --}}
@@ -82,10 +83,14 @@
         <header>
           <h1>
             <a href="/" class="docs-only-light">
-              <img src="{{theme 'images/wordmark.svg'}}" alt="{{title}}" />
+              {{#use meta.logo (theme 'images/wordmark.svg')}}
+                <img src="{{this}}" alt="{{title}}" />
+              {{/use}}
             </a>
             <a href="/" class="docs-only-dark">
-              <img src="{{theme 'images/wordmark-dark.svg'}}" alt="{{title}}" />
+              {{#use meta.logoDark meta.logo (theme 'images/wordmark-dark.svg')}}
+                <img src="{{this}}" alt="{{title}}" />
+              {{/use}}
             </a>
           </h1>
         </header>

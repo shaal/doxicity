@@ -11,6 +11,7 @@
 
 - Authoring Pages
   - [Overview](/authoring/)
+  - [Metadata](/authoring/metadata.html)
   - [Using Handlebars](/authoring/handlebars.html)
   - [Theming](/authoring/theming.html)
   - [Style Guide](/authoring/style-guide.html)

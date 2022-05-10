@@ -4,6 +4,7 @@ import cpy from 'cpy';
 import merge from 'deepmerge';
 import { globby } from 'globby';
 import { JSDOM } from 'jsdom';
+import urlJoin from 'url-join';
 import { use as useHelper, registerAssetHelper, registerThemeHelper } from '../helpers/internal/internal.js';
 import { themeDir } from '../index.js';
 import { parse as parseMarkdown, render as renderMarkdown } from '../utilities/markdown.js';
@@ -104,7 +105,11 @@ export async function publish(config: DoxicityConfig) {
     const outFile = getHtmlFilename(config, file);
     const { pathname } = new URL(`https://internal/${path.relative(config.outputDir, outFile)}`);
     let html = '';
+
+    // Add special properties to template data
     templateData.content = content;
+    templateData.$url = urlJoin(config.url || '', pathname);
+    templateData.$pathname = pathname;
 
     // Create a Doxicity page object for this page. This will be passed to plugins and used to populate an array of
     // published pages later on.

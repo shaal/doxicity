@@ -1,5 +1,6 @@
 ---
 title: Quick Start
+description: Get started with Doxicity in no time at all.
 ---
 
 # {{title}}

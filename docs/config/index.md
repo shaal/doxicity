@@ -1,5 +1,6 @@
 ---
 title: Configuration
+description: Unlock additional features by adding a configuration file.
 ---
 
 # {{title}}
@@ -45,5 +46,4 @@ The following options are available in your config.
 | `inputDir`        | `string`           | The source directory containing your markdown files.                                                                                                                                                                                              |
 | `outputDir`       | `string`           | The directory to write processed files.                                                                                                                                                                                                           |
 | `plugins`         | `DoxicityPlugin[]` | Optional plugins that hook into the Doxicity API and gives you superpowers.                                                                                                                                                                       |
-| `primaryColor`    | `'gray' \| 'red' \| 'orange' \| 'amber' \| 'yellow' \| 'lime' \| 'green' \| 'emerald' \| 'teal' \| 'cyan' \| 'sky' \| 'blue' \| 'indigo' \| 'violet' \| 'purple' \| 'fuchsia' \| 'pink' \| 'rose'` | Sets the theme's access color. Defaults to `green`. |
 | `themeFolderName` | `string`           | The name of the folder to copy theme files to. This should not be a full path, only a folder name. Defaults to `"theme"`. |

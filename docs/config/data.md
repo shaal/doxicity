@@ -1,5 +1,6 @@
 ---
 title: Data
+description: Add data to your pages and do more with Doxicity.
 ---
 
 # {{title}}
@@ -69,17 +70,16 @@ Note that [partials](/concepts/partials.html) cannot contain their own front mat
 
 ## Metadata
 
-Doxicity uses the special `meta` property to configure its default theme. While it's perfectly acceptable to configure the following properties, avoid adding your own to the `data.meta` object.
+Doxicity uses the `data.meta` property to configure the default theme. While it's perfectly acceptable to configure the following properties, avoid adding your own to the `data.meta` object.
 
 | Name             | Type     | Description                                                                                                                                      |
 | ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `logo`           | `string` | The logo to use in light mode.                                                                                                                   |
-| `logoDark`       | `string` | Optional logo to use in dark mode.                                                                                                               |
-| `url`            | `string` | By default, this will be set to the current page's URL. You can override it if you want to provide a different URL for sharing.                  |
 | `title`          | `string` | The default title of your documentation website.                                                                                                 |
 | `description`    | `string` | The default description of your documentation website, primarily used for sharing.                                                               |
 | `image`          | `string` | The image to provide to OpenGraph clients. Used primarily when sharing links on third-party websites.                                            |
 | `favicon`        | `string` | The favicon to show in browsers and bookmarks.                                                                                                   |
+| `logo`           | `string` | The logo to use in light mode.                                                                                                                   |
+| `logoDark`       | `string` | Optional logo to use in dark mode.                                                                                                               |
 | `sidebar`        | `string` | Determines if the sidebar should show. You can target individual pages by setting `meta.sidebar` to false in your front matter. Default is true. |
 | `twitterCreator` | `string` | The Twitter username to provide when sharing on Twitter and supportive platforms.                                                                |
 
@@ -115,6 +115,15 @@ meta:
 ---
 ```
 :::
+
+## Special Properties
+
+Avoid using property names that begin with `$`, as these are reserved for Doxicity. Currently, there is only one reserved property.
+
+| Name              | Type     | Description                                                                                                                                      |
+| ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `$url`            | `string` | The URL to the current page, determined by concatenating the base URL from `config.url` with the current page's pathname.                        |
+| `$pathname`       | `string` | The current page's pathname, e.g. `/index.html`                                                                                                  |
 
 ## Consuming Data
 
