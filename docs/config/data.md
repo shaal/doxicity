@@ -71,19 +71,19 @@ Note that [partials](/concepts/partials.html) cannot contain their own front mat
 
 Doxicity uses the special `meta` property to configure its default theme. While it's perfectly acceptable to configure the following properties, avoid adding your own to the `data.meta` object.
 
-| Name             | Type     | Description                                                                                                                     |
-| ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `logo`           | `string` | The logo to use in light mode.                                                                                                  |
-| `logoDark`       | `string` | Optional logo to use in dark mode.                                                                                              |
-| `url`            | `string` | By default, this will be set to the current page's URL. You can override it if you want to provide a different URL for sharing. |
-| `title`          | `string` | The default title of your documentation website.                                                                                |
-| `description`    | `string` | The default description of your documentation website, primarily used for sharing.                                              |
-| `image`          | `string` | The image to provide to OpenGraph clients. Used primarily when sharing links on third-party websites.                           |
-| `favicon`        | `string` | The favicon to show in browsers and bookmarks.                                                                                  |
-| `noSidebar`      | `string` | Disables the sidebar                                                                                                            |
-| `twitterCreator` | `string` | The Twitter username to provide when sharing on Twitter and supportive platforms.                                               |
+| Name             | Type     | Description                                                                                                                                      |
+| ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `logo`           | `string` | The logo to use in light mode.                                                                                                                   |
+| `logoDark`       | `string` | Optional logo to use in dark mode.                                                                                                               |
+| `url`            | `string` | By default, this will be set to the current page's URL. You can override it if you want to provide a different URL for sharing.                  |
+| `title`          | `string` | The default title of your documentation website.                                                                                                 |
+| `description`    | `string` | The default description of your documentation website, primarily used for sharing.                                                               |
+| `image`          | `string` | The image to provide to OpenGraph clients. Used primarily when sharing links on third-party websites.                                            |
+| `favicon`        | `string` | The favicon to show in browsers and bookmarks.                                                                                                   |
+| `sidebar`        | `string` | Determines if the sidebar should show. You can target individual pages by setting `meta.sidebar` to false in your front matter. Default is true. |
+| `twitterCreator` | `string` | The Twitter username to provide when sharing on Twitter and supportive platforms.                                                                |
 
-:::details Config Example
+:::details Example using a config file
 Here's how metadata can be configured in a config file.
 
 ```js
@@ -102,7 +102,7 @@ export default {
 ```
 :::
 
-:::details Front Matter Example
+:::details Example using front matter
 Here's how metadata can be overwritten in front matter.
 
 ```md

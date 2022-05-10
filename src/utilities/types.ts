@@ -31,8 +31,31 @@ export interface DoxicityConfig {
       image?: string;
       /** The favicon to show in browsers and bookmarks. */
       favicon?: string;
-      /** Disables the sidebar. You can target individual pages by setting `meta.noSidebar` in your front matter. */
-      noSidebar?: boolean;
+      /** Sets the theme's access color. Defaults to green. */
+      primaryColor?:
+        | 'gray'
+        | 'red'
+        | 'orange'
+        | 'amber'
+        | 'yellow'
+        | 'lime'
+        | 'green'
+        | 'emerald'
+        | 'teal'
+        | 'cyan'
+        | 'sky'
+        | 'blue'
+        | 'indigo'
+        | 'violet'
+        | 'purple'
+        | 'fuchsia'
+        | 'pink'
+        | 'rose';
+      /**
+       * Determines if the sidebar should show. You can target individual pages by setting `meta.sidebar` to false in your
+       * front matter. Default is true.
+       */
+      sidebar?: boolean;
       /** The Twitter username to provide when sharing on Twitter and supportive platforms. */
       twitterCreator?: string;
     };
@@ -56,7 +79,7 @@ export interface DoxicityConfig {
   /** Optional plugins that hook into the Doxicity API and gives you superpowers. */
   plugins: DoxicityPlugin[];
   /**
-   * The name of the folder to publish your theme to. This should not be a full path, only a folder name. Defaults to
+   * The name of the folder to copy theme files to. This should not be a full path, only a folder name. Defaults to
    * "theme".
    */
   themeFolderName: string;

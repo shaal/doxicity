@@ -10,8 +10,7 @@
   - [Helpers](/config/helpers.html)
 
 - Authoring Pages
-  - [Overview](/authoring/index.html)
-  - [Using Markdown](/authoring/markdown.html)
+  - [Overview](/authoring/)
   - [Using Handlebars](/authoring/handlebars.html)
   - [Theming](/authoring/theming.html)
   - [Style Guide](/authoring/style-guide.html)

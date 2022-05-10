@@ -8,42 +8,41 @@ Plugins are used to extend Doxicity's functionality. For your convenience, a num
 
 ## Activating Plugins
 
-Plugins are imported and activated in your [config file](/config/).
-
-Example:
+Plugins are imported and activated in your [config file](/config/) like this.
 
 ```js
 // doxicity.config.js
-import myPlugin from 'my-doxicity-plugin';
+import myPlugin from 'doxicity/dist/plugins.js';
 
 export default {
   // ...
   plugins: [
     myPlugin({
-      /* options here */
+      /* plugin options go here */
     })
   ]
 };
 ```
 
-Plugins will be executed in the same order they appear in the `plugins` array.
+Plugins are be executed in the same order they appear in the `plugins` array.
 
 ## First-party Plugins
 
-The following plugins ship with the official Doxicity package. Additional third-party plugins can be found on [npm](https://www.npmjs.com/).
+The following plugins ship with the official Doxicity package. This project is still young, so for now please see the source of each plugin (linked below) to see which config options are available. Additional third-party plugins will soon be found on [npm](https://www.npmjs.com/search?q=doxicity).
 
-- `activeLinks`: Adds a custom class name to active links on the page.
-- `anchorHeadings`: Turns headings into deep-linkable anchors with unique ids.
-- `beautify`: Runs the resulting HTML through JS Beautify to improve formatting and indentation.
-- `copyCode`: Adds a button to each code field that copies the code when clicked.
-- `externalLinks`: Makes external links safe by adding `rel="noopener noreferrer"` and optionally opens them in a new window.
-- `githubCorner`: Adds a GitHub badge that links to your repo to the top-right corner of your site.
-- `highlightCode`: Highlights code fields using Prism. All languages that Prism supports work by default. Highlighting is done at build time, so no JavaScript is shipped to the client.
-- `search`: (IN PROGRESS) Generates a Lunr search index and adds a search UI to your site.
-- `smartQuotes`: Applies smart quotes to your content automatically.
-- `smoothLink`: Makes in-page links scroll smoothly instead of jumping.
-- `tableOfContents`: A customizable plugin that generates a table of contents. You can select which headings are selected and where the TOC gets rendered.
-- `tableScroll`: Adds a wrapper around table elements, allowing them to scroll horizontally on smaller screens.
+- [`activeLinks`](https://github.com/claviska/doxicity/blob/main/src/plugins/active-links/active-links.ts): Adds a custom class name to active links on the page.
+- [`anchorHeadings`](https://github.com/claviska/doxicity/blob/main/src/plugins/anchor-headings/anchor-headings.ts): Turns headings into deep-linkable anchors with unique ids.
+- [`beautify`](https://github.com/claviska/doxicity/blob/main/src/plugins/beautify/beautify.ts): Runs the resulting HTML through JS Beautify to improve formatting and indentation.
+- [`copyCode`](https://github.com/claviska/doxicity/blob/main/src/plugins/copy-code/copy-code.ts): Adds a button to each code field that copies the code when clicked.
+- [`customTitle`](https://github.com/claviska/doxicity/blob/main/src/plugins/custom-title/custom-title.ts): Adds a custom prefix and/or suffix to each page's `<title>`
+- [`externalLinks`](https://github.com/claviska/doxicity/blob/main/src/plugins/external-links/external-links.ts): Makes external links safe by adding `rel="noopener noreferrer"` and optionally opens them in a new window.
+- [`highlightCode`](https://github.com/claviska/doxicity/blob/main/src/plugins/highlight-code/highlight-code.ts): Highlights code fields using Prism. All languages that Prism supports work by default. Highlighting is done at build time, so no JavaScript is shipped to the client.
+- [`iconAddon`](https://github.com/claviska/doxicity/blob/main/src/plugins/icon-addon/icon-addon.ts): Adds a custom icon to the icon addons container, e.g. links to GitHub, Twitter, etc. Supports both custom SVG icons and a handful of built-ins.
+- [`search`](https://github.com/claviska/doxicity/blob/main/src/plugins/search/search.ts): Adds an accessible, full-text search client to your docs. Powered by [Lunr](https://lunrjs.com/).
+- [`smoothLinks`](https://github.com/claviska/doxicity/blob/main/src/plugins/smooth-links/smooth-links.ts): Makes in-page links scroll smoothly.
+- [`tableOfContents`](https://github.com/claviska/doxicity/blob/main/src/plugins/table-of-contents/table-of-contents.ts): Generates a table of contents. You can select which headings are selected and where the TOC gets rendered. Can be used multiple times per page.
+- [`tableScroll`](https://github.com/claviska/doxicity/blob/main/src/plugins/table-scroll/table-scroll.ts): Adds a wrapper around table elements, allowing them to scroll horizontally as needed on smaller screens.
+- [`typography`](https://github.com/claviska/doxicity/blob/main/src/plugins/typography/typography.ts): Converts regular quotes to smart quotes and other common typographical symbols such as en dash, em dash, ellipsis, and more.
 
 Example usage:
 

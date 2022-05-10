@@ -22,23 +22,28 @@ export default {
   inputDir: '.',
   outputDir: '_docs',
   plugins: [],
-  themeFolderName: 'theme'
+  primaryColor: 'green'
 };
 ```
+
+:::tip
+Doxicity ships with many [first-party plugins](/config/plugins.html) for things like code highlighting, search, and more. Check out the [config file for this website](https://github.com/claviska/doxicity/blob/main/docs/doxicity.config.js) to see how they're activated and configured.
+:::
 
 ## All Configuration Options
 
 The following options are available in your config.
 
 | Name              | Type               | Description                                                                                                                                                                                                                                       |
-| ----------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `assetFolderName` | `string`           | The name of the folder to copy assets to. This should not be a full path, only a folder name. Defaults to "assets".                                                                                                                               |
-| `cleanOnPublish`  | `boolean`          | Cleans the outputDir before publishing. Defaults to true.                                                                                                                                                                                         |
+| ----------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | 
+| `assetFolderName` | `string`           | The name of the folder to copy assets to. This should not be a full path, only a folder name. Defaults to `"assets"`.                                                                                                                               |
+| `cleanOnPublish`  | `boolean`          | Cleans the outputDir before publishing. Defaults to `true`.                                                                                                                                                                                         |
 | `copyAssets`      | `string[]`         | An array of files to copy to the published assets folder. Supports globs. All directories must be relative to your project's root folder. If unset, Doxicity will look for a folder called "assets" in your root folder and copy it if it exists. |
-| `data`            | `object`           | Global "config data" to be passed to every page.
+| `data`            | `object`           | Global "config data" to be passed to every page.                                                                                                                                                                                                  |
 | `dev`             | `boolean`          | Set to true when working in dev mode. This prevents templates from being cached and makes publishing less efficient, but it improves the developer experience.                                                                                    |
 | `helpers`         | `DoxicityHelper[]` | Custom Handlebars helpers to register for use in templates.                                                                                                                                                                                       |
 | `inputDir`        | `string`           | The source directory containing your markdown files.                                                                                                                                                                                              |
 | `outputDir`       | `string`           | The directory to write processed files.                                                                                                                                                                                                           |
 | `plugins`         | `DoxicityPlugin[]` | Optional plugins that hook into the Doxicity API and gives you superpowers.                                                                                                                                                                       |
-| `themeFolderName` | `string`           | The name of the folder to publish your theme to. This should not be a full path, only a folder name. Defaults to "theme".                                                                                                                         |
+| `primaryColor`    | `'gray' \| 'red' \| 'orange' \| 'amber' \| 'yellow' \| 'lime' \| 'green' \| 'emerald' \| 'teal' \| 'cyan' \| 'sky' \| 'blue' \| 'indigo' \| 'violet' \| 'purple' \| 'fuchsia' \| 'pink' \| 'rose'` | Sets the theme's access color. Defaults to `green`. |
+| `themeFolderName` | `string`           | The name of the folder to copy theme files to. This should not be a full path, only a folder name. Defaults to `"theme"`. |

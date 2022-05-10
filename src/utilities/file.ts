@@ -27,7 +27,16 @@ export function isMarkdownFile(filename: string) {
 
 /** Normalizes a pathname by ensuring it starts with a slash and doesn't end with /index.html */
 export function normalizePathname(pathname: string) {
-  pathname = pathname.replace(/\/index\.html$/, '');
-  pathname = `/${pathname.replace(/^\//, '')}`;
+  pathname = pathname.trim();
+
+  // Make sure the path starts with a slash
+  if (!pathname.startsWith('/')) {
+    pathname = `/${pathname}`;
+  }
+
+  if (pathname.endsWith('/index.html')) {
+    pathname = pathname.slice(0, -10);
+  }
+
   return pathname;
 }

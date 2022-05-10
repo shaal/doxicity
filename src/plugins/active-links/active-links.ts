@@ -25,6 +25,7 @@ export default function (options: Partial<SafeLinksOptions>): DoxicityPlugin {
             return;
           }
 
+          // Do the links match?
           if (normalizePathname(link.pathname) === normalizePathname(page.pathname)) {
             link.classList.add(opts.className);
           }

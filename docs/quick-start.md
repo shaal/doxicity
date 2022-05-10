@@ -4,8 +4,6 @@ title: Quick Start
 
 # {{title}}
 
-Everyone loves good documentation, but few actually enjoy creating it. Unfortunately, documentation is often one of the last things to land in a project. Sometimes, it's neglected entirely.
-
 Doxicity is a <abbr title="Command Line Interface">CLI</abbr> that removes the friction of creating an accessible documentation website and lets you focus on writing useful content. With zero configuration, simple markdown files are transformed into beautiful webpages. Additional features can be unlocked by adding a [config file](/config/overview.html) with [plugins](/config/plugins.html), [helpers](/config/helpers.html), and more.
 
 ## Your First Project

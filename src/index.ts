@@ -33,7 +33,11 @@ export const defaultConfig: DoxicityConfig = {
   assetFolderName: 'assets',
   cleanOnPublish: false,
   copyAssets: ['assets/**/*'],
-  data: {},
+  data: {
+    meta: {
+      sidebar: true
+    }
+  },
   dev: false,
   helpers: [],
   inputDir: '.',

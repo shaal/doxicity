@@ -10,6 +10,6 @@ Doxicity follows [Semantic Versioning](https://semver.org/). Breaking changes wi
 During the beta period, these restrictions may be relaxed in the event of a mission-critical bug. 🐛
 :::
 
-## 1.0.0-beta.3
+## 1.0.0-beta.4
 
-- Initial release
+- Let's just call this the initial release

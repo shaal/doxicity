@@ -28,16 +28,22 @@ export default {
     externalLinksPlugin({ target: '_blank', noopener: false, noreferrer: false }),
     copyCodePlugin(),
     iconAddonPlugin({
-      // TODO add className for targeting
+      title: `View Doxicity on GitHub`,
       url: 'https://github.com/claviska/doxicity',
       target: '_blank',
       icon: 'github'
     }),
     iconAddonPlugin({
+      title: 'Follow Doxicity on Twitter',
       url: 'https://twitter.com/doxicityApp',
       target: '_blank',
-      icon: 'twitter',
-      insert: 'append'
+      icon: 'twitter'
+    }),
+    iconAddonPlugin({
+      title: `Sponsor Doxicity on GitHub`,
+      url: 'https://github.com/sponsors/claviska',
+      target: '_blank',
+      icon: 'heart'
     }),
     highlightCodePlugin(),
     tableOfContentsPlugin({
